@@ -27,15 +27,16 @@ app.controller('mainCtrl',
       $http.post('/api/game', $scope.searchInfo)
       .success(function (res, status) {
         if(status === 200 && res.data) {
-
+          $scope.searchInfo = {};
           var game = res.data;
           var path = "game";
           $location.path("/game/" + game.title + "/register");
-          
+
         }
       })
       .error(function(res) {
         console.log('Cant find that game');
+        $scope.searchInfo = {};
         $scope.searchErrorMessage = "Game with that title does not exist";
         $scope.searchError = true;
       });
@@ -118,6 +119,8 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
 
 }]);
 
+
+// Game controllers
 app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameService', '$window',
  function ($scope, $rootScope, $location, GameService, $window) {
     if($window.admin) {
@@ -143,6 +146,13 @@ app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameServic
     } else {
       $location.path('/admin/login');
     }
+}]);
+
+
+// Assassin controllers
+app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$window',
+ function ($scope, $rootScope, $location, $window) {
+    console.log("assassinRegisterCtrl");
 }]);
 
 
