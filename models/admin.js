@@ -50,7 +50,10 @@ AdminSchema.statics.createSecure = function(username, password, avatar, email, c
 
 AdminSchema.statics.authenticate = function(username, password, cb) {
     this.findOne({username: username}, function(err, admin) {
-        if(user === null) {
+    	if(err) {
+    		return console.log(err);
+    	}
+        if(admin === null) {
             cb('Can\'t find user with that username', null);
         } else if(admin.checkPassword(password)) {
             cb(null, admin);
