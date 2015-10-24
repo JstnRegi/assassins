@@ -95,11 +95,17 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
 
 }]);
 
-app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'AuthService',
+app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameService',
  function ($scope, $rootScope, $location, GameService) {
-    
-    console.log("gameCreateCtrl says hi");
+    $scope.gameForm = {};
 
+    $scope.createGame = function() {
+
+      GameService.save($scope.gameForm, function(data) {
+        console.log("successful game creation");
+      });
+      
+    }
 }]);
 
 
