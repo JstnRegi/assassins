@@ -9,7 +9,11 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       })
       .when('/admin_signup', {
         templateUrl: '/static/templates/admin-signup.html',
-        controller: 'adminRegisterController'
+        controller: 'adminRegisterCtrl'
+      })
+      .when('/admin/login', {
+        templateUrl: '/static/templates/admin-login.html',
+        controller: 'adminLoginCtrl'
       })
       .when('/new_game/', {
         template: "Hello from new_game!"
