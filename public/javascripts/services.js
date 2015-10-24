@@ -2,9 +2,25 @@ var app = angular.module('myApp.services', []);
 
 app.factory("AuthService", function($q, $timeout, $http, $window) {
 	console.log("AuthService!");
+	// decalare global admin variable
+	$window.admin = null;
+
+	//return available functions for use in controllers
 	return ({
-		register: register
-	})
+		register: register,
+		adminLogin: adminLogin,
+		isLoggedIn: isLoggedIn,
+		getAdminStatus: getAdminStatus,
+		logout: logout
+	});
+
+	function isLoggedIn() {
+      return !!$window.admin;
+  	}
+
+	function getAdminStatus() {
+		return $window.admin;
+	}
 
 	function register(newAdmin) {
 
@@ -15,6 +31,7 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 				if(status === 200 && res.data) {
 					console.log("SUCCESS");
 					console.log(res.data);
+					admin = res.data;
 					deferred.resolve();
 				}
 			})
@@ -23,5 +40,54 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 			});
 
 		return deferred.promise;
+	};
+
+	function adminLogin(adminInfo) {
+		// create a new instance of deferred
+    	var deferred = $q.defer();
+
+	    // send a post request to the server
+	    $http.post('/api/admin/login', adminInfo)
+	      // handle success
+	      .success(function (res, status) {
+	        if(status === 200 && res.data){
+	          $window.admin = res.data;
+	          deferred.resolve();
+	        } else {
+	          $window.admin = null;
+	          deferred.reject();
+	        }
+	      })
+	      // handle error
+	      .error(function (res) {
+	        $window.admin = null;
+	        deferred.reject();
+	      });
+
+	    // return promise object
+	    return deferred.promise;
+	};
+
+	function logout() {
+
+	    // create a new instance of deferred
+	    var deferred = $q.defer();
+
+	    // send a get request to the server
+	    $http.get('/api/admin/logout')
+	      // handle success
+	      .success(function (res) {
+	        $window.admin = null;
+	        deferred.resolve();
+	      })
+	      // handle error
+	      .error(function (res) {
+	        $window.admin = null;
+	        deferred.reject();
+	      });
+
+	    // return promise object
+	    return deferred.promise;
 	}
-})
+
+});
