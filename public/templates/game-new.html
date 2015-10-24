@@ -1,7 +1,7 @@
 <div class="col-sm-4 col-sm-offset-4">
   <h1>Create a game</h2>
   <div ng-show="error" class="alert alert-danger text-center">{{errorMessage}}</div>
-  <form class="form" ng-submit="login()">
+  <form class="form" ng-submit="createGame()">
     <div class="form-group">
       <label>Title</label>
       <input type="text" class="form-control" name="title" ng-model="gameForm.title" required>
@@ -23,7 +23,7 @@
       <input type="text" class="form-control" name="title" ng-model="gameForm.key" required>
     </div>
       <div>
-        <button type="submit" class="btn btn-default" ng-disabled="disabled">Register</button>
+        <button type="submit" class="btn btn-default" ng-disabled="disabled">Create Game</button>
       </div>
   </form>
 </div>
