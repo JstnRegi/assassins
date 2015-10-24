@@ -11,11 +11,11 @@ var GameSchema = new Schema ({
 	picture: {
 		type: String,
 		default: "http://www.wall321.com/thumbnails/detail/20120228/assassin%20assassins%20creed%20futuristic%20grim%20artwork%201280x1024%20wallpaper_www.wall321.com_59.jpg",
-		unique: true
+		unique: false
 	},
 	end_date: {
 		type: Date,
-		required: true,
+		required: true
 	},
 	additional_rules: {
 		type: String
@@ -23,7 +23,7 @@ var GameSchema = new Schema ({
 	key: {
 		type: String,
 		required: true,
-		unique: true
+		unique: false
 	},
 	game_is_over: {
 		type: Boolean
