@@ -16,7 +16,8 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         controller: 'adminLoginCtrl'
       })
       .when('/game/new', {
-        templateUrl: "/static/templates/game-new.html"
+        templateUrl: "/static/templates/game-new.html",
+        controller: 'gameCreateCtrl'
       })
       .otherwise({redirectTo: '/'});
 

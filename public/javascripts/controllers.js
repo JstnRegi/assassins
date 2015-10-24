@@ -95,5 +95,11 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
 
 }]);
 
+app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'AuthService',
+ function ($scope, $rootScope, $location, GameService) {
+    
+    console.log("gameCreateCtrl says hi");
+
+}]);
 
 
