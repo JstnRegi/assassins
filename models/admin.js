@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt');
 
 var AdminSchema = new Schema ({
 	username: {
@@ -21,7 +22,7 @@ var AdminSchema = new Schema ({
 		default: Date.now
 	},
 	avatar: {
-		type: String
+		type: String,
 		required: true
 	},
 	games: [],
@@ -48,13 +49,13 @@ AdminSchema.statics.createSecure = function(username, password, avatar, email, c
 };
 
 AdminSchema.statics.authenticate = function(username, password, cb) {
-    this.findOne({username: username}, function(err, user) {
+    this.findOne({username: username}, function(err, admin) {
         if(user === null) {
             cb('Can\'t find user with that username', null);
-        } else if(user.checkPassword(password)) {
-            cb(null, user);
+        } else if(admin.checkPassword(password)) {
+            cb(null, admin);
         } else {
-            cb('password incorrect', user)
+            cb('password incorrect', admin)
         }
     });
 };
@@ -63,6 +64,6 @@ AdminSchema.methods.checkPassword = function(password) {
     return bcrypt.compareSync(password, this.passwordDigest);
 };
 
-var Admin = mongoose.model('User', UserSchema);
+var Admin = mongoose.model('Admin', AdminSchema);
 
-module.exports = User;
+module.exports = Admin;

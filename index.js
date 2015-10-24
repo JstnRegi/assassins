@@ -10,6 +10,10 @@ var express = require('express'),
 var app = express();
 
 
+// set templating engine
+app.set('view engine', 'ejs');
+
+
 // ServerPort
 var port = 3000;
 
@@ -25,10 +29,13 @@ var api = require('./api');
 
 // MiddleWare
 app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
 // Routes
+app.use(api);
 
 app.get(["/", "*"], function(req, res) {
 	res.render(path.join(views, 'application.html.ejs'));

@@ -1,4 +1,4 @@
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/assassins");
 
-module.exports.User = require('./admin');
+module.exports.Admin = require('./admin');

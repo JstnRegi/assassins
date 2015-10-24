@@ -7,6 +7,6 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 	})
 
 	function register(newAdmin) {
-		console.log(newAdmin);
+		$http.post('/api/admin/register', newAdmin)
 	}
 })
