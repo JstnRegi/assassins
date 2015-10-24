@@ -26,4 +26,3 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     });
   }]);
 
-console.log("application.js!");

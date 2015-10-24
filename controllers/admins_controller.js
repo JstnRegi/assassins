@@ -32,15 +32,41 @@ module.exports.login = function(req, res) {
 		}
 		else {
 			req.login(admin);
-			req.currentAdmin(function(err, admin) {
-				if (err) {
-					return console.log(err);
-				}
-				console.log(admin);
-			});
 			res.status(200).json({
 				status: "Login successful",
 				data: admin
+			});
+		}
+	});
+};
+
+module.exports.currentAdmin = function(req, res) {
+	
+	req.currentAdmin(function(err, admin) {
+		if(err) {
+			console.log(err);
+			res.status(500).json({err: err});
+		}
+		else {
+			req.currentAdmin(function(err, admin) {
+				if (err) {
+					console.log("no one is logged in");
+					res.status(500).json({err: err});
+				} else {
+					if(admin && admin.username) {
+						console.log(admin.username + " is logged in");
+						res.status(200).json({
+							status: "Admin logged in",
+							data: admin
+						});
+					} else {
+						console.log("no one is logged in");
+						res.status(200).json({
+							status: "No one logged in",
+							data: null
+						});
+					}
+				}
 			});
 		}
 	});

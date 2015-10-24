@@ -8,5 +8,6 @@ var adminsCtrl = require('./controllers/admins_controller.js');
 api.post('/api/admin/register', adminsCtrl.register);
 api.post('/api/admin/login', adminsCtrl.login);
 api.get('/api/admin/logout', adminsCtrl.logout);
+api.get('/api/admin', adminsCtrl.currentAdmin);
 
 module.exports = api;

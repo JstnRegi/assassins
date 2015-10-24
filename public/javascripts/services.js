@@ -1,9 +1,9 @@
 var app = angular.module('myApp.services', []);
 
 app.factory("AuthService", function($q, $timeout, $http, $window) {
-	console.log("AuthService!");
+	
 	// decalare global admin variable
-	$window.admin = null;
+	$window.admin = $window.admin || null;
 
 	//return available functions for use in controllers
 	return ({
@@ -11,7 +11,8 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 		adminLogin: adminLogin,
 		isLoggedIn: isLoggedIn,
 		getAdminStatus: getAdminStatus,
-		logout: logout
+		logout: logout,
+		currentAdmin: currentAdmin
 	});
 
 	function isLoggedIn() {
@@ -29,8 +30,6 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 		$http.post('/api/admin/register', newAdmin)
 			.success(function (res, status) {
 				if(status === 200 && res.data) {
-					console.log("SUCCESS");
-					console.log(res.data);
 					admin = res.data;
 					deferred.resolve();
 				}
@@ -90,4 +89,29 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 	    return deferred.promise;
 	}
 
+	function currentAdmin() {
+		// create a new instance of deferred
+	    var deferred = $q.defer();
+
+	    // send a get request to the server
+	    $http.get('/api/admin')
+	      // handle success
+	      .success(function (res, status) {
+	        if(status === 200 && res.data){
+	          $window.admin = res.data;
+	          deferred.resolve();
+	        } else {
+	          $window.admin = null;
+	          deferred.reject();
+	        }
+	      })
+	      // handle error
+	      .error(function (res) {
+	        $window.admin = null;
+	        deferred.reject();
+	      });
+
+	    // return promise object
+	    return deferred.promise;
+	};
 });

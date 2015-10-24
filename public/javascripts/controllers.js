@@ -5,9 +5,19 @@ app.controller('mainCtrl',
   ['$scope', '$location', 'AuthService', '$window',
   function ($scope, $location, AuthService, $window) {
 
-    //set admin
-    $scope.admin = $window.admin;
-    console.log(AuthService.isLoggedIn());
+    
+
+    AuthService.currentAdmin()
+    .then(function() {
+      //set admin
+      $scope.admin = $window.admin;
+      console.log("someone is logged in");
+      })
+    .catch(function() {
+      console.log("no one is logged in");
+    });
+
+    
 }]);
 
 // CONTROLLERS
@@ -58,14 +68,13 @@ app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthServic
     }; 
 }]);
 
-app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', function ($scope, $location, AuthService) {
+app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', function ($scope, $location, AuthService, $window) {
 
-  console.log('logoutCtrl');
     $scope.logout = function () {
       // call logout from service
       AuthService.logout()
         .then(function () {
-          $location.path('/');
+          $window.location.href = '/';
         });
 
     };
