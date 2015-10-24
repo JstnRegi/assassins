@@ -23,7 +23,8 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         template: "Admin home says hello"
       })
       .when('/game/:title/register', {
-        template: "Game register says hello!"
+        templateUrl: "/static/templates/assassin-signup.html",
+        controller: 'assassinRegisterCtrl'
       })
       .otherwise({redirectTo: '/'});
 
