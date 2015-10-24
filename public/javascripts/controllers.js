@@ -5,17 +5,28 @@ app.controller('mainCtrl',
   ['$scope', '$location', 'AuthService', '$window',
   function ($scope, $location, AuthService, $window) {
 
-    
+
 
     AuthService.currentAdmin()
     .then(function() {
       //set admin
+      $scope.adminLoggedIn = true;
       $scope.admin = $window.admin;
       console.log("someone is logged in");
       })
     .catch(function() {
       console.log("no one is logged in");
     });
+
+    $scope.$on("admin logout", function(event, data) {
+      // console.log(event);
+      // console.log(data);
+      $scope.adminLoggedIn = false;
+    })
+
+    $scope.$on("admin login", function(event, data) {
+      $scope.adminLoggedIn = true;
+    })
 
     
 }]);
@@ -24,8 +35,8 @@ app.controller('mainCtrl',
 
 // AUTH CONTROLLERS 
 app.controller('adminRegisterCtrl',
-  ['$scope', '$location', 'AuthService',
-  function ($scope, $location, AuthService) {
+  ['$scope', '$location', 'AuthService', '$rootScope',
+  function ($scope, $location, AuthService, $rootScope) {
   	$scope.newAdmin = {};
 
     //initial value
@@ -34,6 +45,7 @@ app.controller('adminRegisterCtrl',
   	$scope.register = function() {
   		AuthService.register($scope.newAdmin)
       .then(function() {
+        $rootScope.$broadcast("admin login");
         $location.path('/new_game')
       })
       .catch(function() {
@@ -56,6 +68,7 @@ app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthServic
       AuthService.adminLogin($scope.loginForm)
       // handle success
       .then(function() {
+        $rootScope.$broadcast("admin login");
         $location.path('/');
         $scope.loginForm = {};
       })
@@ -68,13 +81,14 @@ app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthServic
     }; 
 }]);
 
-app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', function ($scope, $location, AuthService, $window) {
+app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '$rootScope', function ($scope, $location, AuthService, $window, $rootScope) {
 
     $scope.logout = function () {
       // call logout from service
       AuthService.logout()
         .then(function () {
-          $window.location.href = '/';
+          $rootScope.$broadcast('admin logout');
+          $location.path('/');
         });
 
     };

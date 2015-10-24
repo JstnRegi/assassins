@@ -1,6 +1,10 @@
 <h1>Welcome Index</h1>
 <a ng-href="/admin_signup">Signup to be an admin</a><br>
 <a ng-href="/admin/login">Login as an admin</a><br>
+<span ng-show="adminLoggedIn">
+	<a ng-href="/game/new" class="btn btn-default">It works!</a>
+</span><br>
 <span ng-controller="logoutCtrl">
 	<button ng-click="logout()" class="btn btn-default">Logout</button>
-</span>
+</span><br>
+
