@@ -11,6 +11,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         templateUrl: '/static/templates/admin-signup.html',
         controller: 'adminRegisterController'
       })
+      .when('/new_game/', {
+        template: "Hello from new_game!"
+      })
       .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({

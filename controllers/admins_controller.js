@@ -7,7 +7,14 @@ module.exports.register = function (req, res) {
 	var admin = req.body;
 	Admin.createSecure(admin.username, admin.password, admin.avatar, admin.email, function(err, admin) {
 		if(err) {
-			return console.log(err);
+			console.log(err);
+			res.status(500).json({err: err});
+		}
+		else {
+			res.status(200).json({
+				status: "Registration successful",
+				data: admin
+			});
 		}
 	});
 };

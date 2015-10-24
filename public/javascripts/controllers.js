@@ -9,30 +9,15 @@ app.controller('adminRegisterController',
   	$scope.newAdmin = {};
 
   	$scope.register = function() {
-  		AuthService.register($scope.newAdmin);
-  	}
-    // $scope.register = function () {
-
-    //   // initial values
-    //   $scope.error = false;
-    //   $scope.disabled = true;
-
-    //   // call register from service
-    //   AuthService.register($scope.registerForm.username, $scope.registerForm.password)
-    //     // handle success
-    //     .then(function () {
-    //       $location.path('/login');
-    //       $scope.disabled = false;
-    //       $scope.registerForm = {};
-    //     })
-    //     // handle error
-    //     .catch(function () {
-    //       $scope.error = true;
-    //       $scope.errorMessage = "Something went wrong!";
-    //       $scope.disabled = false;
-    //       $scope.registerForm = {};
-    //     });
-
-    // };
+  		AuthService.register($scope.newAdmin)
+      .then(function() {
+        $location.path('/new_game')
+      })
+      .catch(function() {
+        $scope.error = true;
+        $scope.errorMessage = "Someone has already taken that email or username. Please try again.";
+        $scope.newAdmin.password = null;
+      })
+  	};
 
 }]);
