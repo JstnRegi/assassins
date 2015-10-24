@@ -95,16 +95,30 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
 
 }]);
 
-app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameService',
- function ($scope, $rootScope, $location, GameService) {
-    $scope.gameForm = {};
+app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameService', '$window',
+ function ($scope, $rootScope, $location, GameService, $window) {
+    if($window.admin) {
+      $scope.gameForm = {};
 
-    $scope.createGame = function() {
+      $scope.error = false;
 
-      GameService.save($scope.gameForm, function(data) {
-        console.log("successful game creation");
-      });
-      
+      $scope.createGame = function() {
+
+        GameService.save($scope.gameForm, 
+          function(data) {
+            console.log("GAME CREATION SUCCESSS");
+            $location.path("/admin/home");
+          },
+          function(data) {
+            console.log("GAME CREATION ERROR");
+            $scope.errorMessage = "A game with that Title has already been made."
+            $scope.error = true;
+
+          })
+      }
+
+    } else {
+      $location.path('/admin/login');
     }
 }]);
 
