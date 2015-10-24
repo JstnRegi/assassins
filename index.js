@@ -10,8 +10,6 @@ var express = require('express'),
 var app = express();
 
 
-
-
 // ServerPort
 var port = 3000;
 
@@ -19,9 +17,11 @@ var port = 3000;
 var views = path.join(process.cwd(), 'views/');
 
 // Serve JS & CSS files
+app.use("/static", express.static("public"));
+app.use("/vendor", express.static("bower_components"));
 
 // require routes
-
+var api = require('./api');
 
 // MiddleWare
 app.use(logger('dev'));
@@ -32,7 +32,6 @@ app.use(logger('dev'));
 
 app.get(["/", "*"], function(req, res) {
 	res.render(path.join(views, 'application.html.ejs'));
-	// res.send("<h1>Hello World!</h1>");
 });
 
 

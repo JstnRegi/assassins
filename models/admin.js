@@ -29,16 +29,18 @@ var AdminSchema = new Schema ({
 	kill_posts: [] //stretch
 });
 
-AdminSchema.statics.createSecure = function(username, password, cb) {
+AdminSchema.statics.createSecure = function(username, password, avatar, email, cb) {
 	// _this references our schema. Not to be confused with the primitive value 'this' later on during the function
 	var _this = this;
 	bcrypt.genSalt(function (err, salt) {
 		//hash the password with salt
 		bcrypt.hash(password, salt, function(err, hash) {
 			var user = {
-				'username': username,
-				'passwordDigest': hash,
-				 createdAt: Date.now() 
+				username: username,
+				passwordDigest: hash,
+				avatar: avatar,
+				email: email,
+				createdAt: Date.now() 
 			};
 			_this.create(user, cb);
 		});
