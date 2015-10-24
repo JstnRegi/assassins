@@ -2,8 +2,8 @@ var app = angular.module('myApp.controllers', []);
 
 //make mainCtrl
 app.controller('mainCtrl',
-  ['$scope', '$location', 'AuthService', '$window',
-  function ($scope, $location, AuthService, $window) {
+  ['$scope', '$location', 'AuthService', '$window', '$http',
+  function ($scope, $location, AuthService, $window, $http) {
 
 
 
@@ -17,6 +17,29 @@ app.controller('mainCtrl',
     .catch(function() {
       console.log("no one is logged in");
     });
+
+    $scope.searchInfo = {};
+
+    //search error initial value
+    $scope.searchError = false;
+
+    $scope.search = function() {
+      $http.post('/api/game', $scope.searchInfo)
+      .success(function (res, status) {
+        if(status === 200 && res.data) {
+
+          var game = res.data;
+          var path = "game";
+          $location.path("/game/" + game.title + "/register");
+          
+        }
+      })
+      .error(function(res) {
+        console.log('Cant find that game');
+        $scope.searchErrorMessage = "Game with that title does not exist";
+        $scope.searchError = true;
+      });
+    }
 
     $scope.$on("admin logout", function(event, data) {
       // console.log(event);

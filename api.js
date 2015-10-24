@@ -12,6 +12,7 @@ api.get('/api/admin/logout', adminsCtrl.logout);
 api.get('/api/admin', adminsCtrl.currentAdmin);
 
 //games
+api.post('/api/game', gamesCtrl.find)
 api.post('/api/games', gamesCtrl.create);
 
 module.exports = api;

@@ -22,6 +22,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       .when('/admin/home', {
         template: "Admin home says hello"
       })
+      .when('/game/:title/register', {
+        template: "Game register says hello!"
+      })
       .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({
