@@ -2,8 +2,9 @@
 var express = require('express'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
-    expressSession = require('express-session'),
+    session = require('express-session'),
     mongoose = require('mongoose'),
+    db = require('./models');
     path = require('path');
 
 // create instance of express
@@ -32,6 +33,36 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// session id with secret key
+app.use(session({ 
+		secret: 'super-secret-assassin',
+		resave: false,
+		cookie: {httpOnly: false},
+		saveUninitialized: true
+	})
+);
+
+//session helpers
+app.use(function( req, res, next) {
+	req.login = function(admin) {
+        req.session.adminId = admin._id;
+    };
+
+    req.currentAdmin = function (cb) {
+        db.Admin.findOne({_id: req.session.adminId},
+            function (err, admin) {
+                req.admin = admin;
+                cb(null, admin);
+            });
+    };
+
+    req.logout = function() {
+        req.session.adminId = null;
+        req.user = null;
+    };
+
+    next();
+});
 
 
 // Routes
