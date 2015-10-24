@@ -1,5 +1,9 @@
 var app = angular.module('myApp.services', []);
 
+app.service('GameService', function ($resource) {
+  return $resource('/api/games/:id', { id: '@_id' });
+});
+
 app.factory("AuthService", function($q, $timeout, $http, $window) {
 	
 	// decalare global admin variable
