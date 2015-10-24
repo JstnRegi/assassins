@@ -19,6 +19,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         templateUrl: "/static/templates/game-new.html",
         controller: 'gameCreateCtrl'
       })
+      .when('/admin/home', {
+        template: "Admin home says hello"
+      })
       .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({
