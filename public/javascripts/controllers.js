@@ -184,7 +184,21 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
 
     $scope.login = function() {
       console.log($scope.assassinLogin);
-      AssassinAuthService.assassinLogin($scope.assassinLogin);
+      AssassinAuthService.assassinLogin($scope.assassinLogin)
+      .then(function() {
+        $location.path('/game/' + $routeParams.title + "/home");
+      })
+      .catch(function(response) {
+          $scope.errorMessage = response.err;
+          $scope.error = true;
+        
+
+          if(response.cause === "codename") {
+            $scope.assassinLogin.codename = null;
+          } else {
+            $scope.assassinLogin.password = null;
+          }
+      })
     }
 }]);
 
