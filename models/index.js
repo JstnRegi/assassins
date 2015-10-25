@@ -3,3 +3,4 @@ mongoose.connect("mongodb://localhost/assassins");
 
 module.exports.Admin = require('./admin');
 module.exports.Game = require('./game');
+module.exports.Assassin = require('./assassin');
