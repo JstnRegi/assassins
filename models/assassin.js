@@ -5,8 +5,7 @@ var bcrypt = require('bcrypt');
 var AssassinSchema = new Schema ({
 	codename: {
 		type: String,
-		required: true,
-		unique: true
+		required: true
 	},
 	tagline: {
 		type: String,
