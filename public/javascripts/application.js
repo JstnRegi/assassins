@@ -27,8 +27,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         controller: 'assassinRegisterCtrl'
       })
       .when('/game/:title/home', {
-        template: "Game home says hello!",
-        controller: "gameHomeCtrl"
+        templateUrl: "/static/templates/game-home.html"
       })
       .when('/game/:title/login', {
         templateUrl: "/static/templates/assassin-login.html",
