@@ -70,12 +70,12 @@ AssassinSchema.statics.authenticate = function(codename, password, cb) {
     	if(err) {
     		return console.log(err);
     	}
-        if(admin === null) {
-            cb('Can\'t find user with that codename', null);
-        } else if(admin.checkPassword(password)) {
-            cb(null, admin);
+        if(assassin === null) {
+            cb('Can\'t find assassin with that codename.', null);
+        } else if(assassin.checkPassword(password)) {
+            cb(null, assassin);
         } else {
-            cb('password incorrect', admin)
+            cb('Password incorrect', assassin)
         }
     });
 };
