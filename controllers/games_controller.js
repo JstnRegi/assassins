@@ -4,17 +4,27 @@ var express = require('express'),
 module.exports.create = function(req, res) {
 	console.log("exports.create", req.body);
 	var game = req.body;
-	Game.create(game, function(err, game) {
-		if (err) {
-			console.log(err);
-			res.status(500).json({err: err})
-		} else {
-			res.status(200).json({
-				status: "Game creation successful",
-				data: game
-			});
+	req.currentAdmin(function(err, admin) {
+		if(err) {
+			return console.log(err);
 		}
-	})
+
+		//set game admin to a reference id of currentAdmin
+		//that created the game
+		game.admin = admin._id;
+
+		Game.create(game, function(err, game) {
+			if (err) {
+				console.log(err);
+				res.status(500).json({err: err});
+			} else {
+				res.status(200).json({
+					status: "Game creation successful",
+					data: game
+				});
+			}
+		});
+	});
 }
 
 module.exports.find = function(req, res) {
