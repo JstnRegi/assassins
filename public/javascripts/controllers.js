@@ -130,9 +130,15 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
 
 app.controller('adminHomeCtrl',['$scope','$rootScope', '$location', 'AuthService', '$window',
  function ($scope, $rootScope, $location, AuthService, $window) {
-    
-  console.log('adminHomeCtrl');
-    
+  
+    $scope.admin = $window.admin;
+
+    if($scope.admin === null) {
+      $location.path('/admin/login');
+    }
+
+    // console.log("ADMIN HOME CTRL", $window.admin);  
+
 }]);
 
 
