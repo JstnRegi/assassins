@@ -79,7 +79,7 @@ app.controller('adminRegisterCtrl',
   		AuthService.register($scope.newAdmin)
       .then(function() {
         $rootScope.$broadcast("admin login");
-        $location.path('/new_game')
+        $location.path('/admin/' + $window.admin.username + "/home");
       })
       .catch(function() {
         $scope.error = true;
@@ -89,8 +89,8 @@ app.controller('adminRegisterCtrl',
   	};
 }]);
 
-app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthService',
- function ($scope, $rootScope, $location, AuthService) {
+app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthService', '$window',
+ function ($scope, $rootScope, $location, AuthService, $window) {
     $scope.loginForm = {};
 
     $scope.login = function () {
@@ -102,7 +102,7 @@ app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthServic
       // handle success
       .then(function() {
         $rootScope.$broadcast("admin login");
-        $location.path('/');
+        $location.path('/admin/' + $window.admin.username + "/home");
         $scope.loginForm = {};
       })
       // handle error
