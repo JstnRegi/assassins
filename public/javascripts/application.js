@@ -15,15 +15,12 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         templateUrl: '/static/templates/admin-login.html',
         controller: 'adminLoginCtrl'
       })
-      .when('/admin/home', {
-        templateUrl: 'Admin home page says hello!'
+      .when('/admin/:username/home', {
+        template: "Admin home says hello"
       })
       .when('/game/new', {
         templateUrl: "/static/templates/game-new.html",
         controller: 'gameCreateCtrl'
-      })
-      .when('/admin/home', {
-        template: "Admin home says hello"
       })
       .when('/game/:title/register', {
         templateUrl: "/static/templates/assassin-signup.html",
