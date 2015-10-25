@@ -47,6 +47,28 @@ module.exports.register = function (req, res) {
 	
 };
 
+module.exports.login = function(req, res) {
+	console.log(req.body);
+	var assassin = req.body;
+
+	Assassin.authenticate(assassin.codename, assassin.password, function(err, assassin) {
+		
+		if(err) {
+			console.log(err);
+			if (err === "Can't find assassin with that codename.") {
+				res.status(500).json({err: err, cause: "codename"});
+			} else {
+				res.status(500).json({err: err, cause: "password"});
+			}
+		} else {
+			res.status(200).json({
+				status: "Login successful",
+				data: assassin
+			});
+		};
+	})
+};
+
 
 
 
