@@ -66,7 +66,7 @@ app.controller('mainCtrl',
 
 // CONTROLLERS
 
-// AUTH CONTROLLERS 
+// Admin Controllers
 app.controller('adminRegisterCtrl',
   ['$scope', '$location', 'AuthService', '$rootScope',
   function ($scope, $location, AuthService, $rootScope) {
@@ -126,6 +126,13 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
 
     };
 
+}]);
+
+app.controller('adminHomeCtrl',['$scope','$rootScope', '$location', 'AuthService', '$window',
+ function ($scope, $rootScope, $location, AuthService, $window) {
+    
+  console.log('adminHomeCtrl');
+    
 }]);
 
 
