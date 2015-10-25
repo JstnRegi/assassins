@@ -28,6 +28,9 @@ var GameSchema = new Schema ({
 	game_is_over: {
 		type: Boolean
 	},
+	admin: {
+		type: String
+	},
 	posts: [],
 	players: []
 
