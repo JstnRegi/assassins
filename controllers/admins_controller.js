@@ -48,26 +48,18 @@ module.exports.currentAdmin = function(req, res) {
 			res.status(500).json({err: err});
 		}
 		else {
-			req.currentAdmin(function(err, admin) {
-				if (err) {
-					console.log("no one is logged in");
-					res.status(500).json({err: err});
-				} else {
-					if(admin && admin.username) {
-						console.log(admin.username + " is logged in");
-						res.status(200).json({
-							status: "Admin logged in",
-							data: admin
-						});
-					} else {
-						console.log("no one is logged in");
-						res.status(200).json({
-							status: "No one logged in",
-							data: null
-						});
-					}
-				}
-			});
+			if(admin && admin.username) {
+				console.log(admin.username + " is logged in");
+				res.status(200).json({
+					status: "Admin logged in",
+					data: admin
+				});
+			} else {
+				res.status(200).json({
+					status: "No admin is logged in",
+					data: null
+				});
+			}
 		}
 	});
 };
