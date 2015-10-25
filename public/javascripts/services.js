@@ -96,6 +96,7 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 	}
 
 	function currentAdmin() {
+		
 		// create a new instance of deferred
 	    var deferred = $q.defer();
 
@@ -104,6 +105,7 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 	      // handle success
 	      .success(function (res, status) {
 	        if(status === 200 && res.data){
+	          console.log("currentAdmin", res.data);
 	          $window.admin = res.data;
 	          deferred.resolve();
 	        } else {
@@ -131,8 +133,14 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 	//return available functions for use in controllers
 	return ({
 		register: register,
-		assassinLogin: assassinLogin
+		assassinLogin: assassinLogin,
+		isAssassinLoggedIn: isAssassinLoggedIn,
+		currentAssassin: currentAssassin
 	});
+
+	function isAssassinLoggedIn() {
+		return !!$window.assassin;
+	}
 
 	function register(newAssassin, game) {
 
@@ -181,5 +189,41 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 	    // return promise object
 	    return deferred.promise;
 	};
+
+	function currentAssassin() {
+		
+		// create a new instance of deferred
+	    var deferred = $q.defer();
+
+	    // send a get request to the server
+	    $http.get('/api/assassin')
+	      // handle success
+	      .success(function (res, status) {
+
+	        if(status === 200 && res.data){
+	        	
+	          $window.assassin = res.data;
+	          deferred.resolve();
+	        } else {
+	          $window.assassin = null;
+	          deferred.reject();
+	        }
+	      })
+	      // handle error
+	      .error(function (res) {
+	        $window.assassin = null;
+	        deferred.reject();
+	      });
+
+	    // return promise object
+	    return deferred.promise;
+	};
 	
 });
+
+
+
+
+
+
+
