@@ -18,5 +18,6 @@ api.post('/api/games', gamesCtrl.create);
 
 //assassins
 api.post('/api/assassins/:gameTitle', assassinsCtrl.register);
+api.post('/api/assassin/login', assassinsCtrl.login);
 
 module.exports = api;
