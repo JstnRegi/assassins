@@ -20,12 +20,19 @@ module.exports.register = function (req, res) {
 						res.status(500).json({err: "Another assassin has already taken that codename.",
 												cause: "codename"});
 					} else {
-						console.log(assassin);
-						// req.login(assassin);
-						res.status(200).json({
-							status: "Registration successful",
-							data: assassin
-						});
+						game.players.push(assassin._id);
+						game.save(function(err, game) {
+							if(err) {
+								return console.log(err);
+							} else {
+								console.log(game.players);
+								res.status(200).json({
+									status: "Registration successful",
+									data: assassin
+								});
+							}
+						})
+						
 					}
 				});
 			} else {
