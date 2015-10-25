@@ -14,7 +14,7 @@ module.exports.register = function (req, res) {
 			res.status(500).json({err: err});
 		}
 		else {
-			req.login(admin);
+			req.adminLogin(admin);
 			res.status(200).json({
 				status: "Registration successful",
 				data: admin
@@ -31,7 +31,7 @@ module.exports.login = function(req, res) {
 			res.status(500).json({err: err});
 		}
 		else {
-			req.login(admin);
+			req.adminLogin(admin);
 			res.status(200).json({
 				status: "Login successful",
 				data: admin
