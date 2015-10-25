@@ -44,8 +44,12 @@ app.use(session({
 
 //session helpers
 app.use(function( req, res, next) {
-	req.login = function(admin) {
+	req.adminLogin = function(admin) {
         req.session.adminId = admin._id;
+    };
+
+    req.assassinLogin = function(assassin) {
+        req.session.assassinId = assassin._id;
     };
 
     req.currentAdmin = function (cb) {
@@ -56,9 +60,23 @@ app.use(function( req, res, next) {
             });
     };
 
+    req.currentAssassin = function (cb) {
+        db.Admin.findOne({_id: req.session.assassinId},
+            function (err, admin) {
+                req.assassin = assassin;
+                cb(null, assassin);
+            });
+    };
+
     req.logout = function() {
-        req.session.adminId = null;
-        req.user = null;
+        if(!!req.session.adminId) {
+            req.session.adminId = null;
+            req.admin = null;
+        } else {
+            req.session.assassinId = null;
+            req.assassin = null;
+        }
+        
     };
 
     next();
