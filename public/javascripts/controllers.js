@@ -29,7 +29,7 @@ app.controller('mainCtrl',
           $scope.searchInfo = {};
           var game = res.data;
  
-          $location.path("/game/" + game.title + "/register");
+          $location.path("/game/" + game.title + "/login");
         }
       })
       .error(function(res) {
@@ -155,7 +155,6 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
 
     var gameTitle = $routeParams.title;
 
-    // $scope.assassinRegister.game = game._id;
     $scope.register = function() {
       AssassinAuthService.register($scope.assassinRegister, gameTitle)
       .then(function() {
@@ -164,7 +163,7 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
       .catch(function(response) {
         $scope.error = true;
         $scope.errorMessage = response.err;
-        
+
         if(response.cause === "key") {
           $scope.assassinRegister.key = null;
         } else {
@@ -173,6 +172,19 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
           $scope.assassinRegister.codename = null;
         }
       })
+    }
+}]);
+
+app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
+ function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
+  
+    $scope.assassinLogin = {};
+
+    var gameTitle = $routeParams.title;
+
+    $scope.login = function() {
+      console.log($scope.assassinLogin);
+      AssassinAuthService.assassinLogin($scope.assassinLogin);
     }
 }]);
 
