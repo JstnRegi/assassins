@@ -14,28 +14,65 @@ module.exports.register = function (req, res) {
 			return console.log(err);
 		} else {
 			if(game !== null) {
-				Assassin.createSecure(assassin.codename, assassin.password, assassin.avatar, assassin.real_photo, assassin.tagline, game._id, function(err, assassin) {
-					if(err) {
-						console.log(err);
-						res.status(500).json({err: "Another assassin has already taken that codename.",
-												cause: "codename"});
-					} else {
-						game.players.push(assassin._id);
-						game.save(function(err, game) {
-							if(err) {
-								return console.log(err);
-							} else {
-								console.log(game.players);
-								req.assassinLogin(assassin);
-								res.status(200).json({
-									status: "Registration successful",
-									data: assassin
-								});
-							}
-						})
-						
+				
+				var players = game.players;
+				var gameCodenames = [];
+
+				Assassin.find({_id: { $in: players}
+					}, function(err, assassins) {
+					if (err) {
+						return console.log(err);
 					}
+					
+					//loop through assassins pushing in their codenames to
+					//the game codenames
+					assassins.forEach(function(assassin) {
+						gameCodenames.push(assassin.codename.toLowerCase());
+					});
+
+					//declare a boolean if the codename is already or not
+					var codenameTaken = false;
+
+					console.log("Codenames taken for game " + game.title + ":",
+										gameCodenames);
+
+					//change codenameTaken to true if any element matches the codename registering
+					gameCodenames.forEach(function(codename) {
+						if(codename === assassin.codename) {
+							codenameTaken = true;
+						}
+					});
+
+					if(codenameTaken) {
+						res.status(500).json({err: "Another assassin has already taken that codename.",
+													cause: "codename"});
+					} else {
+						Assassin.createSecure(assassin.codename, assassin.password, assassin.avatar, assassin.real_photo, assassin.tagline, game._id, function(err, assassin) {
+							if(err) {
+								console.log(err);
+								res.status(500).json({err: "Internal server error.",
+														cause: "codename"});
+							} else {
+								game.players.push(assassin._id);
+								game.save(function(err, game) {
+									if(err) {
+										return console.log(err);
+									} else {
+										console.log(game.players);
+										req.assassinLogin(assassin);
+										res.status(200).json({
+											status: "Registration successful",
+											data: assassin
+										});
+									}
+								})
+								
+							}
+						});		
+					}	
+
 				});
+
 			} else {
 				console.log("NO GAME FOUND WITH THAT COMBO");
 				res.status(500).json({err: "You have entered the wrong key",
