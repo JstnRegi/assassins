@@ -61,11 +61,12 @@ app.use(function( req, res, next) {
     };
 
     req.currentAssassin = function (cb) {
-        db.Admin.findOne({_id: req.session.assassinId},
-            function (err, admin) {
+        db.Assassin.findOne({_id: req.session.assassinId},
+            function (err, assassin) {
                 req.assassin = assassin;
                 cb(null, assassin);
             });
+        // 
     };
 
     req.logout = function() {
