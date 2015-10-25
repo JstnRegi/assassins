@@ -190,13 +190,13 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
   
     $scope.assassinLogin = {};
 
-    var gameTitle = $routeParams.title;
+    $scope.gameTitle = $routeParams.title;
 
     $scope.login = function() {
       
       AssassinAuthService.assassinLogin($scope.assassinLogin)
       .then(function() {
-        $location.path('/game/' + $routeParams.title + "/home");
+        $location.path('/game/' + $scope.gameTitle + "/home");
       })
       .catch(function(response) {
           $scope.errorMessage = response.err;
@@ -215,7 +215,7 @@ app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'A
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
   
     if($window.assassin === null) {
-      $location.path('/game/' + $routeParams.title + "/login");
+      $location.path('/game/' + $scope.gameTitle + "/login");
     }
     
     
