@@ -2,19 +2,31 @@ var app = angular.module('myApp.controllers', []);
 
 //make mainCtrl
 app.controller('mainCtrl',
-  ['$scope', '$location', 'AuthService', '$window', '$http', '$rootScope',
-  function ($scope, $location, AuthService, $window, $http, $rootScope) {
+  ['$scope', '$location', 'AuthService', '$window', '$http', '$rootScope', 'AssassinAuthService',
+  function ($scope, $location, AuthService, $window, $http, $rootScope, AssassinAuthService) {
 
-    // console.log($rootScope.test);
+    //current admin
     AuthService.currentAdmin()
     .then(function() {
       //set admin
       $scope.adminLoggedIn = true;
       $scope.admin = $window.admin;
-      console.log("someone is logged in");
+      console.log("Admin is logged in");
       })
     .catch(function() {
-      console.log("no one is logged in");
+      console.log("No admin is logged in");
+    });
+
+    //current assassin
+    AssassinAuthService.currentAssassin()
+    .then(function() {
+      //set assassin
+      $scope.assassinLoggedIn = true;
+      $scope.assassin = $window.assasin;
+      console.log("Assassin is logged in");
+      })
+    .catch(function() {
+      console.log("No assassin is logged in");
     });
 
     $scope.searchInfo = {};
@@ -28,7 +40,6 @@ app.controller('mainCtrl',
         if(status === 200 && res.data) {
           $scope.searchInfo = {};
           var game = res.data;
- 
           $location.path("/game/" + game.title + "/login");
         }
       })
@@ -137,7 +148,6 @@ app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameServic
             console.log("GAME CREATION ERROR");
             $scope.errorMessage = "A game with that Title has already been made."
             $scope.error = true;
-
           })
       }
 
@@ -183,7 +193,7 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
     var gameTitle = $routeParams.title;
 
     $scope.login = function() {
-      console.log($scope.assassinLogin);
+      
       AssassinAuthService.assassinLogin($scope.assassinLogin)
       .then(function() {
         $location.path('/game/' + $routeParams.title + "/home");
@@ -191,7 +201,6 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
       .catch(function(response) {
           $scope.errorMessage = response.err;
           $scope.error = true;
-        
 
           if(response.cause === "codename") {
             $scope.assassinLogin.codename = null;
@@ -201,5 +210,17 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
       })
     }
 }]);
+
+app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
+ function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
+  
+    if($window.assassin === null) {
+      $location.path('/game/' + $routeParams.title + "/login");
+    }
+    
+    
+}]);
+
+
 
 
