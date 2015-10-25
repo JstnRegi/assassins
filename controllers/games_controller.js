@@ -18,10 +18,18 @@ module.exports.create = function(req, res) {
 				console.log(err);
 				res.status(500).json({err: err});
 			} else {
-				res.status(200).json({
-					status: "Game creation successful",
-					data: game
-				});
+				//push newly created game._id into the admins games
+				admin.games.push(game._id);
+				admin.save(function(err, admin) {
+					if(err) {
+						return console.log(err);
+					} else {
+						res.status(200).json({
+							status: "Game creation successful",
+							data: game
+						});
+					}
+				});	
 			}
 		});
 	});
