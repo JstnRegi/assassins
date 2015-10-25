@@ -4,6 +4,8 @@ app.service('GameService', function ($resource) {
   return $resource('/api/games/:id', { id: '@_id' });
 });
 
+
+
 app.factory("AuthService", function($q, $timeout, $http, $window) {
 	
 	// decalare global admin variable
@@ -118,4 +120,37 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 	    // return promise object
 	    return deferred.promise;
 	};
+});
+
+
+app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
+	
+	// decalare global assassin variable
+	$window.assassin = $window.assassin || null;
+
+	//return available functions for use in controllers
+	return ({
+		register: register
+	});
+
+	function register(newAssassin, game) {
+
+		var deferred = $q.defer();
+
+		$http.post('/api/assassins/' + game, newAssassin)
+			.success(function (res, status) {
+				if(status === 200 && res.data) {
+					assassin = res.data;
+					deferred.resolve();
+					$window.assassin = assassin;
+				}
+				})
+			.error(function(res) {
+				deferred.reject(res);
+			});
+
+		return deferred.promise;
+
+	};
+	
 });

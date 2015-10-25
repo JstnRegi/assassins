@@ -26,6 +26,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         templateUrl: "/static/templates/assassin-signup.html",
         controller: 'assassinRegisterCtrl'
       })
+      .when('/game/:title/home', {
+        template: "Game home says hello!"
+      })
       .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({

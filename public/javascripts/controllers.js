@@ -2,11 +2,10 @@ var app = angular.module('myApp.controllers', []);
 
 //make mainCtrl
 app.controller('mainCtrl',
-  ['$scope', '$location', 'AuthService', '$window', '$http',
-  function ($scope, $location, AuthService, $window, $http) {
+  ['$scope', '$location', 'AuthService', '$window', '$http', '$rootScope',
+  function ($scope, $location, AuthService, $window, $http, $rootScope) {
 
-
-
+    // console.log($rootScope.test);
     AuthService.currentAdmin()
     .then(function() {
       //set admin
@@ -29,9 +28,8 @@ app.controller('mainCtrl',
         if(status === 200 && res.data) {
           $scope.searchInfo = {};
           var game = res.data;
-          var path = "game";
+ 
           $location.path("/game/" + game.title + "/register");
-
         }
       })
       .error(function(res) {
@@ -150,9 +148,32 @@ app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameServic
 
 
 // Assassin controllers
-app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$window',
- function ($scope, $rootScope, $location, $window) {
-    console.log("assassinRegisterCtrl");
+app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
+ function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
+  
+    $scope.assassinRegister = {};
+
+    var gameTitle = $routeParams.title;
+
+    // $scope.assassinRegister.game = game._id;
+    $scope.register = function() {
+      AssassinAuthService.register($scope.assassinRegister, gameTitle)
+      .then(function() {
+        $location.path('/game/' + $routeParams.title + "/home");
+      })
+      .catch(function(response) {
+        $scope.error = true;
+        $scope.errorMessage = response.err;
+        
+        if(response.cause === "key") {
+          $scope.assassinRegister.key = null;
+        } else {
+          console.log(response.cause);
+          $scope.assassinRegister.password = null;
+          $scope.assassinRegister.codename = null;
+        }
+      })
+    }
 }]);
 
 
