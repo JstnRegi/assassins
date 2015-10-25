@@ -175,7 +175,7 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 	      // handle error
 	      .error(function (res) {
 	        $window.assassin = null;
-	        deferred.reject();
+	        deferred.reject(res);
 	      });
 
 	    // return promise object
