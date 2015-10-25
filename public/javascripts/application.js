@@ -16,7 +16,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         controller: 'adminLoginCtrl'
       })
       .when('/admin/:username/home', {
-        template: "Admin home says hello"
+        templateUrl: "/static/templates/admin-home.html"
       })
       .when('/game/new', {
         templateUrl: "/static/templates/game-new.html",
