@@ -130,7 +130,8 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 
 	//return available functions for use in controllers
 	return ({
-		register: register
+		register: register,
+		assassinLogin: assassinLogin
 	});
 
 	function register(newAssassin, game) {
@@ -151,6 +152,34 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 
 		return deferred.promise;
 
+	};
+
+	function assassinLogin(adminInfo) {
+
+
+		// create a new instance of deferred
+    	var deferred = $q.defer();
+
+	    // send a post request to the server
+	    $http.post('/api/assassin/login', adminInfo)
+	      // handle success
+	      .success(function (res, status) {
+	        if(status === 200 && res.data){
+	          $window.assassin = res.data;
+	          deferred.resolve();
+	        } else {
+	          $window.assassin = null;
+	          deferred.reject();
+	        }
+	      })
+	      // handle error
+	      .error(function (res) {
+	        $window.assassin = null;
+	        deferred.reject();
+	      });
+
+	    // return promise object
+	    return deferred.promise;
 	};
 	
 });
