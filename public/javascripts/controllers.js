@@ -314,7 +314,8 @@ app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window
       $http.get('/api/' + $routeParams.title + '/assignTargets')
         .success(function (res, status) {
           if(status === 200 && res.data) {
-            $scope.players = res.data;
+            $scope.playerTargets = res.data;
+            console.log("scope.playerTargets", $scope.playerTargets);
           }
         })
         .error(function(res) {

@@ -125,7 +125,19 @@ module.exports.assignTargets = function(req, res) {
 							assassinIds.push(assassin._id);
 						})
 
-						console.log("assignTargets assassin find", assassinIds);
+						function shuffle(assassinIds){
+						    for(var j, x, i = assassinIds.length; i; j = Math.floor(Math.random() * i), x = assassinIds[--i], assassinIds[i] = assassinIds[j], assassinIds[j] = x);
+						    return assassinIds;
+						}
+
+						console.log("assignTargets assassin find", shuffle(assassinIds));
+
+						var shuffledAssassins = shuffle(assassinIds);
+
+						res.status(200).json({
+							status: "Shuffled players players",
+							data: shuffledAssassins
+						})
 					}
 				}
 			)
