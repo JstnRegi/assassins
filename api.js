@@ -22,5 +22,6 @@ api.get('/api/admin/:admin/games', gamesCtrl.findAdminGames);
 api.post('/api/assassins/:gameTitle', assassinsCtrl.register);
 api.post('/api/assassin/login', assassinsCtrl.login);
 api.get('/api/assassin', assassinsCtrl.currentAssassin);
+api.get('/api/:title/assassins', assassinsCtrl.gameAssassins);
 
 module.exports = api;

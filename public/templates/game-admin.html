@@ -2,11 +2,36 @@
 
 	<div ng-controller="gamePlayersCtrl">
 		Players
-		<div ng-repeat="player in players">
 
-			{{player}}
+		<form>
+		    <div class="form-group">
+		      <div class="input-group">
+		        <div class="input-group-addon"><i class="fa fa-search"></i></div>
 
-		</div>
+		        <input type="text" class="form-control" placeholder="Search Assassins" ng-model="searchFilter">
+		      </div>     	 
+		    </div>
+  		</form>
+
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th><h5>Codename</h5></th>
+					<th><h5>Tagline</h5></th>
+					<th><h5>Target</h5></th>
+					<th><h5>Kills</h5></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="assassin in players | filter:searchFilter">
+					<td class="text-nowrap" scope="row">{{assassin.codename}}</td>
+					<td class="text-nowrap" scope="row">{{assassin.tagline}}</td>
+					<td class="text-nowrap" scope="row">{{assassin.target}}</td>
+					<td class="text-nowrap" scope="row">{{assassin.kills.length}}</td>
+				</tr>
+			</tbody>
+
+		</table>
 	</div>
 
 </div>

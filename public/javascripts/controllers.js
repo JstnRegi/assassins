@@ -276,22 +276,11 @@ app.controller('gameAdminCtrl',['$scope','$rootScope', '$location', '$window', '
 
     $scope.admin = $window.admin;
 
-    console.log("gameAdminCtrl routeParams check", $routeParams.title);
-
     //get games that admin is a part of
     GameService.get({data: $routeParams.title},
      function(res) {
       $scope.game = res.data;
 
-      var players = [];
-
-      $scope.game.players.forEach(function(player) {
-        players.push(player);
-      });
-
-      console.log(res);
-
-      $scope.$broadcast("playersReceived", players);
      },
      function(res) {
       // $location.path('/admin/login');
@@ -301,15 +290,19 @@ app.controller('gameAdminCtrl',['$scope','$rootScope', '$location', '$window', '
 }]);
 
 //
-app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams',
- function ($scope, $rootScope, $location, $window, GameService, $routeParams) {
+app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
-    $scope.$on("playersReceived", function(event, data) {
-      $scope.players = data;
-       console.log(data);
-    })
-    
-    console.log($scope.players);
+    $http.get('/api/' + $routeParams.title + '/assassins')
+        .success(function (res, status) {
+          if(status === 200 && res.data) {
+            $scope.players = res.data;
+          }
+        })
+        .error(function(res) {
+          console.log('Cant find that game');
+          $location.path("/");
+        });
  
 }]);
 

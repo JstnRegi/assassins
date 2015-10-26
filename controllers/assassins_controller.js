@@ -133,6 +133,42 @@ module.exports.currentAssassin = function(req, res) {
 	})
 };
 
+module.exports.gameAssassins = function(req, res) {
+
+	console.log("module export gameAssassins body",req.body);
+	console.log("module export gameAssassins params",req.params);
+
+	var game = req.params;
+
+	Game.findOne(game, function(err, game) {
+		if(err) {
+			console.log(err);
+			res.status(500).json({err: err});
+		} else {
+			var playerIds = game.players;
+			
+			Assassin.find({ _id: { $in: playerIds}
+					}, function(err, assassins) {
+					if (err) {
+						res.status(500).json({err: err});
+						console.log(err);
+					} else {
+						res.status(200).json({
+							status: "Retrieved players",
+							data: assassins
+						})
+					}
+				}
+			)
+		}
+	})
+};
+
+
+
+
+
+
 
 
 

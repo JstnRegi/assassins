@@ -31,7 +31,8 @@ var AssassinSchema = new Schema ({
 		type: String
 	},
 	is_alive: {
-		type: Boolean
+		type: Boolean,
+		default: true
 	},
 	died_on: {
 		type: Date

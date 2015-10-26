@@ -8,7 +8,6 @@ app.service('AdminGamesService', function ($resource) {
   return $resource('/api/admin/:admin/games', { admin: '@admin' });
 });
 
-
 app.factory("AuthService", function($q, $timeout, $http, $window) {
 	
 	// decalare global admin variable
