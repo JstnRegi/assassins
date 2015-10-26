@@ -335,6 +335,27 @@ app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window
         });
     }
 
+    $scope.gameData = {};
+
+    $scope.startGame = function() {
+      var start = confirm("Are you sure you want start the game? Assassins can no longer join once you start the game.");
+
+      $scope.gameData.game_started_on = new Date;
+
+      if(start) {
+        $http.post('/api/' + $routeParams.title + '/start', $scope.gameData)
+           .success(function (res, status) {
+              if(status === 200 && res.data) {
+                $scope.player = res.data;
+              }
+            })
+          .error(function(res) {
+            console.log('Cant find that game');
+            $location.path("/");
+          });
+      }
+    }
+
 
 }]);
 

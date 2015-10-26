@@ -37,6 +37,20 @@
 	<div ng-controller="assignTargetsCtrl">
 		<h3>Assign Targets</h3>
 		<button ng-click="shuffleTargets()" class="btn btn-default">Reassign Targets</button>
+<br>
+		<div>
+			<h3>Start Game</h3>
+			<form class="form" ng-submit="startGame()">
+			    <div class="form-group">
+			      <h6>End Date</h6>
+				  <input type="date" class="form-control" name="picture" ng-model="gameData.end_date" required>
+				  <br>
+			        <button class="btn btn-danger">Start Game</button>
+			    </div>
+			</form>	
+		</div>
 	</div>
+
+	
 
 </div>

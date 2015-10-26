@@ -152,13 +152,24 @@ module.exports.assignTargets = function(req, res) {
 					}
 				}
 			)
-
-			// res.status(200).json({
-			// 	status: "Found game",
-			// 	data: game
-			// })
 		}
 	})
+}
+
+module.exports.gameStart = function(req, res) {
+	var game = req.params;
+
+	var gameUpdates = req.body;
+	console.log(gameUpdates);
+	gameUpdates.game_started = true;
+	Game.findOneAndUpdate(game, gameUpdates, function(err, game) {
+		if(err) {
+			return constole.log(err);
+		}
+
+		console.log("game found!!", game);
+
+	});
 }
 
 

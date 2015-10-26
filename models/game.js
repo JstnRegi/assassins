@@ -15,7 +15,7 @@ var GameSchema = new Schema ({
 	},
 	end_date: {
 		type: Date,
-		required: true
+		default: null
 	},
 	additional_rules: {
 		type: String
@@ -26,13 +26,20 @@ var GameSchema = new Schema ({
 		unique: false
 	},
 	game_is_over: {
-		type: Boolean
+		type: Boolean,
+		default: false
+	},
+	game_started_on: {
+		type: Date,
+		default: null
 	},
 	game_started: {
-		type: Boolean
+		type: Boolean,
+		default: false
 	},
 	admin: {
-		type: String
+		type: String,
+		default: null
 	},
 	posts: [],
 	players: []
