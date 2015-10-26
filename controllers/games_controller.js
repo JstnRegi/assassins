@@ -1,5 +1,6 @@
 var express = require('express'),
-    Game = require('./../models').Game;
+    Game = require('./../models').Game,
+    Assassin = require('./../models').Assassin;
 
 module.exports.create = function(req, res) {
 	console.log("exports.create", req.body);
@@ -73,23 +74,75 @@ module.exports.find = function(req, res) {
 module.exports.findAdminGames = function(req, res) {
 	console.log("exports.findAdminGames", req.params);
 	var admin = req.params;
-	Game.find(admin, function(err, games) {
+	Game.find(admin, function(err, game) {
 		if (err) {
 			console.log(err);
 			res.status(500).json({
-				status: "Trouble finding games",
+				status: "Trouble finding game",
 				data: "Please retry"
 			})
 		} else {
-			console.log(games);
+			console.log(game);
 			res.status(200).json({
-				status: "Found admin games",
-				data: games
+				status: "Found admin game",
+				data: game
 			})
 		}
-	})
+	});
 	
 }
+
+module.exports.assignTargets = function(req, res) {
+	console.log("exports.assignTargets");
+	console.log("req.params",req.params);
+
+	var game = req.params;
+
+	Game.findOne(game, function(err, game) {
+		if(err) {
+			console.log(err);
+			// res.status(500).json({
+			// 	status: "Trouble finding game",
+			// 	data: "Please retry"
+			// })
+		} else {
+			console.log("assignTargets game", game);
+			var playerIds = game.players;
+
+			Assassin.find({ _id: { $in: playerIds}
+					}, function(err, assassins) {
+					if (err) {
+						// res.status(500).json({err: err});
+						console.log(err);
+					} else {
+						// res.status(200).json({
+						// 	status: "Retrieved players",
+						// 	data: assassins
+						// })
+						var assassinIds = [];
+
+						assassins.forEach(function(assassin) {
+							assassinIds.push(assassin._id);
+						})
+
+						console.log("assignTargets assassin find", assassinIds);
+					}
+				}
+			)
+
+			// res.status(200).json({
+			// 	status: "Found game",
+			// 	data: game
+			// })
+		}
+	})
+}
+
+
+
+
+
+
 
 
 

@@ -289,7 +289,6 @@ app.controller('gameAdminCtrl',['$scope','$rootScope', '$location', '$window', '
  
 }]);
 
-//
 app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
@@ -304,6 +303,27 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
           $location.path("/");
         });
  
+}]);
+
+app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
+
+    $scope.hello = "hello";
+//
+    $scope.shuffleTargets = function() {
+      $http.get('/api/' + $routeParams.title + '/assignTargets')
+        .success(function (res, status) {
+          if(status === 200 && res.data) {
+            $scope.players = res.data;
+          }
+        })
+        .error(function(res) {
+          console.log('Cant find that game');
+          $location.path("/");
+        });
+    }
+
+
 }]);
 
 

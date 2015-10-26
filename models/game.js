@@ -28,6 +28,9 @@ var GameSchema = new Schema ({
 	game_is_over: {
 		type: Boolean
 	},
+	game_started: {
+		type: Boolean
+	},
 	admin: {
 		type: String
 	},

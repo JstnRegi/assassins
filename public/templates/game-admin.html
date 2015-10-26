@@ -1,7 +1,7 @@
 <div ng-controller="gameAdminCtrl">
 
 	<div ng-controller="gamePlayersCtrl">
-		Players
+		<h3>Players</h3>
 
 		<form>
 		    <div class="form-group">
@@ -32,6 +32,12 @@
 			</tbody>
 
 		</table>
+	</div>
+
+	<div ng-controller="assignTargetsCtrl">
+		<h3>Assign Targets</h3>
+		{{hello}}
+		<button ng-click="shuffleTargets()" class="btn btn-default">Reassign Targets</button>
 	</div>
 
 </div>
