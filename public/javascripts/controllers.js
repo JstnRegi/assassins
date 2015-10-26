@@ -133,6 +133,14 @@ app.controller('adminHomeCtrl',['$scope','$rootScope', '$location', 'AdminGamesS
   
     $scope.admin = $window.admin;
 
+    $scope.show = true; 
+
+    $scope.showDetails = false;
+
+    $scope.viewDetails = function() {
+      $scope.showDetails = true;
+    }
+
     if($scope.admin === null) {
       $location.path('/admin/login');
     } else {
@@ -250,6 +258,8 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
 app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
   
+
+
     if($window.assassin === null && $window.admin === null) {
         $location.path("/");
     }

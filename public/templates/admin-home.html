@@ -2,7 +2,20 @@
 	<a ng-href="/game/new" class="btn btn-default">Create a game</a>
 	<h5>Your games</h5>
 	<div ng-repeat="game in games">
-	<a ng-href="/game/{{game.title}}/home">{{game.title}}</a>
+	<a ng-show="show" ng-href="/game/{{game.title}}/home">{{game.title}}</a>
+	<div ng-show="showDetails">
+		<img src="{{game.title}}">
+		<ul>
+			<li>Number of players: {{game.players.length}}</li>
+			<li>End Date: {{game.end_date}}</li>
+			<li>Additional Rules: {{game.additional_rules}}</li>
+			<li>Key: {{game.key}}</li>
+		</ul>
+	</div>
+	<button ng-init="showDetails=false" ng-click="showDetails = !showDetails" class="btn btn-default">View Details</button>
+	<a type="button" class="btn btn-default" ng-href="/game/{{game.title}}/admin-page">Admin Page</a>
+	<br><br>
+	
 	</div>
 
 </div>

@@ -33,6 +33,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         templateUrl: "/static/templates/assassin-login.html",
         controller: "assassinLoginCtrl"
       })
+      .when('/game/:title/admin-page', {
+        template: "Game admin page!"
+      })
       .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({
