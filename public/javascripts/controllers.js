@@ -1,5 +1,14 @@
 var app = angular.module('myApp.controllers', []);
 
+app.filter('reverse', function() {
+  return function(items) {
+    if(items) {
+      return items.slice().reverse();  
+    }
+  };
+});
+
+
 //make mainCtrl
 app.controller('mainCtrl',
   ['$scope', '$location', 'AuthService', '$window', '$http', '$rootScope', 'AssassinAuthService',
@@ -162,7 +171,6 @@ app.controller('adminHomeCtrl',['$scope','$rootScope', '$location', 'AdminGamesS
     AdminGamesService.get({admin: $scope.admin._id},
      function(res) {
       $scope.games = res.data;
-      console.log(res);
      },
      function(res) {
       $location.path('/admin/login');
@@ -292,6 +300,10 @@ app.controller('gameAdminCtrl',['$scope','$rootScope', '$location', '$window', '
 app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
+    $scope.$on("shuffledTargets", function(event, data) {
+      $scope.players = data;
+    })
+
     $http.get('/api/' + $routeParams.title + '/assassins')
         .success(function (res, status) {
           if(status === 200 && res.data) {
@@ -305,17 +317,16 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
  
 }]);
 
+
 app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
-    $scope.hello = "hello";
-//
     $scope.shuffleTargets = function() {
       $http.get('/api/' + $routeParams.title + '/assignTargets')
         .success(function (res, status) {
           if(status === 200 && res.data) {
-            $scope.playerTargets = res.data;
-            console.log("scope.playerTargets", $scope.playerTargets);
+            $scope.player = res.data;
+            $rootScope.$broadcast("shuffledTargets", $scope.player);
           }
         })
         .error(function(res) {
@@ -326,6 +337,9 @@ app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window
 
 
 }]);
+
+
+
 
 
 
