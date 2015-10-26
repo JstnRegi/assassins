@@ -150,13 +150,15 @@ app.controller('adminHomeCtrl',['$scope','$rootScope', '$location', 'AdminGamesS
       }
     }
 
+    //get games that admin is a part of
     AdminGamesService.get({admin: $scope.admin._id},
      function(res) {
+      $scope.games = res.data;
       console.log(res);
      },
      function(res) {
+      $location.path('/admin/login');
       console.log(res);
-      console.log(data);
      });
 
 

@@ -1,5 +1,8 @@
 <div ng-controller="adminHomeCtrl">
 	<a ng-href="/game/new" class="btn btn-default">Create a game</a>
-
+	<h5>Your games</h5>
+	<div ng-repeat="game in games">
+	{{game.title}}
+	</div>
 
 </div>
