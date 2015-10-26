@@ -36,9 +36,17 @@ module.exports.create = function(req, res) {
 }
 
 module.exports.find = function(req, res) {
-	console.log("exports.find", req.body);
-	var game = req.body;
-	console.log("req.body", game);
+	
+	if(!!req.body.title) {
+		var game = req.body;
+		console.log("game is req.body", req.body);
+	} 
+
+	if(!!req.params.title) {
+		var game = req.params;
+		console.log("game is req.params", req.params);
+	}
+
 	Game.findOne(game, function(err, game) {
 		if (err) {
 			console.log(err);
