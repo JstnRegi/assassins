@@ -15,6 +15,7 @@ api.get('/api/admin', adminsCtrl.currentAdmin);
 //games
 api.post('/api/game', gamesCtrl.find);
 api.post('/api/games', gamesCtrl.create);
+api.get('/api/admin/:admin/games', gamesCtrl.findAdminGames);
 
 //assassins
 api.post('/api/assassins/:gameTitle', assassinsCtrl.register);

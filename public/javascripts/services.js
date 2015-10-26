@@ -4,6 +4,9 @@ app.service('GameService', function ($resource) {
   return $resource('/api/games/:id', { id: '@_id' });
 });
 
+app.service('AdminGamesService', function ($resource) {
+  return $resource('/api/admin/:admin/games', { admin: '@_admin' });
+});
 
 
 app.factory("AuthService", function($q, $timeout, $http, $window) {
@@ -105,7 +108,6 @@ app.factory("AuthService", function($q, $timeout, $http, $window) {
 	      // handle success
 	      .success(function (res, status) {
 	        if(status === 200 && res.data){
-	          console.log("currentAdmin", res.data);
 	          $window.admin = res.data;
 	          deferred.resolve();
 	        } else {

@@ -61,3 +61,29 @@ module.exports.find = function(req, res) {
 		}
 	})
 }
+
+module.exports.findAdminGames = function(req, res) {
+	console.log("exports.findAdminGames", req.params);
+	var admin = req.params;
+	Game.find(admin, function(err, games) {
+		if (err) {
+			console.log(err);
+			res.status(500).json({
+				status: "Trouble finding games",
+				data: "Please retry"
+			})
+		} else {
+			console.log(games);
+			res.status(200).json({
+				status: "Found admin games",
+				data: games
+			})
+		}
+	})
+	
+}
+
+
+
+
+

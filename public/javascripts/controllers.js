@@ -128,16 +128,37 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
 
 }]);
 
-app.controller('adminHomeCtrl',['$scope','$rootScope', '$location', 'AuthService', '$window',
- function ($scope, $rootScope, $location, AuthService, $window) {
+app.controller('adminHomeCtrl',['$scope','$rootScope', '$location', 'AdminGamesService', '$window', '$routeParams',
+ function ($scope, $rootScope, $location, AdminGamesService, $window, $routeParams) {
   
     $scope.admin = $window.admin;
 
     if($scope.admin === null) {
       $location.path('/admin/login');
+    } else {
+      //check if window admin exists so username var
+      //doesn't throw an error
+      if($window.admin) {
+        //get the username of the current admin
+        var username = $window.admin.username;
+
+        //redirect to admins home if they try to go to
+        //another admin's home page
+        if(username !== $routeParams.username) {
+          $location.path('/admin/' + username + "/home");
+        }
+      }
     }
 
-    // console.log("ADMIN HOME CTRL", $window.admin);  
+    AdminGamesService.get({admin: $scope.admin._id},
+     function(res) {
+      console.log(res);
+     },
+     function(res) {
+      console.log(res);
+      console.log(data);
+     });
+
 
 }]);
 

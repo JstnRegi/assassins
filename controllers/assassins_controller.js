@@ -118,7 +118,6 @@ module.exports.currentAssassin = function(req, res) {
 			res.status(500).json({err: err});
 		}
 		else {
-			console.log("ASSASSIN FOUND", assassin);
 			if(assassin && assassin.codename) {
 				res.status(200).json({
 					status: "Assassin logged in",
