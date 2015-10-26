@@ -2,7 +2,7 @@
 	<a ng-href="/game/new" class="btn btn-default">Create a game</a>
 	<h5>Your games</h5>
 	<div ng-repeat="game in games">
-	{{game.title}}
+	<a ng-href="/game/{{game.title}}/home">{{game.title}}</a>
 	</div>
 
 </div>
