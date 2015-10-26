@@ -35,7 +35,7 @@ app.controller('mainCtrl',
     $scope.searchError = false;
 
     $scope.search = function() {
-      $http.post('/api/game', $scope.searchInfo)
+      $http.post('/api/game-search', $scope.searchInfo)
       .success(function (res, status) {
         if(status === 200 && res.data) {
           $scope.searchInfo = {};
@@ -263,6 +263,28 @@ app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'A
     if($window.assassin === null && $window.admin === null) {
         $location.path("/");
     }
+ 
+}]);
+
+app.controller('gameAdminCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams) {
+
+    if($window.admin === null) {
+      $location.path("/admin/login");
+    }
+
+    $scope.admin = $window.admin;
+
+    //get games that admin is a part of
+    GameService.get({data: $routeParams.title},
+     function(res) {
+      $scope.games = res.data;
+      console.log(res);
+     },
+     function(res) {
+      // $location.path('/admin/login');
+      console.log(res);
+     });
  
 }]);
 

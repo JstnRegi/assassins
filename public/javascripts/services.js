@@ -1,11 +1,11 @@
 var app = angular.module('myApp.services', []);
 
 app.service('GameService', function ($resource) {
-  return $resource('/api/games/:id', { id: '@_id' });
+  return $resource('/api/games/:data', { data: '@data' });
 });
 
 app.service('AdminGamesService', function ($resource) {
-  return $resource('/api/admin/:admin/games', { admin: '@_admin' });
+  return $resource('/api/admin/:admin/games', { admin: '@admin' });
 });
 
 
