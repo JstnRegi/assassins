@@ -284,14 +284,19 @@ app.controller('gameAdminCtrl',['$scope','$rootScope', '$location', '$window', '
 
     $scope.admin = $window.admin;
 
+    $scope.gameStarted = true; 
     //get games that admin is a part of
     GameService.get({data: $routeParams.title},
      function(res) {
       $scope.game = res.data;
+      $scope.$broadcast("gameRetrieved", $scope.game);
 
+      $scope.$on("playersLoaded", function() {
+        $scope.gameStarted = $scope.game.game_started;  
+      })
      },
      function(res) {
-      // $location.path('/admin/login');
+      $location.path('/');
       console.log(res);
      });
  
@@ -308,6 +313,7 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
         .success(function (res, status) {
           if(status === 200 && res.data) {
             $scope.players = res.data;
+            $scope.$emit("playersLoaded");
           }
         })
         .error(function(res) {
@@ -337,9 +343,13 @@ app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window
 
     $scope.gameData = {};
 
+    $scope.$on("gameRetrieved", function(event, data) {
+      $scope.game = data;
+      $scope.gameStarted = $scope.game.game_started;
+    })
+
     $scope.startGame = function() {
       var start = confirm("Are you sure you want start the game? Assassins can no longer join once you start the game.");
-
       $scope.gameData.game_started_on = new Date;
 
       if(start) {
