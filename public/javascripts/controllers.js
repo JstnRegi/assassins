@@ -250,11 +250,10 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
 app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
   
-    if($window.assassin === null) {
-      $location.path('/game/' + $scope.gameTitle + "/login");
+    if($window.assassin === null && $window.admin === null) {
+        $location.path("/");
     }
-    
-    
+ 
 }]);
 
 
