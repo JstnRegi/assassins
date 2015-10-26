@@ -112,27 +112,38 @@ module.exports.assignTargets = function(req, res) {
 			Assassin.find({ _id: { $in: playerIds}
 					}, function(err, assassins) {
 					if (err) {
-						// res.status(500).json({err: err});
+						res.status(500).json({err: err});
 						console.log(err);
 					} else {
-						// res.status(200).json({
-						// 	status: "Retrieved players",
-						// 	data: assassins
-						// })
-						var assassinIds = [];
+
+						var assassinTargets = [];
 
 						assassins.forEach(function(assassin) {
-							assassinIds.push(assassin._id);
+							assassinTargets.push(assassin);
 						})
 
-						function shuffle(assassinIds){
-						    for(var j, x, i = assassinIds.length; i; j = Math.floor(Math.random() * i), x = assassinIds[--i], assassinIds[i] = assassinIds[j], assassinIds[j] = x);
-						    return assassinIds;
+						var shuffledCalled = 0;
+						function shuffle(assassinTargets){
+						    for(var j, x, i = assassinTargets.length; i; j = Math.floor(Math.random() * i), x = assassinTargets[--i], assassinTargets[i] = assassinTargets[j], assassinTargets[j] = x);
+				
+						    return assassinTargets;
 						}
 
-						console.log("assignTargets assassin find", shuffle(assassinIds));
+						var shuffledAssassins = shuffle(assassinTargets);
 
-						var shuffledAssassins = shuffle(assassinIds);
+						shuffledAssassins.forEach(function(assassin, i) {
+							if(i < shuffledAssassins.length - 1) {
+								assassin.target = shuffledAssassins[i + 1].codename;	
+							} else {
+								assassin.target = shuffledAssassins[0].codename;
+							}
+							assassin.save(function(err, assassin) {
+								if(err) {
+									console.log(err);
+									res.status(500).json({err: err});
+								}
+							})
+						});
 
 						res.status(200).json({
 							status: "Shuffled players players",

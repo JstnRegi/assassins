@@ -18,19 +18,19 @@ var db = require('./models');
 //     console.log(games);
 // });
 
-db.Game.findOne({title: "PROPERLY MADE GAME"}, function(err, game) {
-	if(err) {
-		return console.log(err);
-	}
-    console.log("Game found", game);
-});
+// db.Game.findOne({title: "PROPERLY MADE GAME"}, function(err, game) {
+// 	if(err) {
+// 		return console.log(err);
+// 	}
+//     console.log("Game found", game);
+// });
 
-db.Admin.findOne({username: "test"}, function(err, admin) {
-	if(err) {
-		return console.log(err);
-	}
-	console.log("Admin found", admin);
-});
+// db.Admin.findOne({username: "test"}, function(err, admin) {
+// 	if(err) {
+// 		return console.log(err);
+// 	}
+// 	console.log("Admin found", admin);
+// });
 
 // db.Assassin.findOne({codename: "jj"}, function(err, assassin) {
 // 	if(err) {
@@ -39,12 +39,12 @@ db.Admin.findOne({username: "test"}, function(err, admin) {
 // 	console.log(assassin);
 // });
 
-// db.Assassin.find({}, function(err, assassins) {
-// 	if(err) {
-// 		return console.log(err);
-// 	}
-// 	console.log(assassins);
-// });
+db.Assassin.find({}, function(err, assassins) {
+	if(err) {
+		return console.log(err);
+	}
+	console.log(assassins);
+});
 
 
 
