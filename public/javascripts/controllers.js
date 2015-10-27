@@ -37,7 +37,7 @@ app.controller('mainCtrl',
     .then(function() {
       //set assassin
       $scope.assassinLoggedIn = true;
-      $scope.assassin = $window.assassin;
+      $rootScope.assassin = $window.assassin;
       console.log($scope.assassin);
       console.log($window.assassin);
       console.log("Assassin is logged in");
@@ -147,7 +147,7 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
       AuthService.logout()
         .then(function () {
           $rootScope.$broadcast('admin logout');
-          $location.path('/');
+          $window.location.href = "/"
         });
 
     };
@@ -157,7 +157,7 @@ app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '
       AssassinAuthService.logout()
         .then(function () {
           $rootScope.$broadcast('assassin logout');
-          $location.path('/');
+          $window.location.href = "/"
         });
 
     };
@@ -307,8 +307,10 @@ app.controller('assassinGameLoginCtrl',['$scope','$rootScope', '$location', '$wi
       
       AssassinAuthService.assassinGameLogin($scope.assassinLogin)
       .then(function() {
-        $location.path('/game/' + $scope.gameTitle + "/home");
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+        $rootScope.assassin = $window.assassin;
+        console.log("GAME LOGIN", $rootScope.assassinLoggedIn);
+        $location.path('/game/' + $scope.gameTitle + "/home");
       })
       .catch(function(response) {
           $scope.errorMessage = response.err;
@@ -334,8 +336,11 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
       
       AssassinAuthService.assassinLogin($scope.assassinLogin)
       .then(function() {
-        $rootScope.$broadcast("assassin login");
         $location.path('/game/' + $scope.assassinLogin.title + "/home");
+
+        $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+        $rootScope.assassin = $window.assassin;
+        console.log("REG LOGIN", $rootScope.assassinLoggedIn);
       })
       .catch(function(response) {
         console.log(response);
