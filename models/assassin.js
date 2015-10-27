@@ -21,7 +21,7 @@ var AssassinSchema = new Schema ({
 	},
 	avatar: {
 		type: String,
-		required: true
+		default: "http://intranet.atomos.com/Marketing/Image%20Library/atomos-manga-characters/ninja/ninja-shadow.png"
 	},
 	real_photo: {
 		type: String,
