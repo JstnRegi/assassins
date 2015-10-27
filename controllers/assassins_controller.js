@@ -188,10 +188,38 @@ module.exports.currentAssassin = function(req, res) {
 
 module.exports.gameAssassins = function(req, res) {
 
-	console.log("module export gameAssassins body",req.body);
-	console.log("module export gameAssassins params",req.params);
+	// console.log("module export gameAssassins body",req.body);
+	// console.log("module export gameAssassins params",req.params);
 
-	var game = req.params;
+	console.log("GAME ASSASSINS", req._parsedUrl.path.split("/"));
+	console.log("PARAMS", req.headers.referer);
+
+	var playersForProfile;
+	var playersForHome;
+	var pathSplit = req._parsedUrl.path.split("/");
+	var refererSplit = req.headers.referer.split("/");
+	var reason = refererSplit[refererSplit.length - 1];
+	var game;
+
+	if(reason === "profile") {
+		
+		playersForProfile = true;
+	}
+
+	if(reason === "home") {
+		
+		playersForHome = true;
+	}
+
+	if(playersForProfile) {
+		game = {_id: req.params.game};
+		console.log("playersForProfile");
+	}
+
+	if(playersForHome) {
+		game = {title: req.params.game};
+		console.log("game", game);
+	}
 
 	Game.findOne(game, function(err, game) {
 		if(err) {
@@ -222,6 +250,37 @@ module.exports.logout = function (req, res) {
 	console.log("tried to logout");
   req.logout();
   res.status(200).json({status: 'Bye!'});
+};
+
+module.exports.target = function (req, res) {
+
+	console.log("target", req.params);
+
+	var targetName = req.params.target;
+	var target;
+
+	var game = req.params.game;
+
+	Game.findOne({_id: game}, function(err, game) {
+		if(err) {
+			return res.status(500).json({err: err, cause: "internal server error"});
+		}
+		Assassin.find({_id: { $in: game.players} }, function(err, assassins) {
+			if (err) {
+				return res.status(500).json({err: err, cause: "internal server error"});
+			} else {
+				assassins.forEach(function(assassin) {
+					if(assassin.codename === targetName) {
+						target = assassin;
+						return res.status(200).json({
+							status: "Target acquired",
+							data: target
+						})
+					}
+				})
+			}
+		})
+	});
 };
 
 

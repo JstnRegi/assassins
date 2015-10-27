@@ -406,7 +406,19 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
       $scope.players = data;
     })
 
-    $http.get('/api/' + $routeParams.title + '/assassins')
+    var playersForProfile;
+    var playersForHome;
+
+    if($routeParams.assassin !== undefined) {
+      playersForProfile = true;
+    }
+
+    if($routeParams.title !== undefined) {
+      playersForHome = true;
+    }
+
+    if(playersForHome) {
+      $http.get('/api/' + $routeParams.title + '/assassins')
         .success(function (res, status) {
           if(status === 200 && res.data) {
             $scope.players = res.data;
@@ -417,7 +429,26 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
           console.log('Cant find that game');
           $location.path("/");
         });
- 
+    }
+
+    if(playersForProfile) {
+      console.log(playersForProfile);
+      console.log("request for players made");
+      $http.get('/api/' + $window.assassin.game + '/assassins')
+        .success(function (res, status) {
+          if(status === 200 && res.data) {
+            $scope.players = res.data;
+            console.log(res.data);
+          }
+        })
+        .error(function(res) {
+          console.log('Cant find that game');
+          $location.path("/");
+        });
+    }
+
+
+
 }]);
 
 
@@ -476,14 +507,43 @@ app.controller('assassinProfileCtrl',['$scope','$rootScope', '$location', '$wind
     else if($window.assassin.codename !== assassinProfile) {
       $location.path("/assassin/" + $window.assassin.codename + "/profile");
     }
-    console.log($routeParams);
-    console.log($window.assassin);
-    console.log("profile controller");
 
 }]);
 
+app.controller('assassinTargetCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
+     var assassinId = $window.assassin.target;
+     var assassinGame = $window.assassin.game;
 
+     
+
+     $http.get('/api/' + assassinGame + "/" + assassinId + '/target')
+        .success(function (res, status) {
+          if(status === 200 && res.data) {
+            $scope.target = res.data;
+          }
+        })
+        .error(function(res) {
+          console.log('Cant find that target');
+          $location.path("/");
+        });
+
+}]);
+
+app.controller('killedTargetCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
+
+      
+
+}]);
+
+app.controller('diedCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
+
+      
+
+}]);
 
 
 

@@ -18,12 +18,12 @@ var db = require('./models');
 //     console.log(games);
 // });
 
-// db.Game.findOne({title: "PROPERLY MADE GAME"}, function(err, game) {
-// 	if(err) {
-// 		return console.log(err);
-// 	}
-//     console.log("Game found", game);
-// });
+db.Game.findOne({title: 'test'}, function(err, game) {
+	if(err) {
+		return console.log(err);
+	}
+    console.log("Game found", game);
+});
 
 // db.Admin.findOne({username: "test"}, function(err, admin) {
 // 	if(err) {
