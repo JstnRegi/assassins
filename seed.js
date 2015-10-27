@@ -5,11 +5,11 @@ var db = require('./models');
 
 
 
-db.Game.remove({}, function(err, games) {
-    if(err) {
-        return console.log(err);
-    }
-});
+// db.Game.remove({}, function(err, games) {
+//     if(err) {
+//         return console.log(err);
+//     }
+// });
 
 // db.Game.find({}, function(err, games) {
 // 	if(err) {
@@ -38,6 +38,10 @@ db.Game.remove({}, function(err, games) {
 // 	}
 // 	console.log(assassin);
 // });
+
+
+
+// db.Assassin.collection.drop();
 
 // db.Assassin.find({}, function(err, assassins) {
 // 	if(err) {
