@@ -45,7 +45,8 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         controller: 'assassinRegisterCtrl'
       })
       .when('/assassin/:assassin/profile', {
-        template: "assassin profile"
+        templateUrl: "/static/templates/assassin-profile.html",
+        controller: "assassinProfileCtrl"
       })
       .otherwise({redirectTo: '/'});
 

@@ -38,8 +38,6 @@ app.controller('mainCtrl',
       //set assassin
       $scope.assassinLoggedIn = true;
       $rootScope.assassin = $window.assassin;
-      console.log($scope.assassin);
-      console.log($window.assassin);
       console.log("Assassin is logged in");
       })
     .catch(function() {
@@ -465,6 +463,22 @@ app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window
       }
     }
 
+
+}]);
+
+app.controller('assassinProfileCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
+
+    var assassinProfile = $routeParams.assassin;
+    if($window.assassin === null) {
+      $location.path("/assassin/login");
+    }
+    else if($window.assassin.codename !== assassinProfile) {
+      $location.path("/assassin/" + $window.assassin.codename + "/profile");
+    }
+    console.log($routeParams);
+    console.log($window.assassin);
+    console.log("profile controller");
 
 }]);
 
