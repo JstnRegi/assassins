@@ -40,7 +40,7 @@
 					<a ng-click="adminLogout()" href="">Logout</a>
 	            </li>
 	          </ul>
-	          <ul class="dropdown-menu">
+	          <ul class="dropdown-menu" ng-hide="adminLoggedIn">
 	          	<li><a ng-href="/admin/register">Signup</a></li>
 	          	<li><a ng-href="/admin/login">Login</a></li>
 	          </ul>
@@ -49,14 +49,16 @@
         <li class="dropdown" ng-show="adminLoggedIn || assassinLoggedIn">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>Assassin<span class="caret"></span></span></a>
 	          <ul class="dropdown-menu">
-	          	<span ng-hide="assassinLoggedIn">
+	          	<div ng-hide="assassinLoggedIn">
 		          	<li><a href="/assassin/login">Login</a></li>
 		          	<li><a href="/assassin/register">Signup</a></li>
-          		</span>
-
-          		<li ng-show="assassinLoggedIn" ng-controller="logoutCtrl">
-					<a ng-click="assassinLogout()" href="">Logout</a>
-	            </li>
+          		</div>
+              <div ng-show="assassinLoggedIn" >
+                  <li><a ng-href="/assassin/{{assassin.codename}}/profile/">Profile</a></li>
+                  <li ng-controller="logoutCtrl">
+                     <a ng-click="assassinLogout()" href="">Logout</a>
+                  </li>
+              </div>
 	          </ul>
         </li>
       </ul>

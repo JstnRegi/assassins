@@ -14,9 +14,11 @@ app.controller('mainCtrl',
   ['$scope', '$location', 'AuthService', '$window', '$http', '$rootScope', 'AssassinAuthService',
   function ($scope, $location, AuthService, $window, $http, $rootScope, AssassinAuthService) {
 
-    $scope.adminLoggedIn = AuthService.isLoggedIn();
+    $rootScope.adminLoggedIn = AuthService.isLoggedIn();
 
-    $scope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+    $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+
+    $rootScope.assassin = {};
 
     //current admin
     AuthService.currentAdmin()
@@ -35,7 +37,9 @@ app.controller('mainCtrl',
     .then(function() {
       //set assassin
       $scope.assassinLoggedIn = true;
-      $scope.assassin = $window.assasin;
+      $scope.assassin = $window.assassin;
+      console.log($scope.assassin);
+      console.log($window.assassin);
       console.log("Assassin is logged in");
       })
     .catch(function() {
@@ -243,6 +247,7 @@ app.controller('assassinGameRegisterCtrl',['$scope','$rootScope', '$location', '
     $scope.register = function() {
       AssassinAuthService.gameRegister($scope.assassinRegister, $scope.gameTitle)
       .then(function() {
+        $rootScope.assassinLoggedIn = AssassinAuthService.isLoggedIn();
         $location.path('/game/' + $routeParams.title + "/home");
       })
       .catch(function(response) {
@@ -271,6 +276,7 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
       console.log($scope.assassinRegister);
       AssassinAuthService.register($scope.assassinRegister)
       .then(function() {
+        $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
         $location.path('/game/' + $scope.assassinRegister.title + "/home");
       })
       .catch(function(response) {
@@ -302,7 +308,7 @@ app.controller('assassinGameLoginCtrl',['$scope','$rootScope', '$location', '$wi
       AssassinAuthService.assassinGameLogin($scope.assassinLogin)
       .then(function() {
         $location.path('/game/' + $scope.gameTitle + "/home");
-        $rootScope.$broadcast("assassinin login");
+        $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
       })
       .catch(function(response) {
           $scope.errorMessage = response.err;
