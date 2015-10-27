@@ -13,40 +13,45 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul ng-controller="" class="nav navbar-nav navbar-right">
-        <li class="dropdown">
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-show="!adminLoggedIn" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
           <ul class="dropdown-menu">
-            <li><a href="/admin/login">As Admin</a></li>
+            <li><a href="/admin/login" ng-show="!adminLoggedIn">As Admin</a></li>
             <li><a ng-href="#">As Assassin</a></li>
-            <li role="separator" class="divider"></li>
-            <li ng-controller="logoutController">
-              <a ng-click='logout()' class="btn btn-default">Logout</a>
-            </li>
           </ul>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" ng-show="!adminLoggedIn">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signup</a>
           <ul class="dropdown-menu">
             <li><a href="/admin_signup">As Admin</a></li>
             <li><a ng-href="#">As Assassin</a></li>
-            <li role="separator" class="divider"></li>
-            <li ng-controller="logoutController">
-              <a ng-click='logout()' class="btn btn-default">Logout</a>
-            </li>
           </ul>
         </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li ng-controller="logoutController">
-              <a ng-click='' class="btn btn-default">Logout</a>
-            </li>
-          </ul>
+        <li class="dropdown" ng-show="adminLoggedIn || assassinLoggedIn">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>Admin <span class="caret"></span></span></a>
+	          <ul class="dropdown-menu">
+	          		<li><a ng-href="/admin/{{admin.username}}/home">Home</a></li>
+	          		<li><a ng-show="adminLoggedIn" ng-href="/game/new">Create a game</a></li>
+	          	</span>
+	            
+	            <li><a href="#">Another action</a></li>
+	            <li><a href="#">Something else here</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li ng-controller="logoutCtrl" class="text-center">
+					<a ng-click="logout()" href="">Logout</a>
+	            </li>
+	          </ul>
+        </li>
+        <li role="separator" class="divider"></li>
+        <li class="dropdown" ng-show="adminLoggedIn || assassinLoggedIn">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>Assassin<span class="caret"></span></span></span></a>
+	          <ul class="dropdown-menu">
+	          	<li><a href="/api/assassin/login">Login</a></li>
+	          	<li><a href="/api/assassin/register">Signup</a><li ng-show="!!assassinLoggedIn">
+					<a ng-click="logout()" href="">Llogout</a>
+	            </li>
+	          </ul>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->

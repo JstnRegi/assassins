@@ -14,6 +14,8 @@ app.controller('mainCtrl',
   ['$scope', '$location', 'AuthService', '$window', '$http', '$rootScope', 'AssassinAuthService',
   function ($scope, $location, AuthService, $window, $http, $rootScope, AssassinAuthService) {
 
+    $scope.adminLoggedIn = false;
+
     //current admin
     AuthService.currentAdmin()
     .then(function() {

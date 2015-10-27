@@ -1,8 +1,8 @@
 <div ng-controller="adminHomeCtrl">
-	<a ng-href="/game/new" class="btn btn-default">Create a game</a>
+	
 	<h5>Your games</h5>
 	<div ng-repeat="game in games">
-	<a ng-show="show" ng-href="/game/{{game.title}}/home">{{game.title}}</a>
+	<a ng-show="show" ng-href="/game/{{game.title}}/home"><h4>{{game.title}}</h4></a>
 	<div ng-show="showDetails">
 		<img src="{{game.title}}">
 		<ul>
