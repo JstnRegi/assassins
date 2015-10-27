@@ -7,7 +7,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       .when('/', {
         templateUrl: '/static/templates/welcome-index.html'
       })
-      .when('/admin_signup', {
+      .when('/admin/register', {
         templateUrl: '/static/templates/admin-signup.html',
         controller: 'adminRegisterCtrl'
       })
@@ -24,7 +24,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       })
       .when('/game/:title/register', {
         templateUrl: "/static/templates/assassin-game-signup.html",
-        controller: 'assassinRegisterCtrl'
+        controller: 'assassinGameRegisterCtrl'
       })
       .when('/game/:title/home', {
         templateUrl: "/static/templates/game-home.html"
@@ -39,6 +39,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       .when('/assassin/login', {
         templateUrl: "/static/templates/assassin-login.html",
         controller: 'assassinLoginCtrl'
+      })
+      .when('/assassin/register', {
+        templateUrl: "/static/templates/assassin-signup.html",
+        controller: 'assassinRegisterCtrl'
       })
       .otherwise({redirectTo: '/'});
 

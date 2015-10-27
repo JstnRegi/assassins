@@ -133,22 +133,44 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 
 	//return available functions for use in controllers
 	return ({
+		gameRegister: gameRegister,
 		register: register,
 		assassinGameLogin: assassinGameLogin,
 		assassinLogin: assassinLogin,
 		isAssassinLoggedIn: isAssassinLoggedIn,
-		currentAssassin: currentAssassin
+		currentAssassin: currentAssassin,
+		logout: logout
 	});
 
 	function isAssassinLoggedIn() {
 		return !!$window.assassin;
 	}
 
-	function register(newAssassin, game) {
+	function gameRegister(newAssassin, game) {
 
 		var deferred = $q.defer();
 
-		$http.post('/api/assassins/' + game, newAssassin)
+		$http.post('/api/assassins/' + game + '/register', newAssassin)
+			.success(function (res, status) {
+				if(status === 200 && res.data) {
+					assassin = res.data;
+					deferred.resolve();
+					$window.assassin = assassin;
+				}
+				})
+			.error(function(res) {
+				deferred.reject(res);
+			});
+
+		return deferred.promise;
+
+	};
+
+	function register(newAssassin) {
+
+		var deferred = $q.defer();
+
+		$http.post('/api/assassins/register', newAssassin)
 			.success(function (res, status) {
 				if(status === 200 && res.data) {
 					assassin = res.data;
@@ -248,6 +270,28 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 	    // return promise object
 	    return deferred.promise;
 	};
+
+	function logout() {
+
+	    // create a new instance of deferred
+	    var deferred = $q.defer();
+
+	    // send a get request to the server
+	    $http.get('/api/assassin/logout')
+	      // handle success
+	      .success(function (res) {
+	        $window.admin = null;
+	        deferred.resolve();
+	      })
+	      // handle error
+	      .error(function (res) {
+	        $window.admin = null;
+	        deferred.reject();
+	      });
+
+	    // return promise object
+	    return deferred.promise;
+	}
 	
 });
 

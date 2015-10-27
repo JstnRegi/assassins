@@ -14,7 +14,9 @@ app.controller('mainCtrl',
   ['$scope', '$location', 'AuthService', '$window', '$http', '$rootScope', 'AssassinAuthService',
   function ($scope, $location, AuthService, $window, $http, $rootScope, AssassinAuthService) {
 
-    $scope.adminLoggedIn = false;
+    $scope.adminLoggedIn = AuthService.isLoggedIn();
+
+    $scope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
 
     //current admin
     AuthService.currentAdmin()
@@ -72,6 +74,14 @@ app.controller('mainCtrl',
       $scope.adminLoggedIn = true;
     })
 
+    $scope.$on("assassin logout", function(event, data) {
+      $scope.assassinLoggedIn = false;
+    })
+
+    $scope.$on("assassin login", function(event, data) {
+      $scope.assassinLoggedIn = true;
+    })
+
     
 }]);
 
@@ -125,13 +135,24 @@ app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthServic
     }; 
 }]);
 
-app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '$rootScope', function ($scope, $location, AuthService, $window, $rootScope) {
+app.controller('logoutCtrl', ['$scope', '$location', 'AuthService', '$window', '$rootScope', 'AssassinAuthService',
+ function ($scope, $location, AuthService, $window, $rootScope, AssassinAuthService) {
 
-    $scope.logout = function () {
+    $scope.adminLogout = function () {
       // call logout from service
       AuthService.logout()
         .then(function () {
           $rootScope.$broadcast('admin logout');
+          $location.path('/');
+        });
+
+    };
+
+    $scope.assassinLogout = function () {
+      // call logout from service
+      AssassinAuthService.logout()
+        .then(function () {
+          $rootScope.$broadcast('assassin logout');
           $location.path('/');
         });
 
@@ -212,7 +233,7 @@ app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameServic
 
 
 // Assassin controllers
-app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
+app.controller('assassinGameRegisterCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
   
     $scope.assassinRegister = {};
@@ -220,9 +241,37 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
     var gameTitle = $routeParams.title;
 
     $scope.register = function() {
-      AssassinAuthService.register($scope.assassinRegister, gameTitle)
+      AssassinAuthService.gameRegister($scope.assassinRegister, gameTitle)
       .then(function() {
         $location.path('/game/' + $routeParams.title + "/home");
+      })
+      .catch(function(response) {
+        $scope.error = true;
+        $scope.errorMessage = response.err;
+
+        if(response.cause === "key") {
+          $scope.assassinRegister.key = null;
+        } else {
+          console.log(response.cause);
+          $scope.assassinRegister.password = null;
+          $scope.assassinRegister.codename = null;
+        }
+      })
+    }
+}]);
+
+app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
+ function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
+  
+    $scope.assassinRegister = {};
+
+    var gameTitle = $scope.assassinRegister.title;
+
+    $scope.register = function() {
+      console.log($scope.assassinRegister);
+      AssassinAuthService.register($scope.assassinRegister)
+      .then(function() {
+        $location.path('/game/' + $scope.assassinRegister.title + "/home");
       })
       .catch(function(response) {
         $scope.error = true;
@@ -253,6 +302,7 @@ app.controller('assassinGameLoginCtrl',['$scope','$rootScope', '$location', '$wi
       AssassinAuthService.assassinGameLogin($scope.assassinLogin)
       .then(function() {
         $location.path('/game/' + $scope.gameTitle + "/home");
+        $rootScope.$broadcast("assassinin login");
       })
       .catch(function(response) {
           $scope.errorMessage = response.err;
@@ -278,6 +328,7 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
       
       AssassinAuthService.assassinLogin($scope.assassinLogin)
       .then(function() {
+        $rootScope.$broadcast("assassin login");
         $location.path('/game/' + $scope.assassinLogin.title + "/home");
       })
       .catch(function(response) {

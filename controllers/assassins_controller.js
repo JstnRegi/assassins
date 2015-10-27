@@ -5,16 +5,25 @@ var express = require('express'),
 
 // signup, assassins#create
 module.exports.register = function (req, res) {
-	console.log(req.body);
-	console.log("params", req.params);
-	var gameTitle = req.params.gameTitle;
+
+	if(req.params.gameTitle !== undefined) {
+		console.log("req.params", req.params);
+		var gameTitle = req.params.gameTitle;
+		console.log("register", gameTitle);
+	} else {
+		var gameTitle = req.body.title
+		console.log("req.params", gameTitle);
+	}
+	
 	var assassin = req.body;
+
+	;
 	Game.findOne({title: gameTitle, key: assassin.key},function(err, game) {
 		if(err) {
 			return console.log(err);
 		} else {
 			if(game !== null) {
-				
+				console.log("FOUND GAME", game);
 				var players = game.players;
 				var gameCodenames = [];
 
@@ -74,8 +83,7 @@ module.exports.register = function (req, res) {
 				});
 
 			} else {
-				console.log("NO GAME FOUND WITH THAT COMBO");
-				res.status(500).json({err: "You have entered the wrong key",
+				res.status(500).json({err: "Game and key combination invalid",
 										cause: "key"});
 			}
 		}
@@ -209,6 +217,12 @@ module.exports.gameAssassins = function(req, res) {
 	})
 };
 
+// signout, sessions#destroy
+module.exports.logout = function (req, res) {
+	console.log("tried to logout");
+  req.logout();
+  res.status(200).json({status: 'Bye!'});
+};
 
 
 

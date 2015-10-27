@@ -21,9 +21,11 @@ api.get('/api/:title/assignTargets', gamesCtrl.assignTargets);
 api.post('/api/:title/start', gamesCtrl.gameStart);
 
 //assassins
-api.post('/api/assassins/:gameTitle', assassinsCtrl.register);
+api.post('/api/assassins/:gameTitle/register', assassinsCtrl.register);
+api.post('/api/assassins/register', assassinsCtrl.register);
 api.post('/api/assassin/login', assassinsCtrl.login);
 api.get('/api/assassin', assassinsCtrl.currentAssassin);
 api.get('/api/:title/assassins', assassinsCtrl.gameAssassins);
+api.get('/api/assassin/logout', assassinsCtrl.logout);
 
 module.exports = api;
