@@ -23,18 +23,22 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         controller: 'gameCreateCtrl'
       })
       .when('/game/:title/register', {
-        templateUrl: "/static/templates/assassin-signup.html",
+        templateUrl: "/static/templates/assassin-game-signup.html",
         controller: 'assassinRegisterCtrl'
       })
       .when('/game/:title/home', {
         templateUrl: "/static/templates/game-home.html"
       })
       .when('/game/:title/login', {
-        templateUrl: "/static/templates/assassin-login.html",
-        controller: "assassinLoginCtrl"
+        templateUrl: "/static/templates/assassin-game-login.html",
+        controller: "assassinGameLoginCtrl"
       })
       .when('/game/:title/admin-page', {
         templateUrl: "/static/templates/game-admin.html"
+      })
+      .when('/assassin/login', {
+        templateUrl: "/static/templates/assassin-login.html",
+        controller: 'assassinLoginCtrl'
       })
       .otherwise({redirectTo: '/'});
 

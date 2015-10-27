@@ -15,14 +15,14 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li ng-show="!adminLoggedIn" class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/admin/login" ng-show="!adminLoggedIn">As Admin</a></li>
-            <li><a ng-href="#">As Assassin</a></li>
+            <li><a ng-href="/assassin/login">As Assassin</a></li>
           </ul>
         </li>
         <li class="dropdown" ng-show="!adminLoggedIn">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signup</a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signup<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/admin_signup">As Admin</a></li>
             <li><a ng-href="#">As Assassin</a></li>
@@ -47,7 +47,7 @@
         <li class="dropdown" ng-show="adminLoggedIn || assassinLoggedIn">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>Assassin<span class="caret"></span></span></span></a>
 	          <ul class="dropdown-menu">
-	          	<li><a href="/api/assassin/login">Login</a></li>
+	          	<li><a href="/assassin/login">Login</a></li>
 	          	<li><a href="/api/assassin/register">Signup</a><li ng-show="!!assassinLoggedIn">
 					<a ng-click="logout()" href="">Llogout</a>
 	            </li>

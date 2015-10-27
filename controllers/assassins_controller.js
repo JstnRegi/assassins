@@ -86,26 +86,71 @@ module.exports.register = function (req, res) {
 };
 
 module.exports.login = function(req, res) {
+
+	console.log("login hit");
 	
 	var assassin = req.body;
 
-	Assassin.authenticate(assassin.codename, assassin.password, function(err, assassin) {
-		
-		if(err) {
-			console.log(err);
-			if (err === "Can't find assassin with that codename.") {
-				res.status(500).json({err: err, cause: "codename"});
+	
+		Game.findOne({title: assassin.title}, function(err, game) {
+			if(err) {
+				res.status(500).json({err: "Can't find game.", cause: "game"});
 			} else {
-				res.status(500).json({err: err, cause: "password"});
+				
+				if(game === null) {
+					return res.status(500).json({err: "Can't find game.", cause: "game"});
+				}
+
+				var playerNames = [];
+
+				Assassin.find({ _id: { $in: game.players}
+						}, function(err, assassins) {
+						if (err) {
+							res.status(500).json({err: err});
+							console.log(err);
+						} else {
+							assassins.forEach(function(currentAssassin) {
+								playerNames.push(currentAssassin.codename);
+							});
+
+							var playerInGame = false;
+
+							playerNames.forEach(function(playerName) {
+								if(playerName === assassin.codename) {
+									playerInGame = true;
+								}
+							});
+
+							if(playerInGame) {
+								Assassin.authenticate(assassin.codename, assassin.password, game, function(err, assassin) {
+									if(err) {
+										console.log(err);
+										if (err === "Can't find assassin with that codename.") {
+											res.status(500).json({err: err, cause: "codename"});
+										} else {
+											res.status(500).json({err: err, cause: "password"});
+										}
+									} else {
+										req.assassinLogin(assassin);
+										res.status(200).json({
+											status: "Login successful",
+											data: assassin
+										});
+									};
+								})
+
+							} else {
+								res.status(500).json({
+											err: "Codename not found in game.",
+											cause: "no match"
+										});
+							}
+						}
+					}
+				)
 			}
-		} else {
-			req.assassinLogin(assassin);
-			res.status(200).json({
-				status: "Login successful",
-				data: assassin
-			});
-		};
-	})
+		})
+	
 };
 
 module.exports.currentAssassin = function(req, res) {

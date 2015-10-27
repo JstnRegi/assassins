@@ -239,16 +239,18 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
     }
 }]);
 
-app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
+app.controller('assassinGameLoginCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
   
     $scope.assassinLogin = {};
 
     $scope.gameTitle = $routeParams.title;
 
+    $scope.assassinLogin.title = $scope.gameTitle;
+
     $scope.login = function() {
       
-      AssassinAuthService.assassinLogin($scope.assassinLogin)
+      AssassinAuthService.assassinGameLogin($scope.assassinLogin)
       .then(function() {
         $location.path('/game/' + $scope.gameTitle + "/home");
       })
@@ -259,6 +261,39 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
           if(response.cause === "codename") {
             $scope.assassinLogin.codename = null;
           } else {
+            $scope.assassinLogin.password = null;
+          }
+      })
+    }
+}]);
+
+app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
+ function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
+  
+    $scope.assassinLogin = {};
+
+    $scope.game = {};
+
+    $scope.login = function() {
+      
+      AssassinAuthService.assassinLogin($scope.assassinLogin)
+      .then(function() {
+        $location.path('/game/' + $scope.assassinLogin.title + "/home");
+      })
+      .catch(function(response) {
+        console.log(response);
+          $scope.errorMessage = response.err;
+          $scope.error = true;
+
+          if(response.cause === "codename") {
+            $scope.assassinLogin.codename = null;
+            $scope.assassinLogin.password = null;
+          } else if (response.cause === "password") {
+            $scope.assassinLogin.password = null;
+          } else if (response.cause === "game") {
+            $scope.assassinLogin.title = null;
+          } else if(response.cause === "no match") {
+            $scope.assassinLogin.codename = null;
             $scope.assassinLogin.password = null;
           }
       })
@@ -370,6 +405,8 @@ app.controller('assignTargetsCtrl',['$scope','$rootScope', '$location', '$window
 
 
 }]);
+
+
 
 
 

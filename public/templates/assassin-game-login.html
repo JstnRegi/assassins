@@ -9,14 +9,10 @@
     <div class="form-group">
       <label>Password</label>
         <input type="password" class="form-control" name="password" ng-model="assassinLogin.password" required>
-    </div>
-    <div class="form-group">
-      <label>Game Title</label>
-        <input type="text" class="form-control" name="game" ng-model="assassinLogin.title" required>
-    </div>
+      </div>
       <div>
         <button type="submit" class="btn btn-default" ng-disabled="disabled">Login</button>
       </div>
   </form>
-  Don't have an account? Register for the game <a ng-href="/game/{{gameTitle}}/register">here.</a>
+  Haven't have an account? Register for the game <a ng-href="/game/{{gameTitle}}/register">here.</a>
 </div>

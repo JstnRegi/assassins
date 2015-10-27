@@ -65,13 +65,13 @@ AssassinSchema.statics.createSecure = function(codename, password, avatar, real_
 	});
 };
 
-AssassinSchema.statics.authenticate = function(codename, password, cb) {
-    this.findOne({codename: codename}, function(err, assassin) {
+AssassinSchema.statics.authenticate = function(codename, password, game, cb) {
+    this.findOne({codename: codename, game: game._id}, function(err, assassin) {
     	if(err) {
     		return console.log(err);
     	}
         if(assassin === null) {
-            cb('Can\'t find assassin with that codename.', null);
+            cb('Can\'t find assassin with that codename in game: ' + game.title, null);
         } else if(assassin.checkPassword(password)) {
             cb(null, assassin);
         } else {

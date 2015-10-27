@@ -134,6 +134,7 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 	//return available functions for use in controllers
 	return ({
 		register: register,
+		assassinGameLogin: assassinGameLogin,
 		assassinLogin: assassinLogin,
 		isAssassinLoggedIn: isAssassinLoggedIn,
 		currentAssassin: currentAssassin
@@ -163,14 +164,42 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 
 	};
 
-	function assassinLogin(adminInfo) {
+	function assassinGameLogin(assassinInfo) {
 
 
 		// create a new instance of deferred
     	var deferred = $q.defer();
 
 	    // send a post request to the server
-	    $http.post('/api/assassin/login', adminInfo)
+	    $http.post('/api/assassin/login', assassinInfo)
+	      // handle success
+	      .success(function (res, status) {
+	        if(status === 200 && res.data){
+	          $window.assassin = res.data;
+	          deferred.resolve();
+	        } else {
+	          $window.assassin = null;
+	          deferred.reject();
+	        }
+	      })
+	      // handle error
+	      .error(function (res) {
+	        $window.assassin = null;
+	        deferred.reject(res);
+	      });
+
+	    // return promise object
+	    return deferred.promise;
+	};
+
+	function assassinLogin(assassinInfo) {
+
+
+		// create a new instance of deferred
+    	var deferred = $q.defer();
+
+	    // send a post request to the server
+	    $http.post('/api/assassin/login', assassinInfo)
 	      // handle success
 	      .success(function (res, status) {
 	        if(status === 200 && res.data){
