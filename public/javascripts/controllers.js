@@ -534,14 +534,18 @@ app.controller('assassinTargetCtrl',['$scope','$rootScope', '$location', '$windo
 app.controller('killedTargetCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
-      
+      $scope.killedTarget = function() {
+        console.log("killed target request");
+      }
 
 }]);
 
 app.controller('diedCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
-      
+      $scope.died = function() {
+        console.log("you died");
+      }
 
 }]);
 

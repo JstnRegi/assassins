@@ -18,15 +18,9 @@
 		<img src="{{target.avatar}}" width="250" height="250">
 		<img src="{{target.real_photo}}">
 		<br>
-		"{{target.tagline}}"
+		"{{target.tagline}}"<button ng-controller="killedTargetCtrl" ng-click="killedTarget()">Killed Target</button>
 	</div>
-	
 </div>
 
-<div ng-controller="killedTargetCtrl">
 
-</div>
-
-<div ng-controller="diedCtrl">
-	
-</div>
+<button ng-controller="diedCtrl" ng-click="died()">You died</button>
