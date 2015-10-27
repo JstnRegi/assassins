@@ -1,3 +1,15 @@
 <div ng-controller="gameHomeCtrl">
 
+	<div ng-controller="gamePlayersCtrl">
+		<span ng-repeat="player in players" class="text-center">
+			<div class="col-sm-6">
+				{{player.codename}}
+			</div>
+			<div class="col-sm-6">
+				<img ng-src="{{player.avatar}}" width="50" height="50">
+			</div>
+
+		</span>
+	</div>
+
 </div>
