@@ -238,10 +238,10 @@ app.controller('assassinGameRegisterCtrl',['$scope','$rootScope', '$location', '
   
     $scope.assassinRegister = {};
 
-    var gameTitle = $routeParams.title;
+    $scope.gameTitle = $routeParams.title;
 
     $scope.register = function() {
-      AssassinAuthService.gameRegister($scope.assassinRegister, gameTitle)
+      AssassinAuthService.gameRegister($scope.assassinRegister, $scope.gameTitle)
       .then(function() {
         $location.path('/game/' + $routeParams.title + "/home");
       })
