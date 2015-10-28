@@ -18,7 +18,7 @@ var db = require('./models');
 //     console.log(games);
 // });
 
-// db.Game.findOne({title: 'test'}, function(err, game) {
+// db.Game.findOne({ $or: [ { title: 'testDeathGame' }, { _id: "qwe"} ] }, function(err, game) {
 // 	if(err) {
 // 		return console.log(err);
 // 	}

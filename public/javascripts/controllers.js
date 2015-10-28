@@ -367,11 +367,16 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
     }
 }]);
 
+app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams', 'GameService',
+ function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams, GameService) {
+  
+   
+ 
+}]);
+
 app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
   
-
-
     if($window.assassin === null && $window.admin === null) {
         $location.path("/");
     }
@@ -406,6 +411,8 @@ app.controller('gameAdminCtrl',['$scope','$rootScope', '$location', '$window', '
  
 }]);
 
+
+
 app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
 
@@ -424,15 +431,20 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
       playersForHome = true;
     }
 
+
     if(playersForHome) {
+      console.log("GOT PLAYERS");
       $http.get('/api/' + $routeParams.title + '/assassins')
         .success(function (res, status) {
           if(status === 200 && res.data) {
+            console.log("got players succesfully");
+            console.log(res.data);
             $scope.players = res.data;
             $scope.$emit("playersLoaded");
           }
         })
         .error(function(res) {
+          $scope.players = [];
           console.log('Cant find that game');
           $location.path("/");
         });
@@ -524,7 +536,7 @@ app.controller('assassinTargetCtrl',['$scope','$rootScope', '$location', '$windo
      var assassinGame = $window.assassin.game;
 
      
-
+  
      $http.get('/api/' + assassinGame + "/" + assassinId + '/target')
         .success(function (res, status) {
           if(status === 200 && res.data) {
@@ -576,9 +588,8 @@ app.controller('diedCtrl', ['$scope','$rootScope', '$location', '$window', 'Game
           if($scope.nearDeath) {
             DeathService.died()
           .then(function() {
-            console.log("report successful");
             $scope.reportSuccessful = true;
-            $scope.successMessage = "Death reported. Waiting on target confirmation."
+            $scope.successMessage = "Your death has been confirmed. You have been eliminated from the game."
           })
           .catch(function(response) {
              console.log("report not successful", response);

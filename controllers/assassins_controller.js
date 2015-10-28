@@ -196,10 +196,13 @@ module.exports.gameAssassins = function(req, res) {
 
 	var playersForProfile;
 	var playersForHome;
+	var playersForAdmin;
 	var pathSplit = req._parsedUrl.path.split("/");
 	var refererSplit = req.headers.referer.split("/");
 	var reason = refererSplit[refererSplit.length - 1];
 	var game;
+
+	console.log(reason);
 
 	if(reason === "profile") {
 		
@@ -211,15 +214,20 @@ module.exports.gameAssassins = function(req, res) {
 		playersForHome = true;
 	}
 
+	if(reason === "admin-page") {
+		playersForAdmin = true;
+	}
+
 	if(playersForProfile) {
 		game = {_id: req.params.game};
 		console.log("playersForProfile");
 	}
 
-	if(playersForHome) {
+	if(playersForHome || playersForAdmin) {
 		game = {title: req.params.game};
 		console.log("game", game);
 	}
+
 
 	Game.findOne(game, function(err, game) {
 		if(err) {

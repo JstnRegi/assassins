@@ -1,48 +1,51 @@
 <h5>Assassin profile</h5>
 
 <h6>Happy Killing {{assassin.codename}}</h6>
-
-<div ng-controller="gamePlayersCtrl">
-	<h4 class="text-center">Players</h4>
-	<span ng-repeat="player in players" class="text-center">
-		<div class="col-sm-6">
-			{{player.codename}}
-			<img ng-src="{{player.avatar}}" width="50" height="50">
-		</div>
-	</span>
-</div>
-
-<div ng-controller="assassinTargetCtrl">
-	<h3>Target:</h3><h4>{{target.codename}}</h4>
-	<div class="target-image-wrapper text-center">
-		<div>
-			Target's Avatar
-		<img src="{{target.avatar}}" width="150" height="150">
-		</div>
-		<div>
-			Target's Real Photo
-			<img src="{{target.real_photo}}" width="150" height="150">
-			"{{target.tagline}}"
-		</div>
-		
-		<br>
-		<div ng-controller="killedTargetCtrl">
-			<div ng-show="reportSuccessful" class="alert alert-danger text-center">{{successMessage}}</div>
-			<div ng-show="error" class="alert alert-danger text-center">{{errorMessage}}</div>
-			<button  ng-click="killedTarget()" class="btn btn-danger">Killed Target</button>
-		</div>
-		
+<div ng-controller="gameMainCtrl">
+	<div ng-controller="gamePlayersCtrl">
+		<h4 class="text-center">Players</h4>
+		<span ng-repeat="player in players" class="text-center">
+			<div class="col-sm-6">
+				{{player.codename}}
+				<img ng-src="{{player.avatar}}" width="50" height="50">
+			</div>
+		</span>
 	</div>
-</div>
-<br>
 
-<div ng-controller="diedCtrl" ng-show="nearDeath" class="text-center">
-	<div ng-show="error" class="alert alert-danger text-center">{{errorMessage}}</div>
-	Your killer has reported you for dead. Please confirm your death or contact the game admin. <br>
-	<button  ng-click="died()" class="btn btn-danger">Confirm</button>
-</div>
+	<div ng-controller="assassinTargetCtrl">
+		<h3>Target:</h3><h4>{{target.codename}}</h4>
+		<div class="target-image-wrapper text-center">
+			<div>
+				Target's Avatar
+			<img src="{{target.avatar}}" width="150" height="150">
+			</div>
+			<div>
+				Target's Real Photo
+				<img src="{{target.real_photo}}" width="150" height="150">
+				"{{target.tagline}}"
+			</div>
+			
+			<br>
+			<div ng-controller="killedTargetCtrl">
+				<div ng-show="reportSuccessful" class="alert alert-danger text-center">{{successMessage}}</div>
+				<div ng-show="error" class="alert alert-danger text-center">{{errorMessage}}</div>
+				<button  ng-click="killedTarget()" class="btn btn-danger">Killed Target</button>
+			</div>
+			
+		</div>
+	</div>
+	<br>
 
-<div ng-controller="revokeKillCtrl" ng-show="canRevoke" class="text-center">
-	Revoke your reported kill. <br>
-	<button ng-click="revokeKill()" class="btn btn-danger">Lose Kill</button>
+	<div ng-controller="diedCtrl" ng-show="nearDeath" class="text-center">
+		<div ng-show="error" class="alert alert-danger text-center">{{errorMessage}}</div>
+		<div ng-show="reportSuccessful" class="alert alert-danger text-center">{{successMessage}}</div>
+		Your killer has reported you for dead. Please confirm your death or contact the game admin. <br>
+		<button  ng-click="died()" class="btn btn-danger">Confirm</button>
+	</div>
+
+	<div ng-controller="revokeKillCtrl" ng-show="canRevoke" class="text-center">
+		Revoke your reported kill. <br>
+		<button ng-click="revokeKill()" class="btn btn-danger">Lose Kill</button>
+	</div>
+
 </div>
