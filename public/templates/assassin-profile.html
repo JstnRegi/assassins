@@ -9,7 +9,6 @@
 			{{player.codename}}
 			<img ng-src="{{player.avatar}}" width="50" height="50">
 		</div>
-
 	</span>
 </div>
 
@@ -35,6 +34,9 @@
 		
 	</div>
 </div>
-
-
-<button ng-controller="diedCtrl" ng-click="died()" class="btn btn-danger">You died</button>
+<br>
+<div ng-controller="diedCtrl" ng-show="nearDeath" class="text-center">
+	<div ng-show="error" class="alert alert-danger text-center">{{errorMessage}}</div>
+	Your killer has reported you for dead. Please confirm your death or contact the game admin. <br>
+	<button  ng-click="died()" class="btn btn-danger">You died</button>
+</div>
