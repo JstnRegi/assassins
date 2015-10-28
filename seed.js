@@ -50,9 +50,7 @@ var db = require('./models');
 // 	console.log(assassins);
 // });
 
-db.Admin.find({}, function(err, admins) {
-	console.log(admins);
-})
+
 
 // db.Game.collection.drop();
 
@@ -60,5 +58,16 @@ db.Admin.find({}, function(err, admins) {
 
 // db.Assassin.collection.drop();
 
+// db.Admin.find({}, function(err, admins) {
+// 	console.log(admins);
+// });
+
+// db.Game.find({}, function(err, games) {
+// 	console.log(games);
+// });
+
+// db.Assassin.find({}, function(err, assassins) {
+// 	console.log(assassins);
+// });
 
 

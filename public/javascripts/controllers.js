@@ -542,12 +542,17 @@ app.controller('killedTargetCtrl', ['$scope','$rootScope', '$location', '$window
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http, DeathService) {
 
       $scope.killedTarget = function() {
+        console.log("tried to kill target");
         DeathService.killedTarget()
         .then(function() {
-         
+          console.log("report successful");
+          $scope.reportSuccessful = true;
+          $scope.successMessage = "Target kill reported. Waiting on target confirmation."
         })
         .catch(function(response) {
-            
+           console.log("report not successful");
+            $scope.error = true;
+            $scope.errorMessage = response.err;
         })
       }
 

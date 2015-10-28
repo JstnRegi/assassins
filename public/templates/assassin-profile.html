@@ -23,10 +23,16 @@
 		<div>
 			Target's Real Photo
 			<img src="{{target.real_photo}}" width="150" height="150">
+			"{{target.tagline}}"
 		</div>
 		
 		<br>
-		"{{target.tagline}}"<button ng-controller="killedTargetCtrl" ng-click="killedTarget()" class="btn btn-danger">Killed Target</button>
+		<div ng-controller="killedTargetCtrl">
+			<div ng-show="reportSuccessful" class="alert alert-danger text-center">{{successMessage}}</div>
+			<div ng-show="error" class="alert alert-danger text-center">{{errorMessage}}</div>
+			<button  ng-click="killedTarget()" class="btn btn-danger">Killed Target</button>
+		</div>
+		
 	</div>
 </div>
 
