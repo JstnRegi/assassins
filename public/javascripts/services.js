@@ -299,7 +299,8 @@ app.factory("DeathService", function($q, $timeout, $http, $window) {
 
     //return available functions for use in controllers
 	return ({
-		killedTarget: killedTarget
+		killedTarget: killedTarget,
+		died: died
 	})
 
 	// create a new instance of deferred
@@ -307,8 +308,30 @@ app.factory("DeathService", function($q, $timeout, $http, $window) {
 
 	function killedTarget() {
 		var deferred = $q.defer();
-		
+
 		$http.post("/api/death/killed")
+	      // handle success
+	      .success(function (res, status) {
+	        if(status === 200 && res.data){
+	          deferred.resolve();
+	        } else {
+	          $window.assassin = null;
+	          deferred.reject();
+	        }
+	      })
+	      // handle error
+	      .error(function (res) {
+	        deferred.reject(res);
+	      });
+
+	    // return promise object
+	    return deferred.promise;
+	}
+
+	function died() {
+		var deferred = $q.defer();
+		
+		$http.post("/api/death/died")
 	      // handle success
 	      .success(function (res, status) {
 	        if(status === 200 && res.data){
