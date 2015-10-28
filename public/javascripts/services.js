@@ -313,10 +313,9 @@ app.factory("DeathService", function($q, $timeout, $http, $window) {
 		$http.post("/api/death/killed")
 	      // handle success
 	      .success(function (res, status) {
-	        if(status === 200 && res.data){
-	          deferred.resolve();
+	        if(status === 200 && res){
+	          deferred.resolve(res);
 	        } else {
-	          $window.assassin = null;
 	          deferred.reject();
 	        }
 	      })
@@ -338,7 +337,6 @@ app.factory("DeathService", function($q, $timeout, $http, $window) {
 	        if(status === 200 && res.data){
 	          deferred.resolve();
 	        } else {
-	          $window.assassin = null;
 	          deferred.reject();
 	        }
 	      })
@@ -357,10 +355,10 @@ app.factory("DeathService", function($q, $timeout, $http, $window) {
 		$http.post("/api/death/revoke")
 	      // handle success
 	      .success(function (res, status) {
-	        if(status === 200 && res.data){
-	          deferred.resolve();
+	      	console.log(res);
+	        if(status === 200 && res){
+	          deferred.resolve(res.data);
 	        } else {
-	          $window.assassin = null;
 	          deferred.reject();
 	        }
 	      })

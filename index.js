@@ -73,7 +73,8 @@ app.use(function( req, res, next) {
         if(!!req.session.adminId) {
             req.session.adminId = null;
             req.admin = null;
-        } else {
+        }
+        if(!!req.session.assassinId) {
             req.session.assassinId = null;
             req.assassin = null;
         }

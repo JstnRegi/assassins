@@ -129,9 +129,33 @@ AssassinSchema.methods.died = function(killer) {
 	    		console.log("SAVED KILLER", savedKiller);
 	    	});
 	    });
-	});
+	});  
+};
 
-    
+AssassinSchema.methods.revokeKill = function(assassinTarget, cb) {
+
+	var currentAssassin = this;
+	var targetPassing = currentAssassin.target;
+	var target = assassinTarget;
+
+	target.deathPoints -= 1;
+	currentAssassin.kill_reports -= 1;
+
+	target.save(function(err, savedTarget) {
+		if(err) {
+			return console.log(err);
+		}
+		currentAssassin.save(function(err, savedCurrAssassin) {
+			if(err) {
+				return console.log(err);
+			}
+			console.log("SAVED CURRENT ASSASSIN", savedCurrAssassin);
+			
+			cb(savedCurrAssassin);
+
+		})
+
+	});
 };
 
 
@@ -139,3 +163,7 @@ AssassinSchema.methods.died = function(killer) {
 var Assassin = mongoose.model('Assassin', AssassinSchema);
 
 module.exports = Assassin;
+
+
+
+

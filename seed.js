@@ -104,6 +104,20 @@ var test3 = {
 	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
 }
 
+var test4 = {
+	codename: "test4",
+	tagline: "qwe",
+	password: "qwe",
+	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
+}
+
+var test5 = {
+	codename: "test5",
+	tagline: "qwe",
+	password: "qwe",
+	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
+}
+
 var players = [];
 
 
@@ -145,54 +159,66 @@ db.Admin.createSecure(testAdmin.username, testAdmin.password, testAdmin.avatar, 
 
 					players.push(assassin3._id);
 
-					game.players = players;
-
-					game.save(function(err, gameSaved) {
+					db.Assassin.createSecure(test4.codename, test4.password, test4.avatar, test4.real_photo, test4.tagline, game._id, function(err, assassin4) {
+					
 						if(err) {
 							return console.log(err);
 						}
-					});
+						console.log("assassin: " + assassin4.codename + " created");
+
+						players.push(assassin4._id);
+
+						db.Assassin.createSecure(test5.codename, test5.password, test5.avatar, test5.real_photo, test5.tagline, game._id, function(err, assassin5) {
+					
+							if(err) {
+								return console.log(err);
+							}
+							console.log("assassin: " + assassin4.codename + " created");
+
+							players.push(assassin5._id);
+
+							game.players = players;
+
+							game.save(function(err, gameSaved) {
+								if(err) {
+									return console.log(err);
+								}
+							});
 
 
-					db.Assassin.find({}, function(err, assassin) {
-						if(err) {
-							return console.log(assassin);
-						}
-						console.log(assassin);
-					});
+							db.Assassin.find({}, function(err, assassin) {
+								if(err) {
+									return console.log(assassin);
+								}
+								console.log(assassin);
+							});
 
-					db.Admin.find({}, function(err, admin) {
-						if(err) {
-							return console.log(admin);
-						}
-						console.log(admin);
+							db.Admin.find({}, function(err, admin) {
+								if(err) {
+									return console.log(admin);
+								}
+								console.log(admin);
+							})
+
+							db.Game.find(testDeathGame, function(err, game) {
+								if(err) {
+									return console.log(err);
+								}
+								console.log(game)
+							})
+
+
+
+						})
 					})
-
-					db.Game.find(testDeathGame, function(err, game) {
-						if(err) {
-							return console.log(err);
-						}
-						console.log(game)
-					})
-
 
 				});	
-			});
+
+			});	
 		});
-
 	});
+
 });
-
-
-
-
-
-
-
-
-
-
-
 
 
 

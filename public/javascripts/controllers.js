@@ -541,13 +541,20 @@ app.controller('assassinTargetCtrl',['$scope','$rootScope', '$location', '$windo
 app.controller('killedTargetCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http', 'DeathService',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http, DeathService) {
 
+      $scope.$on("revoked kill", function() {
+        $scope.reportSuccessful = false;
+        $scope.error = false;
+      })
+
       $scope.killedTarget = function() {
         console.log("tried to kill target");
         DeathService.killedTarget()
-        .then(function() {
+        .then(function(response) {
           console.log("report successful");
           $scope.reportSuccessful = true;
           $scope.successMessage = "Target kill reported. Waiting on target confirmation."
+          $rootScope.assassin = response.data;
+          $rootScope.$broadcast("killed target");
         })
         .catch(function(response) {
            console.log("report not successful");
@@ -586,19 +593,22 @@ app.controller('diedCtrl', ['$scope','$rootScope', '$location', '$window', 'Game
 app.controller('revokeKillCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http', 'DeathService',
  function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http, DeathService) {
 
-      $scope.canRevoke = ($window.assassin.kill_reports > $window.assassin.kills.length);
+      $scope.$on("killed target", function() {
+        $scope.canRevoke = ($rootScope.assassin.kill_reports > $rootScope.assassin.kills.length);
+      });
+
+      $scope.canRevoke = ($rootScope.assassin.kill_reports > $rootScope.assassin.kills.length);
 
       $scope.revokeKill = function() {
         DeathService.revokeKill()
-        .then(function() {
-            console.log("report successful");
-            $scope.reportSuccessful = true;
-            $scope.successMessage = "Death reported. Waiting on target confirmation."
+        .then(function(response) {
+            $rootScope.assassin = response;
+            $scope.canRevoke = ($rootScope.assassin.kill_reports > $rootScope.assassin.kills.length);
+            $rootScope.$broadcast("revoked kill");
           })
           .catch(function(response) {
              console.log("report not successful", response);
-              $scope.error = true;
-              $scope.errorMessage = response.err;
+             
           })
       }
 }]);

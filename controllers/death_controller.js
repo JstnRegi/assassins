@@ -10,6 +10,7 @@ module.exports.reportKill = function (req, res) {
 		}
 
 		var game = assassin.game;
+		var savedCurrAssassin;
 		
 		Game.findOne({_id: game}, function(err, game) {
 			if(err) {
@@ -36,26 +37,29 @@ module.exports.reportKill = function (req, res) {
 								if(err) {
 									return console.log(err);
 								}
-								console.log("SAVED ASSASSIN", savedAssassin);
-							});
 
-							player.deathPoints += 1;
+								 savedCurrAssassin = savedAssassin;
 
-							if(player.deathPoints === 2) {
-								player.is_alive = false;
-							}
+								 player.deathPoints += 1;
 
-							player.save(function(err, player) {
-								if(err) {
-									return console.log(err);
+								if(player.deathPoints === 2) {
+									player.is_alive = false;
 								}
-								console.log(player);
 
-								return res.status(200).json({
-												status: "Added Kill",
-												data: assassin
-											});
+								player.save(function(err, player) {
+									if(err) {
+										return console.log(err);
+									}
+									console.log(player);
+
+									return res.status(200).json({
+													status: "Added Kill",
+													data: savedAssassin
+												});
+								});
 							});
+
+							
 						}
 					})
 			})
@@ -141,7 +145,7 @@ module.exports.revokeKill = function(req, res){
 			return console.log(err);
 		}
 
-		var game = assassin.game;
+		var game = currentAssassin.game;
 		
 		Game.findOne({_id: game}, function(err, game) {
 			if(err) {
@@ -155,29 +159,16 @@ module.exports.revokeKill = function(req, res){
 						return console.log(err);
 					}
 
+					function sendUpdatedAssassin(savedAssassin) {
+						res.status(200).json({
+							status: "Revoked Kill",
+							data: savedAssassin
+						});
+					}
+
 					players.forEach(function(player) {
 						if(player.codename === currentAssassin.target) {
-							
-							player.deathPoints -= 1;
-							currentAssassin.kill_reports -= 1;
-							player.save(function(err, player) {
-								if(err) {
-									return console.log(err);
-								}
-								console.log(player);
-
-								currentAssassin.save(function(err, savedCurrentAssassin) {
-									if(err) {
-										return console.log(err);
-									}
-									console.log(savedCurrentAssassin);
-								})
-
-								return res.status(200).json({
-												status: "Added Kill",
-												data: savedCurrentAssassin
-											});
-							});
+							 currentAssassin.revokeKill(player, sendUpdatedAssassin);
 						}
 					})
 			})
