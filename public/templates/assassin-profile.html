@@ -1,11 +1,12 @@
 <h5>Assassin profile</h5>
 
+<h6>Happy Killing {{assassin.codename}}</h6>
+
 <div ng-controller="gamePlayersCtrl">
+	<h4 class="text-center">Players</h4>
 	<span ng-repeat="player in players" class="text-center">
 		<div class="col-sm-6">
 			{{player.codename}}
-		</div>
-		<div class="col-sm-6">
 			<img ng-src="{{player.avatar}}" width="50" height="50">
 		</div>
 
@@ -15,12 +16,19 @@
 <div ng-controller="assassinTargetCtrl">
 	<h3>Target:</h3><h4>{{target.codename}}</h4>
 	<div class="target-image-wrapper text-center">
-		<img src="{{target.avatar}}" width="250" height="250">
-		<img src="{{target.real_photo}}">
+		<div>
+			Target's Avatar
+		<img src="{{target.avatar}}" width="150" height="150">
+		</div>
+		<div>
+			Target's Real Photo
+			<img src="{{target.real_photo}}" width="150" height="150">
+		</div>
+		
 		<br>
-		"{{target.tagline}}"<button ng-controller="killedTargetCtrl" ng-click="killedTarget()">Killed Target</button>
+		"{{target.tagline}}"<button ng-controller="killedTargetCtrl" ng-click="killedTarget()" class="btn btn-danger">Killed Target</button>
 	</div>
 </div>
 
 
-<button ng-controller="diedCtrl" ng-click="died()">You died</button>
+<button ng-controller="diedCtrl" ng-click="died()" class="btn btn-danger">You died</button>

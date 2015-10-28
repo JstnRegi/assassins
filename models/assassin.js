@@ -30,6 +30,10 @@ var AssassinSchema = new Schema ({
 	game: {
 		type: String
 	},
+	deathPoints: {
+		type: Number,
+		default: 0
+	},
 	is_alive: {
 		type: Boolean,
 		default: true

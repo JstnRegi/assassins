@@ -3,6 +3,7 @@ var	api = express.Router();
 var adminsCtrl = require('./controllers/admins_controller.js');
 var gamesCtrl = require('./controllers/games_controller.js');
 var assassinsCtrl = require('./controllers/assassins_controller.js');
+var deathCtrl = require('./controllers/death_controller.js');
 
 // API ROUTES
 
@@ -28,5 +29,8 @@ api.get('/api/assassin', assassinsCtrl.currentAssassin);
 api.get('/api/:game/assassins', assassinsCtrl.gameAssassins);
 api.get('/api/assassin/logout', assassinsCtrl.logout);
 api.get('/api/:game/:target/target', assassinsCtrl.target);
+
+//death
+api.post('/api/death/killed', deathCtrl.killed);
 
 module.exports = api;

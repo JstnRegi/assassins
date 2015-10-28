@@ -295,9 +295,35 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 	
 });
 
+app.factor('diedCtrl', ['$scope','$rootScope', '$location', '$window', '$http',
+ function ($scope, $rootScope, $location, $window, $http) {
+
+    //return available functions for use in controllers
+	return ({
+		killedTarget: killedTarget
+	});
+
+	function killedTarget() {
+		$http.post("/api/death/killed")
+	      // handle success
+	      .success(function (res, status) {
+	        if(status === 200 && res.data){
+	          
+	          deferred.resolve();
+	        } else {
+	          $window.assassin = null;
+	          deferred.reject();
+	        }
+	      })
+	      // handle error
+	      .error(function (res) {
+	        
+	        deferred.reject(res);
+	      });
+
+	    // return promise object
+	    return deferred.promise;
+	}
 
 
-
-
-
-
+}]);

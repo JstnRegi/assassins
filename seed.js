@@ -18,12 +18,12 @@ var db = require('./models');
 //     console.log(games);
 // });
 
-db.Game.findOne({title: 'test'}, function(err, game) {
-	if(err) {
-		return console.log(err);
-	}
-    console.log("Game found", game);
-});
+// db.Game.findOne({title: 'test'}, function(err, game) {
+// 	if(err) {
+// 		return console.log(err);
+// 	}
+//     console.log("Game found", game);
+// });
 
 // db.Admin.findOne({username: "test"}, function(err, admin) {
 // 	if(err) {
@@ -49,6 +49,16 @@ db.Game.findOne({title: 'test'}, function(err, game) {
 // 	}
 // 	console.log(assassins);
 // });
+
+db.Admin.find({}, function(err, admins) {
+	console.log(admins);
+})
+
+// db.Game.collection.drop();
+
+// db.Admin.collection.drop();
+
+// db.Assassin.collection.drop();
 
 
 

@@ -20,12 +20,16 @@ app.controller('mainCtrl',
 
     $rootScope.assassin = {};
 
+    $rootScope.admin = {};
+
+
+
     //current admin
     AuthService.currentAdmin()
     .then(function() {
       //set admin
       $scope.adminLoggedIn = true;
-      $scope.admin = $window.admin;
+      $rootScope.admin = $window.admin;
       console.log("Admin is logged in");
       })
     .catch(function() {
@@ -36,7 +40,7 @@ app.controller('mainCtrl',
     AssassinAuthService.currentAssassin()
     .then(function() {
       //set assassin
-      $scope.assassinLoggedIn = true;
+      $rootScope.assassinLoggedIn = true;
       $rootScope.assassin = $window.assassin;
       console.log("Assassin is logged in");
       })
@@ -91,8 +95,8 @@ app.controller('mainCtrl',
 
 // Admin Controllers
 app.controller('adminRegisterCtrl',
-  ['$scope', '$location', 'AuthService', '$rootScope',
-  function ($scope, $location, AuthService, $rootScope) {
+  ['$scope', '$location', 'AuthService', '$rootScope', '$window',
+  function ($scope, $location, AuthService, $rootScope, $window) {
   	$scope.newAdmin = {};
 
     //initial value
@@ -102,6 +106,7 @@ app.controller('adminRegisterCtrl',
   		AuthService.register($scope.newAdmin)
       .then(function() {
         $rootScope.$broadcast("admin login");
+        $rootScope.admin = $window.admin;
         $location.path('/admin/' + $window.admin.username + "/home");
       })
       .catch(function() {
@@ -125,6 +130,7 @@ app.controller('adminLoginCtrl',['$scope','$rootScope', '$location', 'AuthServic
       // handle success
       .then(function() {
         $rootScope.$broadcast("admin login");
+        $rootScope.admin = $window.admin;
         $location.path('/admin/' + $window.admin.username + "/home");
         $scope.loginForm = {};
       })
@@ -219,7 +225,7 @@ app.controller('gameCreateCtrl',['$scope','$rootScope', '$location', 'GameServic
         GameService.save($scope.gameForm, 
           function(data) {
             console.log("GAME CREATION SUCCESSS");
-            $location.path("/admin/home");
+            $location.path("/admin/" + $window.admin.username + "/home");
           },
           function(data) {
             console.log("GAME CREATION ERROR");
@@ -275,6 +281,7 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
       AssassinAuthService.register($scope.assassinRegister)
       .then(function() {
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+        $rootScope.assassin = $window.assassin;
         $location.path('/game/' + $scope.assassinRegister.title + "/home");
       })
       .catch(function(response) {
