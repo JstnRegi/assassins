@@ -30,6 +30,9 @@ var AssassinSchema = new Schema ({
 	game: {
 		type: String
 	},
+	kill_reports: {
+		type: Number
+	},
 	deathPoints: {
 		type: Number,
 		default: 0

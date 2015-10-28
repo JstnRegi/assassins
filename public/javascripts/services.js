@@ -295,20 +295,23 @@ app.factory("AssassinAuthService", function($q, $timeout, $http, $window) {
 	
 });
 
-app.factor('diedCtrl', ['$scope','$rootScope', '$location', '$window', '$http',
- function ($scope, $rootScope, $location, $window, $http) {
+app.factory("DeathService", function($q, $timeout, $http, $window) {
 
     //return available functions for use in controllers
 	return ({
 		killedTarget: killedTarget
-	});
+	})
+
+	// create a new instance of deferred
+	
 
 	function killedTarget() {
+		var deferred = $q.defer();
+		
 		$http.post("/api/death/killed")
 	      // handle success
 	      .success(function (res, status) {
 	        if(status === 200 && res.data){
-	          
 	          deferred.resolve();
 	        } else {
 	          $window.assassin = null;
@@ -317,7 +320,6 @@ app.factor('diedCtrl', ['$scope','$rootScope', '$location', '$window', '$http',
 	      })
 	      // handle error
 	      .error(function (res) {
-	        
 	        deferred.reject(res);
 	      });
 
@@ -326,4 +328,4 @@ app.factor('diedCtrl', ['$scope','$rootScope', '$location', '$window', '$http',
 	}
 
 
-}]);
+});

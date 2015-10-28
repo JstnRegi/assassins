@@ -538,11 +538,17 @@ app.controller('assassinTargetCtrl',['$scope','$rootScope', '$location', '$windo
 
 }]);
 
-app.controller('killedTargetCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
- function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
+app.controller('killedTargetCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http', 'DeathService',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http, DeathService) {
 
       $scope.killedTarget = function() {
-        console.log("killed target request");
+        DeathService.killedTarget()
+        .then(function() {
+         
+        })
+        .catch(function(response) {
+            
+        })
       }
 
 }]);
