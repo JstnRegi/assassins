@@ -131,16 +131,26 @@ module.exports.assignTargets = function(req, res) {
 
 						var shuffledAssassins = shuffle(assassinTargets);
 
+						console.log(shuffledAssassins);
 						shuffledAssassins.forEach(function(assassin, i) {
-							if(i < shuffledAssassins.length - 1) {
-								assassin.target = shuffledAssassins[i + 1].codename;	
+							if((i < shuffledAssassins.length - 1) && (i !== 0)) {
+								assassin.target = shuffledAssassins[i + 1].codename;
+								assassin.killer = shuffledAssassins[i - 1].codename;
+								console.log("ASSASSIN IF", assassin);	
+							} 
+							else if((i < shuffledAssassins.length - 1) && (i === 0)) {
+								assassin.target = shuffledAssassins[i + 1].codename;
+								// console.log("else if", shuffledAssassins[i + 1].codename); 
+								assassin.killer = shuffledAssassins[shuffledAssassins.length - 1].codename;
 							} else {
+								assassin.killer = shuffledAssassins[i - 1].codename;
 								assassin.target = shuffledAssassins[0].codename;
 							}
+
 							assassin.save(function(err, assassin) {
 								if(err) {
 									console.log(err);
-									res.status(500).json({err: err});
+									return res.status(500).json({err: err});
 								}
 							})
 						});

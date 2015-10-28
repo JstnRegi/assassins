@@ -56,7 +56,7 @@ var db = require('./models');
 
 // db.Admin.collection.drop();
 
-// db.Assassin.collection.drop();
+db.Assassin.collection.drop();
 
 // db.Admin.find({}, function(err, admins) {
 // 	console.log(admins);

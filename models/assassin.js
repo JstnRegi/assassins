@@ -28,8 +28,7 @@ var AssassinSchema = new Schema ({
 		required: true
 	},
 	killer: {
-		type: String,
-		required: true
+		type: String
 	},
 	game: {
 		type: String
