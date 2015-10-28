@@ -583,6 +583,26 @@ app.controller('diedCtrl', ['$scope','$rootScope', '$location', '$window', 'Game
 
 }]);
 
+app.controller('revokeKillCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http', 'DeathService',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http, DeathService) {
+
+      $scope.canRevoke = ($window.assassin.kill_reports > $window.assassin.kills.length);
+
+      $scope.revokeKill = function() {
+        DeathService.revokeKill()
+        .then(function() {
+            console.log("report successful");
+            $scope.reportSuccessful = true;
+            $scope.successMessage = "Death reported. Waiting on target confirmation."
+          })
+          .catch(function(response) {
+             console.log("report not successful", response);
+              $scope.error = true;
+              $scope.errorMessage = response.err;
+          })
+      }
+}]);
+
 
 
 

@@ -33,5 +33,6 @@ api.get('/api/:game/:target/target', assassinsCtrl.target);
 //death
 api.post('/api/death/killed', deathCtrl.reportKill);
 api.post('/api/death/died', deathCtrl.reportDeath);
+api.post('/api/death/revoke', deathCtrl.revokeKill);
 
 module.exports = api;

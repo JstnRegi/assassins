@@ -97,24 +97,31 @@ AssassinSchema.methods.checkPassword = function(password) {
 
 AssassinSchema.methods.died = function(killer) {
 
-	var targetPassing = this.target;
+	var currentAssassin = this;
+	var targetPassing = currentAssassin.target;
+	var theKiller = killer;
+	
 	//set the assassin that died to dead
-	this.is_alive = false;
+	currentAssassin.is_alive = false;
 
-	this.save(function(err, assassin) {
+
+	currentAssassin.save(function(err, assassin) {
 		if(err) {
 			return console.log(err);
 		}
 
-		console.log("SAVED DEAD ASSASSIN", assassin);
+	currentAssassin = assassin;
 
-		Assassin.findOne(killer, function(err, killerAssassin) {
+	// 	console.log("SAVED DEAD ASSASSIN", assassin);
+
+		Assassin.findOne(theKiller, function(err, killerAssassin) {
 	    	if(err) {
 	    		return console.log(err);
 	    	}
 
 	    	console.log(killerAssassin);
 	    	killerAssassin.target = targetPassing;
+	    	killerAssassin.kills.push(currentAssassin);
 	    	killerAssassin.save(function(err, savedKiller) {
 	    		if(err) {
 	    			return console.log(err);
