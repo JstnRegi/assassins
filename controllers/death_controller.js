@@ -2,7 +2,7 @@ var express = require('express'),
 	Game = require('./../models').Game;
     Assassin = require('./../models').Assassin;
 
-module.exports.killed = function (req, res) {
+module.exports.reportKill = function (req, res) {
 	console.log("KILLED METHOD");
 	
 	req.currentAssassin(function(err, assassin) {
@@ -44,7 +44,13 @@ module.exports.killed = function (req, res) {
 								}
 								console.log("SAVED ASSASSIN", savedAssassin);
 							});
+
 							player.deathPoints += 1;
+
+							if(player.deathPoints === 2) {
+								player.is_alive = false;
+							}
+
 							player.save(function(err, player) {
 								if(err) {
 									return console.log(err);
@@ -62,3 +68,81 @@ module.exports.killed = function (req, res) {
 		});
 	});
 };
+
+module.exports.reportDeath = function(req, res) {
+	console.log("REPORT DEATH");
+	req.currentAssassin(function(err, currentAssassin) {
+		if(err) {
+			 console.log(err);
+			return res.status(500).json({err: err})
+		}
+
+		console.log("FOUND CURRENT ASSASSIN");
+
+
+		var game = currentAssassin.game;
+		
+		Game.findOne({_id: game}, function(err, game) {
+			if(err) {
+				return res.status(500).json({err: "Can't find game",
+													cause: "game"});
+			}
+
+			console.log("FOUND GAME", game);
+
+			Assassin.find({_id: { $in: game.players}
+					}, function(err, players) {
+					if (err) {
+						return console.log(err);
+					}
+
+					console.log("FOUND PLAYERS", players);
+
+					players.forEach(function(player) {
+						if(player.codename === currentAssassin.target) {
+							//found target
+							if(player.deathPoints > 0) {
+								console.log("TARGET CONFLICT MUST FIRST BE RESOLVED");
+								return res.status(500).json({err: "Conflict with target must first be resolved. They must confirm their death or you revoke your reported kill."})
+							}
+							currentAssassin.deathPoints += 1;
+							if(currentAssassin.deathPoints === 2) {
+								currentAssassin.is_alive = false;
+							}
+							currentAssassin.save(function(err, savedAssassin) {
+								if(err) {
+									return console.log(err);
+								}
+								console.log("SAVED ASSASSIN", savedAssassin);
+							});
+
+							player.save(function(err, player) {
+								if(err) {
+									return console.log(err);
+								}
+								console.log(player);
+
+								return res.status(200).json({
+												status: "Added Kill",
+												data: assassin
+											});
+							});
+						}
+					})
+			})
+		});
+
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
