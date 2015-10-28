@@ -558,11 +558,27 @@ app.controller('killedTargetCtrl', ['$scope','$rootScope', '$location', '$window
 
 }]);
 
-app.controller('diedCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http',
- function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http) {
+app.controller('diedCtrl', ['$scope','$rootScope', '$location', '$window', 'GameService', '$routeParams', '$http', 'DeathService',
+ function ($scope, $rootScope, $location, $window, GameService, $routeParams, $http, DeathService) {
+
+      $scope.nearDeath = ($window.assassin.deathPoints === 1);
+
+      console.log($scope.nearDeath);
 
       $scope.died = function() {
-        console.log("you died");
+          if($scope.nearDeath) {
+            DeathService.died()
+          .then(function() {
+            console.log("report successful");
+            $scope.reportSuccessful = true;
+            $scope.successMessage = "Death reported. Waiting on target confirmation."
+          })
+          .catch(function(response) {
+             console.log("report not successful", response);
+              $scope.error = true;
+              $scope.errorMessage = response.err;
+          })
+        }
       }
 
 }]);
