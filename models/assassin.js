@@ -95,6 +95,38 @@ AssassinSchema.methods.checkPassword = function(password) {
     return bcrypt.compareSync(password, this.passwordDigest);
 };
 
+AssassinSchema.methods.died = function(killer) {
+
+	var targetPassing = this.target;
+	//set the assassin that died to dead
+	this.is_alive = false;
+
+	this.save(function(err, assassin) {
+		if(err) {
+			return console.log(err);
+		}
+
+		console.log("SAVED DEAD ASSASSIN", assassin);
+
+		Assassin.findOne(killer, function(err, killerAssassin) {
+	    	if(err) {
+	    		return console.log(err);
+	    	}
+
+	    	console.log(killerAssassin);
+	    	killerAssassin.target = targetPassing;
+	    	killerAssassin.save(function(err, savedKiller) {
+	    		if(err) {
+	    			return console.log(err);
+	    		}
+	    		console.log("SAVED KILLER", savedKiller);
+	    	});
+	    });
+	});
+
+    
+};
+
 
 
 var Assassin = mongoose.model('Assassin', AssassinSchema);

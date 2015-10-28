@@ -71,6 +71,7 @@ module.exports.reportKill = function (req, res) {
 
 module.exports.reportDeath = function(req, res) {
 	console.log("REPORT DEATH");
+
 	req.currentAssassin(function(err, currentAssassin) {
 		if(err) {
 			 console.log(err);
@@ -98,38 +99,40 @@ module.exports.reportDeath = function(req, res) {
 
 					console.log("FOUND PLAYERS", players);
 
-					players.forEach(function(player) {
-						if(player.codename === currentAssassin.target) {
-							//found target
-							if(player.deathPoints > 0) {
-								console.log("TARGET CONFLICT MUST FIRST BE RESOLVED");
-								return res.status(500).json({err: "Conflict with target must first be resolved. They must confirm their death or you revoke your reported kill."})
-							}
-							currentAssassin.deathPoints += 1;
-							if(currentAssassin.deathPoints === 2) {
-								currentAssassin.is_alive = false;
-							}
-							currentAssassin.save(function(err, savedAssassin) {
-								if(err) {
-									return console.log(err);
+					//checks to see if currentAssassins target conflict is resolved
+					//before they can report their death
+					function canDie() {
+						players.forEach(function(player) {
+							if(currentAssassin.target === player.codename) {
+								//found target
+								if(player.deathPoints > 0) {
+									console.log("TARGET CONFLICT MUST FIRST BE RESOLVED");
+									return res.status(500).json({err: "Conflict with target must first be resolved. They must confirm their death or you revoke your reported kill."})
 								}
-								console.log("SAVED ASSASSIN", savedAssassin);
-							});
-
-							player.save(function(err, player) {
-								if(err) {
-									return console.log(err);
+							}
+						})
+						//returns true if above conflict doesnt trigger
+						return true;
+					}
+					
+					if(canDie()) {
+						console.log("player can die");
+						players.forEach(function(player) {
+							if(currentAssassin.killer === player.codename) {
+								//found killer
+								currentAssassin.deathPoints += 1;
+								if(currentAssassin.deathPoints === 2) {
+									currentAssassin.died();
 								}
-								console.log(player);
-
-								return res.status(200).json({
-												status: "Added Kill",
-												data: assassin
-											});
-							});
-						}
-					})
+									return res.status(200).json({
+													status: "Added Kill",
+													data: currentAssassin
+												});
+								}
+							})
+					}
 			})
+
 		});
 
 	})
