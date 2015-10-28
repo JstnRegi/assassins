@@ -136,7 +136,7 @@ module.exports.reportDeath = function(req, res) {
 
 module.exports.revokeKill = function(req, res){
 
-	req.currentAssassin(function(err, assassin) {
+	req.currentAssassin(function(err, currentAssassin) {
 		if(err) {
 			return console.log(err);
 		}
@@ -156,23 +156,26 @@ module.exports.revokeKill = function(req, res){
 					}
 
 					players.forEach(function(player) {
-						if(player.codename === assassin.target) {
-							if(assassin.kill_reports > assassin.kills.length) {
-								return res.status(500).json({err: "You have already reported the kill."})
-							}
-						
-
+						if(player.codename === currentAssassin.target) {
+							
 							player.deathPoints -= 1;
-
+							currentAssassin.kill_reports -= 1;
 							player.save(function(err, player) {
 								if(err) {
 									return console.log(err);
 								}
 								console.log(player);
 
+								currentAssassin.save(function(err, savedCurrentAssassin) {
+									if(err) {
+										return console.log(err);
+									}
+									console.log(savedCurrentAssassin);
+								})
+
 								return res.status(200).json({
 												status: "Added Kill",
-												data: assassin
+												data: savedCurrentAssassin;
 											});
 							});
 						}
