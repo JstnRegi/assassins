@@ -27,6 +27,10 @@ var AssassinSchema = new Schema ({
 		type: String,
 		required: true
 	},
+	killer: {
+		type: String,
+		required: true
+	},
 	game: {
 		type: String
 	},
@@ -91,6 +95,8 @@ AssassinSchema.statics.authenticate = function(codename, password, game, cb) {
 AssassinSchema.methods.checkPassword = function(password) {
     return bcrypt.compareSync(password, this.passwordDigest);
 };
+
+
 
 var Assassin = mongoose.model('Assassin', AssassinSchema);
 
