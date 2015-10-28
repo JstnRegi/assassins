@@ -107,16 +107,18 @@ module.exports.reportDeath = function(req, res) {
 								//found target
 								if(player.deathPoints > 0) {
 									console.log("TARGET CONFLICT MUST FIRST BE RESOLVED");
-									return res.status(500).json({err: "Conflict with target must first be resolved. They must confirm their death or you revoke your reported kill."})
+									res.status(500).json({err: "Conflict with target must first be resolved. They must confirm their death or you revoke your reported kill."});
+									return false;
+								} else {
+									//returns true if above conflict doesnt trigger
+									return true;
 								}
 							}
 						})
-						//returns true if above conflict doesnt trigger
-						return true;
+						
 					}
 					
 					if(canDie()) {
-						console.log("player can die");
 						players.forEach(function(player) {
 							if(currentAssassin.killer === player.codename) {
 								//found killer
