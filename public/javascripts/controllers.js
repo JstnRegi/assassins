@@ -311,7 +311,8 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
         $rootScope.assassin = $window.assassin;
         $scope.$emit("assassin register");
-        $location.path('/game/' + $scope.assassinRegister.title + "/home");
+        $location.path('/');
+          console.log("REGISTER SUCCESSS");
       })
       .catch(function(response) {
         $scope.error = true;

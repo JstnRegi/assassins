@@ -73,7 +73,7 @@ db.Assassin.remove({}, function(err, assassins) {
 // console.log(Faker.Lorem.sentence());
 
 var testAdmin = {
-	username: "test",
+	username: "jjj",
 	email: "test@test",
 	password: "qwe",
 	avatar: "http://ecx.images-amazon.com/images/I/61z%2BL3ZyXQL._SY355_.jpg"
@@ -88,7 +88,7 @@ var testDeathGame = {
 
 var hardcoreGame = {
 	title: "Pro League: Assassins hardcore",
-	picture: "https://d1qb2nb5cznatu.cloudfront.net/startups/i/52465-5a0924aaaf6af2265c6bb823b7613658-medium_jpg.jpg?buster=1343285695",
+	picture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ0FkQ8Bii06tvyaC4PG-I53aOPJ3VVzVwRgHvgL6DIVbeXvfHs-BaNg",
 	additional_rules: "No guns. No poison. Plastic spoons only.",
 	key: "qwe"
 }

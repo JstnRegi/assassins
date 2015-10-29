@@ -56,7 +56,7 @@ module.exports.register = function (req, res) {
 						res.status(500).json({err: "Another assassin has already taken that codename.",
 													cause: "codename"});
 					} else {
-						Assassin.createSecure(assassin.codename, assassin.password, assassin.avatar, assassin.real_photo, assassin.tagline, game._id, function(err, assassin) {
+						Assassin.createSecure(assassin.codename, assassin.password, assassin.avatar, assassin.real_photo, assassin.tagline, game._id, assassin.real_name, function(err, assassin) {
 							if(err) {
 								console.log(err);
 								res.status(500).json({err: "Internal server error.",
