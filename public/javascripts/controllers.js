@@ -42,6 +42,7 @@ app.controller('mainCtrl',
       //set assassin
       $rootScope.assassinLoggedIn = true;
       $rootScope.assassin = $window.assassin;
+      getGame();
       console.log("Assassin is logged in");
       })
     .catch(function() {
@@ -70,6 +71,26 @@ app.controller('mainCtrl',
       });
     }
 
+
+    function getGame(){
+      $http.get('/api/assassin/game/' + $window.assassin.game)
+        // handle success
+        .success(function (res, status) {
+          if(status === 200 && res.data){
+            $rootScope.game = res.data;
+            console.log("rootScopegame", $rootScope.game);
+          }
+        })
+          // handle error
+        .error(function (res) {
+          console.log(err);
+          $location.path('/');
+        });
+    }
+    
+
+
+
     $scope.$on("admin logout", function(event, data) {
       // console.log(event);
       // console.log(data);
@@ -85,6 +106,12 @@ app.controller('mainCtrl',
     })
 
     $scope.$on("assassin login", function(event, data) {
+      getGame();
+      $scope.assassinLoggedIn = true;
+    })
+
+    $scope.$on("assassin register", function(event, data) {
+      getGame();
       $scope.assassinLoggedIn = true;
     })
 
@@ -253,6 +280,7 @@ app.controller('assassinGameRegisterCtrl',['$scope','$rootScope', '$location', '
       .then(function() {
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
         $location.path('/game/' + $routeParams.title + "/home");
+        $scope.$emit("assassin register");
       })
       .catch(function(response) {
         $scope.error = true;
@@ -282,6 +310,7 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
       .then(function() {
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
         $rootScope.assassin = $window.assassin;
+        $scope.$emit("assassin register");
         $location.path('/game/' + $scope.assassinRegister.title + "/home");
       })
       .catch(function(response) {
@@ -315,6 +344,7 @@ app.controller('assassinGameLoginCtrl',['$scope','$rootScope', '$location', '$wi
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
         $rootScope.assassin = $window.assassin;
         console.log("GAME LOGIN", $rootScope.assassinLoggedIn);
+        $scope.$emit("assassin login");
         $location.path('/game/' + $scope.gameTitle + "/home");
       })
       .catch(function(response) {
@@ -342,7 +372,7 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
       AssassinAuthService.assassinLogin($scope.assassinLogin)
       .then(function() {
         $location.path('/game/' + $scope.assassinLogin.title + "/home");
-
+        $scope.$emit("assassin login");
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
         $rootScope.assassin = $window.assassin;
         console.log("REG LOGIN", $rootScope.assassinLoggedIn);
@@ -389,8 +419,6 @@ app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'A
           $location.path('/');
         });
 
-   
- 
 }]);
 
 app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
