@@ -1,15 +1,19 @@
 
 <div ng-controller="gameMainCtrl">
-
-	<div ng-controller="gamePlayersCtrl">
-		<span ng-repeat="player in players" class="text-center">
-			<div class="col-sm-6">
-				{{player.codename}}
-			</div>
-			<div class="col-sm-6">
-				<img ng-src="{{player.avatar}}" width="50" height="50">
-			</div>
-		</span>
+	<h3 class="text-center">{{game.title}}</h3>
+	<div class="game-started-wrapper text-center">
+		<h4 ng-show="{{game.game_started}}" >Game in action.</h4>
+		<h4 ng-hide="{{game.game_started}}" >Game has not yet started.</h4>
 	</div>
-
+	
+	<div ng-controller="gamePlayersCtrl">
+		<div class="container players-container">
+			<span ng-repeat="player in players" class="text-center">
+				<div class="col-sm-2">
+					{{player.codename}}
+					<img ng-src="{{player.avatar}}" width="50" height="50">
+				</div>
+			</span>
+		</div>
+	</div>
 </div>
