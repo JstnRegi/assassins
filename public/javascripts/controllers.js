@@ -406,8 +406,6 @@ app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'A
 
   $rootScope.game;
 
-  console.log('gameMainCtrl');
-  console.log("routeParams", $routeParams);
   if($window.assassin) {
     $http.get('/api/assassin/game/' + $rootScope.assassin.game)
         // handle success
@@ -441,6 +439,8 @@ app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'A
           $location.path('/');
         });
   }
+
+  $rootScope.isAlive = $window.assassin.is_alive;
 
 
   

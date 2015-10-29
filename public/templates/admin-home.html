@@ -4,7 +4,7 @@
 	<div ng-repeat="game in games">
 	<a ng-show="show" ng-href="/game/{{game.title}}/{{game._id}}/home"><h4>{{game.title}}</h4></a>
 	<div ng-show="showDetails">
-		<img src="{{game.title}}">
+		<img src="{{game.picture}}" width = "150" height="150">
 		<ul>
 			<li>Number of players: {{game.players.length}}</li>
 			<li>End Date: {{game.end_date}}</li>

@@ -30,6 +30,7 @@
     background: white;
     display: none;
     font-size: 20px;
+    z-index: 2;
 }
 
 .player-codename {

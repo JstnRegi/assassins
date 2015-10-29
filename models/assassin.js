@@ -27,6 +27,10 @@ var AssassinSchema = new Schema ({
 		type: String,
 		required: true
 	},
+	real_name: {
+		type:String,
+		required: true
+	},
 	killer: {
 		type: String
 	},
@@ -56,7 +60,7 @@ var AssassinSchema = new Schema ({
 	posts: []
 });
 
-AssassinSchema.statics.createSecure = function(codename, password, avatar, real_photo, tagline, game,  cb) {
+AssassinSchema.statics.createSecure = function(codename, password, avatar, real_photo, tagline, game, real_name,  cb) {
 	// _this references our schema. Not to be confused with the primitive value 'this' later on during the function
 	var _this = this;
 	bcrypt.genSalt(function (err, salt) {
@@ -69,7 +73,8 @@ AssassinSchema.statics.createSecure = function(codename, password, avatar, real_
 				real_photo: real_photo,
 				tagline: tagline,
 				game: game,
-				createdAt: Date.now() 
+				createdAt: Date.now(),
+				real_name: real_name 
 			};
 			_this.create(assassin, cb);
 		});

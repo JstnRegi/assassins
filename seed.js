@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var db = require('./models');
-
-
-
+var Faker = require('Faker');
+// var randomName = Faker.Name.findName();
 
 // db.Game.remove({}, function(err, games) {
 //     if(err) {
@@ -69,6 +68,10 @@ db.Game.remove({}, function(err, games) {
 db.Assassin.remove({}, function(err, assassins) {
 });
 
+// console.log(Faker.Name.findName());
+// console.log(Faker.Image.animals());
+// console.log(Faker.Lorem.sentence());
+
 var testAdmin = {
 	username: "test",
 	email: "test@test",
@@ -77,148 +80,172 @@ var testAdmin = {
 }
 
 var testDeathGame = {
-	title: "testDeathGame",
+	title: "Wdi 21 Cog of Death",
 	picture: "https://d1qb2nb5cznatu.cloudfront.net/startups/i/52465-5a0924aaaf6af2265c6bb823b7613658-medium_jpg.jpg?buster=1343285695",
-	additional_rules: "DIE",
+	additional_rules: "No winners. No deaths. Only dreams. Developer dreams.",
 	key: "qwe"
 }
 
-var test1 = {
-	codename: "test1",
-	tagline: "qwe",
-	password: "qwe",
-	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
+var hardcoreGame = {
+	title: "Pro League: Assassins hardcore",
+	picture: "https://d1qb2nb5cznatu.cloudfront.net/startups/i/52465-5a0924aaaf6af2265c6bb823b7613658-medium_jpg.jpg?buster=1343285695",
+	additional_rules: "No guns. No poison. Plastic spoons only.",
+	key: "qwe"
 }
 
-var test2 = {
-	codename: "test2",
-	tagline: "qwe",
+var francis = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
 	password: "qwe",
-	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAMFAAAAJDJkY2JjMmM4LWEyMGMtNGIxZi04M2JkLTI3N2NmZTViYmNiMA.jpg",
+	real_name: "francis"
 }
 
-var test3 = {
-	codename: "test3",
-	tagline: "qwe",
+var bradley = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
 	password: "qwe",
-	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
+	real_photo: "https://avatars1.githubusercontent.com/u/3679765?v=3&s=460",
+	real_name: "bradley"
 }
 
-var test4 = {
-	codename: "test4",
-	tagline: "qwe",
+var peter = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
 	password: "qwe",
-	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/2/000/223/097/39e2b5e.jpg",
+	real_name: "peter"
 }
 
-var test5 = {
-	codename: "test5",
-	tagline: "qwe",
+var heather = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
 	password: "qwe",
-	real_photo: "http://images.clipartpanda.com/sandwich-clipart-sandwich-half-3-md.png"
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAANOAAAAJDAxZDk5MjBmLWUwYjAtNGM0Mi1hMjc0LWJjZWE2MjI5OWQ5OA.jpg",
+	real_name: "heather"
 }
 
-var players = [];
+var lisa = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
+	password: "qwe",
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAHOAAAAJDI1N2NkNTA0LTUwNmMtNDIxNS04MWUzLTU4OWJmZDg3ODcwZQ.jpg",
+	real_name: "lisa"
+}
+
+var marcel = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
+	password: "qwe",
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAARQAAAAJGU0NzU2MTMzLTEwZGYtNGU5YS1iMWJiLTliY2JkZWE1NmEzNA.jpg",
+	real_name: "marcel"
+}
+
+var olivia = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
+	password: "qwe",
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/1ac/1cc/39e4aaa.jpg",
+	real_name: "olivia"
+}
+
+var nathan = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
+	password: "qwe",
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/0b7/341/3d5dde2.jpg",
+	real_name: "nathan"
+}
+
+var ilias = {
+	codename: Faker.Name.findName(),
+	avatar: Faker.Image.animals(),
+	tagline: Faker.Lorem.sentence(),
+	password: "qwe",
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAI8AAAAJDdlOGY0NTYwLTM5YmYtNGJmNC05NWY1LWEzNTEyN2Q1OTU4Yg.jpg",
+	real_name: "ilias"
+}
+
+var players = [ilias, nathan, olivia, marcel, lisa, heather, peter, bradley, francis];
+var fakerImages = [Faker.Image.animals(), Faker.Image.abstractImage(), Faker.Image.cats(), Faker.Image.avatar(),
+ 					Faker.Image.imageUrl(), Faker.Image.city(), Faker.Image.people(), Faker.Image.transport(), Faker.Image.technics()];
+
+players.forEach(function(player, i) {
+	player.codename = Faker.Internet.userName();
+	player.avatar = fakerImages[i];
+	player.tagline = Faker.Lorem.sentence();
+})
+var playerIds = [];
 
 
+function seed(cb) {
+	db.Admin.createSecure(testAdmin.username, testAdmin.password, testAdmin.avatar, testAdmin.email, function(err, admin) {
+		if(err) {
+			return console.log(err);
+		}
 
-
-db.Admin.createSecure(testAdmin.username, testAdmin.password, testAdmin.avatar, testAdmin.email, function(err, admin) {
-	if(err) {
-		return console.log(err);
-	}
-	testDeathGame.admin = admin._id;
-
-
-	db.Game.create(testDeathGame, function(err, game) {
-	if(err) {
-		return console.log(err);
-	}
-
-		db.Assassin.createSecure(test1.codename, test1.password, test1.avatar, test1.real_photo, test1.tagline, game._id, function(err, assassin1) {
+		testDeathGame.admin = admin._id;
+		hardcoreGame.admin = admin._id;
+		db.Game.create(hardcoreGame, function(err, game) {
 			if(err) {
 				return console.log(err);
 			}
-			console.log("assassin: " + assassin1.codename + " created");
+			console.log("hardcoreGame CREATED");
+		});
 
-			players.push(assassin1._id);
+		db.Game.create(testDeathGame, function(err, game) {
+			if(err) {
+				return console.log(err);
+			}
 
-			db.Assassin.createSecure(test2.codename, test2.password, test2.avatar, test2.real_photo, test2.tagline, game._id, function(err, assassin2) {
-				if(err) {
-					return console.log(err);
-				}
-				console.log("assassin: " + assassin2.codename + " created");
-
-				players.push(assassin2._id);
-
-				db.Assassin.createSecure(test3.codename, test3.password, test3.avatar, test3.real_photo, test3.tagline, game._id, function(err, assassin3) {
+			players.forEach(function(player) {
+				db.Assassin.createSecure(player.codename, player.password, player.avatar, player.real_photo, player.tagline, game._id, player.real_name, function(err, assassin) {
 					if(err) {
 						return console.log(err);
 					}
-					console.log("assassin: " + assassin3.codename + " created");
+					playerIds.push(assassin._id);
 
-					players.push(assassin3._id);
-
-					db.Assassin.createSecure(test4.codename, test4.password, test4.avatar, test4.real_photo, test4.tagline, game._id, function(err, assassin4) {
-					
-						if(err) {
-							return console.log(err);
-						}
-						console.log("assassin: " + assassin4.codename + " created");
-
-						players.push(assassin4._id);
-
-						db.Assassin.createSecure(test5.codename, test5.password, test5.avatar, test5.real_photo, test5.tagline, game._id, function(err, assassin5) {
-					
+					if(playerIds.length === players.length) {
+						game.players = playerIds;
+						game.save(function(err, savedGame) {
 							if(err) {
-								return console.log(err);
+								return console.log(err);	
 							}
-							console.log("assassin: " + assassin4.codename + " created");
+							console.log("SAVED GAME", savedGame);
+							cb();
+						});
+					}	
+				});
 
-							players.push(assassin5._id);
-
-							game.players = players;
-
-							game.save(function(err, gameSaved) {
-								if(err) {
-									return console.log(err);
-								}
-							});
-
-
-							db.Assassin.find({}, function(err, assassin) {
-								if(err) {
-									return console.log(assassin);
-								}
-								console.log(assassin);
-							});
-
-							db.Admin.find({}, function(err, admin) {
-								if(err) {
-									return console.log(admin);
-								}
-								console.log(admin);
-							})
-
-							db.Game.find(testDeathGame, function(err, game) {
-								if(err) {
-									return console.log(err);
-								}
-								console.log(game)
-							})
-
-
-
-						})
-					})
-
-				});	
-
-			});	
+			})
+			
 		});
-	});
+	})
 
-});
+}
+
+function findAssassins() {
+	db.Assassin.find({}, function(err, assassins) {
+		if(err) {
+			return console.log(err);
+		}
+		console.log(assassins);
+	});
+}
+
+seed(findAssassins);
+
+
+
+
 
 
 
