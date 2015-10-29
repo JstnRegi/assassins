@@ -4,11 +4,14 @@
     margin-right: auto;
     left: 0;
     right: 0;
+    width: 100px;
+	height: 100px;
 }
 
 .player-game-icon {
 	width: 100px;
 	height: 100px;
+	border-radius: 100%;
 }
 
 .players-container {

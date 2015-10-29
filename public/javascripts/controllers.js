@@ -539,10 +539,12 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
 
     $scope.sayTagline = function(id) {
       $("#" + id + "-tagline").fadeIn("fast");
+      $("#" + id + "-hitmark").fadeOut("fast");
     }
 
     $scope.removeTagline = function(id) {
       $("#" + id + "-tagline").fadeOut("fast");
+      $("#" + id + "-hitmark").fadeIn("fast");
     }
 
 

@@ -6,9 +6,10 @@
 				<div class="col-xs-6 col-sm-4 col-md-2" ng-repeat="player in players">
 					
 					<div class="player-codename">{{player.codename}}</div>
-					<img class="death-mark player-game-icon" src="http://4vector.com/i/free-vector-x-wrong-no-cross-clip-art_103114_X_Wrong_No_Cross_clip_art_hight.png" ng-hide="{{player.is_alive}}" ng-mouseover="sayTagline(player.codename)" ng-mouseleave="removeTagline(player.codename)">
+					<img class="death-mark" ng-init='hitmarkId = player.codename + "-hitmark"' id="{{hitmarkId}}" src="http://4vector.com/i/free-vector-x-wrong-no-cross-clip-art_103114_X_Wrong_No_Cross_clip_art_hight.png" ng-hide="{{player.is_alive}}" ng-mouseover="sayTagline(player.codename)" ng-mouseleave="removeTagline(player.codename)">
 					<img class="player-game-icon" ng-src="{{player.avatar}}" ng-show="{{player.is_alive}}" id="{{player.codename}}" ng-init="tagline = player.tagline" ng-mouseover="sayTagline(player.codename)" ng-mouseleave="removeTagline(player.codename)">
 					<img class="player-game-icon" ng-src="{{player.real_photo}}" ng-hide="{{player.is_alive}}" id="{{player.codename}}" ng-init="tagline = player.tagline" ng-mouseover="sayTagline(player.codename)" ng-mouseleave="removeTagline(player.codename)">
+					
 
 					<div class='tagline' ng-init='taglineId = player.codename + "-tagline"' id="{{taglineId}}"> "{{player.tagline}}" </div>
 				</div>
@@ -18,8 +19,8 @@
 
 	<br>
 	<div class="stats-container">
-		<h3 ng-show="{{gameStarted}}">Happy killing {{assassin.codename}}.</h3>
-		<div ng-hide="{{gameStarted}}" class="alert alert-danger text-center">Game has not begun yet!</div>
+		<h3 ng-show="gameStarted">Happy killing {{assassin.codename}}.</h3>
+		<div ng-hide="gameStarted" class="alert alert-danger text-center">Game has not begun yet!</div>
 
 		 <h5 ng-hide="{{isAlive}}">Wait. Nevermind. You have already been eliminated.</h5>
 		Kills: <span ng-repeat="kill in assassin.kills">{{kill.codename}}</span> <span ng-show="{{assassin.kills.length}} === 0 && !{{isAlive}}">Dang. Not even one?</span>
