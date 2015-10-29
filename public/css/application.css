@@ -1,0 +1,17 @@
+.death-mark {
+	position: absolute;
+}
+
+.player-game-icon {
+	width: 100px;
+	height: 100px;
+}
+
+.players-container {
+	margin-bottom: 100px;
+}
+
+.target-icon {
+	width: 125px;
+	height: 125px;
+}

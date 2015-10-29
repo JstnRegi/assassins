@@ -2,18 +2,21 @@
 <div ng-controller="gameMainCtrl">
 	<h3 class="text-center">{{game.title}}</h3>
 	<div class="game-started-wrapper text-center">
-		<h4 ng-show="gameStarted">Game in action.</h4>
-		<h4 ng-hide="gameStarted" >Game has not yet started.</h4>
+		<h4 ng-show="gameStarted">Game in action</h4>
+		<h4 ng-hide="gameStarted" >Game has not yet started</h4>
 	</div>
 	
 	<div ng-controller="gamePlayersCtrl">
-		<div class="container players-container">
-			<span ng-repeat="player in players" class="text-center">
-				<div class="col-sm-2 col-md-2">
+		<h4 class="text-center">Assassins left</h4>
+		<div class="text-center players-container container">
+			<div>
+				<div class="col-xs-6 col-sm-4 col-md-2" ng-repeat="player in players">
 					{{player.codename}}<br>
-					<img ng-src="{{player.avatar}}" width="50" height="50">
+					<img class="death-mark player-game-icon" src="http://4vector.com/i/free-vector-x-wrong-no-cross-clip-art_103114_X_Wrong_No_Cross_clip_art_hight.png" ng-hide="{{player.is_alive}}">
+					<img class="player-game-icon" ng-src="{{player.avatar}}" ng-show="{{player.is_alive}}">
+					<img class="player-game-icon" ng-src="{{player.real_photo}}" ng-hide="{{player.is_alive}}">
 				</div>
-			</span>
+			</div>
 		</div>
 	</div>
 </div>

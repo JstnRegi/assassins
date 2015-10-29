@@ -537,6 +537,10 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
         });
     }
 
+    $scope.sayTagline = function(tagline) {
+      console.log(tagline);
+    }
+
 
 
 }]);
