@@ -103,6 +103,7 @@ AssassinSchema.methods.died = function(killer) {
 	
 	//set the assassin that died to dead
 	currentAssassin.is_alive = false;
+	currentAssassin.target = null;
 
 
 	currentAssassin.save(function(err, assassin) {

@@ -16,8 +16,8 @@
 }
 
 .target-icon {
-	width: 125px;
-	height: 125px;
+	width: 150px;
+	height: 150px;
 }
 
 .tagline {
@@ -29,4 +29,20 @@
     right: 0;
     background: white;
     display: none;
+    font-size: 20px;
 }
+
+.player-codename {
+	font-size: 20px;
+}
+
+.ng-hiddentag {
+	display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+

@@ -7,14 +7,14 @@
 	</div>
 	
 	<div ng-controller="gamePlayersCtrl">
-		<h4 class="text-center">Assassins left</h4>
 		<div class="text-center players-container container">
 			<div>
 				<div class="col-xs-6 col-sm-4 col-md-2" ng-repeat="player in players">
-					{{player.codename}}<br>
-					<img class="death-mark player-game-icon" src="http://4vector.com/i/free-vector-x-wrong-no-cross-clip-art_103114_X_Wrong_No_Cross_clip_art_hight.png" ng-hide="{{player.is_alive}}">
-					<img class="player-game-icon" ng-src="{{player.avatar}}" ng-show="{{player.is_alive}}">
-					<img class="player-game-icon" ng-src="{{player.real_photo}}" ng-hide="{{player.is_alive}}">
+					<div class='tagline' ng-init='taglineId = player.codename + "-tagline"' id="{{taglineId}}"> "{{player.tagline}}" </div>
+					<div class="player-codename">{{player.codename}}</div>
+					<img class="death-mark player-game-icon" src="http://4vector.com/i/free-vector-x-wrong-no-cross-clip-art_103114_X_Wrong_No_Cross_clip_art_hight.png" ng-hide="{{player.is_alive}}" ng-mouseover="sayTagline(player.codename)" ng-mouseleave="removeTagline(player.codename)">
+					<img class="player-game-icon" ng-src="{{player.avatar}}" ng-show="{{player.is_alive}}" id="{{player.codename}}" ng-init="tagline = player.tagline" ng-mouseover="sayTagline(player.codename)" ng-mouseleave="removeTagline(player.codename)">
+					<img class="player-game-icon" ng-src="{{player.real_photo}}" ng-hide="{{player.is_alive}}" id="{{player.codename}}" ng-init="tagline = player.tagline" ng-mouseover="sayTagline(player.codename)" ng-mouseleave="removeTagline(player.codename)">
 				</div>
 			</div>
 		</div>
