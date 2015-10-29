@@ -537,8 +537,12 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
         });
     }
 
-    $scope.sayTagline = function(tagline) {
-      console.log(tagline);
+    $scope.sayTagline = function(id) {
+      $("#" + id + "-tagline").fadeIn("fast");
+    }
+
+    $scope.removeTagline = function(id) {
+      $("#" + id + "-tagline").fadeOut("fast");
     }
 
 
@@ -703,6 +707,8 @@ app.controller('revokeKillCtrl', ['$scope','$rootScope', '$location', '$window',
           })
       }
 }]);
+
+app.directive
 
 
 

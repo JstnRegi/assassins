@@ -1,5 +1,9 @@
 .death-mark {
 	position: absolute;
+	margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
 }
 
 .player-game-icon {
@@ -14,4 +18,15 @@
 .target-icon {
 	width: 125px;
 	height: 125px;
+}
+
+.tagline {
+	position: absolute;
+	position: absolute;
+	margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    background: white;
+    display: none;
 }
