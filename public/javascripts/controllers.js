@@ -400,10 +400,16 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
 app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams', 'GameService', '$http',
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams, GameService, $http) {
   
+  if($window.assassin === null && $window.admin === null) {
+        $location.path("/");
+    }
+
   $rootScope.game;
 
   console.log('gameMainCtrl');
-  $http.get('/api/assassin/game/' + $rootScope.assassin.game)
+  console.log("routeParams", $routeParams);
+  if($window.assassin) {
+    $http.get('/api/assassin/game/' + $rootScope.assassin.game)
         // handle success
         .success(function (res, status) {
           if(status === 200 && res.data){
@@ -418,15 +424,33 @@ app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'A
           console.log(err);
           $location.path('/');
         });
+  } else if ($window.admin) {
+    $http.get('/api/assassin/game/' + $routeParams._id)
+        // handle success
+        .success(function (res, status) {
+          if(status === 200 && res.data){
+            $rootScope.game = res.data;
+            $scope.gameStarted = $rootScope.game.game_started;
+            $rootScope.$broadcast("found assassin game");
+            console.log("rootScopegame", $rootScope.game);
+          }
+        })
+          // handle error
+        .error(function (res) {
+          console.log(err);
+          $location.path('/');
+        });
+  }
+
+
+  
 
 }]);
 
 app.controller('gameHomeCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',
  function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams) {
   
-    if($window.assassin === null && $window.admin === null) {
-        $location.path("/");
-    }
+    
  
 }]);
 
