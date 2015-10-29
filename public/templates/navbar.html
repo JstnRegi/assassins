@@ -61,6 +61,11 @@
 		          	<li><a href="/assassin/register">Signup</a></li>
           		</div>
               <div ng-show="assassinLoggedIn" >
+                <li class="text-center">Game</li>
+                <li><a ng-href="/game/{{game.title}}/home/">Home</a></li>
+                <li><a ng-href="/game/{{assassin.game}}/rules/">Rules</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="text-center">{{assassin.codename}}</li>
                   <li><a ng-href="/assassin/{{assassin.codename}}/profile/">Profile</a></li>
                   <li ng-controller="logoutCtrl">
                      <a ng-click="assassinLogout()" href="">Logout</a>
