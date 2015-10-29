@@ -367,9 +367,28 @@ app.controller('assassinLoginCtrl',['$scope','$rootScope', '$location', '$window
     }
 }]);
 
-app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams', 'GameService',
- function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams, GameService) {
+app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams', 'GameService', '$http',
+ function ($scope, $rootScope, $location, $window, AssassinAuthService, $routeParams, GameService, $http) {
   
+  $rootScope.game;
+
+  console.log('gameMainCtrl');
+  $http.get('/api/assassin/game/' + $rootScope.assassin.game)
+        // handle success
+        .success(function (res, status) {
+          if(status === 200 && res.data){
+            $rootScope.game = res.data;
+            $scope.gameStarted = $rootScope.game.game_started;
+            $rootScope.$broadcast("found assassin game");
+            console.log("rootScopegame", $rootScope.game);
+          }
+        })
+          // handle error
+        .error(function (res) {
+          console.log(err);
+          $location.path('/');
+        });
+
    
  
 }]);
@@ -535,18 +554,23 @@ app.controller('assassinTargetCtrl',['$scope','$rootScope', '$location', '$windo
      var assassinId = $window.assassin.target;
      var assassinGame = $window.assassin.game;
 
-     
-  
-     $http.get('/api/' + assassinGame + "/" + assassinId + '/target')
-        .success(function (res, status) {
-          if(status === 200 && res.data) {
-            $scope.target = res.data;
-          }
-        })
-        .error(function(res) {
-          console.log('Cant find that target');
-          $location.path("/");
-        });
+     $scope.$on("found assassin game", function() {
+        if($rootScope.game && $rootScope.game.game_started) {
+         $http.get('/api/' + assassinGame + "/" + assassinId + '/target')
+            .success(function (res, status) {
+              if(status === 200 && res.data) {
+                $scope.target = res.data;
+              }
+            })
+            .error(function(res) {
+              console.log('Cant find that target');
+              $location.path("/");
+            });
+        }
+
+     });
+
+    
 
 }]);
 

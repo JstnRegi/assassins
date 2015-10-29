@@ -1,7 +1,7 @@
 <h5>Assassin profile</h5>
 
 <h6>Happy Killing {{assassin.codename}}</h6>
-<div ng-controller="gameMainCtrl">
+<div ng-controller="gameMainCtrl" ng-show="gameStarted">
 	<div ng-controller="gamePlayersCtrl">
 		<h4 class="text-center">Players</h4>
 		<span ng-repeat="player in players" class="text-center">

@@ -182,6 +182,25 @@ module.exports.gameStart = function(req, res) {
 	});
 }
 
+module.exports.assassinGame = function(req, res) {
+	var game = req.params;
+
+	console.log("GAME ASSASSIN", game);
+
+	Game.findOne(game, function(err, foundGame) {
+		if(err) {
+			console.log(err);
+			return res.status(500).json({err: err});
+		}
+		console.log("FOUND GAME", foundGame);
+		res.status(200).json({
+			status: "Shuffled players players",
+			data: foundGame
+		});
+	});
+};
+
+
 
 
 

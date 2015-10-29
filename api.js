@@ -20,6 +20,7 @@ api.post('/api/games', gamesCtrl.create);
 api.get('/api/admin/:admin/games', gamesCtrl.findAdminGames);
 api.get('/api/:title/assignTargets', gamesCtrl.assignTargets);
 api.post('/api/:title/start', gamesCtrl.gameStart);
+api.get('/api/assassin/game/:_id', gamesCtrl.assassinGame);
 
 //assassins
 api.post('/api/assassins/:gameTitle/register', assassinsCtrl.register);
@@ -29,6 +30,7 @@ api.get('/api/assassin', assassinsCtrl.currentAssassin);
 api.get('/api/:game/assassins', assassinsCtrl.gameAssassins);
 api.get('/api/assassin/logout', assassinsCtrl.logout);
 api.get('/api/:game/:target/target', assassinsCtrl.target);
+
 
 //death
 api.post('/api/death/killed', deathCtrl.reportKill);
