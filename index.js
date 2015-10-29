@@ -4,7 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
     mongoose = require('mongoose'),
-    db = require('./models');
+    db = require('./models'),
     path = require('path');
 
 // create instance of express
