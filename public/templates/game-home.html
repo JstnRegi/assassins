@@ -2,15 +2,15 @@
 <div ng-controller="gameMainCtrl">
 	<h3 class="text-center">{{game.title}}</h3>
 	<div class="game-started-wrapper text-center">
-		<h4 ng-show="{{game.game_started}}" >Game in action.</h4>
-		<h4 ng-hide="{{game.game_started}}" >Game has not yet started.</h4>
+		<h4 ng-show="gameStarted">Game in action.</h4>
+		<h4 ng-hide="gameStarted" >Game has not yet started.</h4>
 	</div>
 	
 	<div ng-controller="gamePlayersCtrl">
 		<div class="container players-container">
 			<span ng-repeat="player in players" class="text-center">
-				<div class="col-sm-2">
-					{{player.codename}}
+				<div class="col-sm-2 col-md-2">
+					{{player.codename}}<br>
 					<img ng-src="{{player.avatar}}" width="50" height="50">
 				</div>
 			</span>
