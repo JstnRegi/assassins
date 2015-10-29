@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 
 
 // ServerPort
-var port = 3000;
+var port = (process.env.PORT || 3000);
 
 // Paths
 var views = path.join(process.cwd(), 'views/');

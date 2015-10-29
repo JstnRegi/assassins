@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/assassins");
+mongoose.connect( process.env.MONGOLAB_URI ||
+                  process.env.MONGOHQ_URL || 
+                  "mongodb://localhost/assassins");
 
 module.exports.Admin = require('./admin');
 module.exports.Game = require('./game');
