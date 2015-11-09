@@ -179,7 +179,8 @@ var fakerImages = [Faker.Image.animals(), Faker.Image.abstractImage(), Faker.Ima
  					Faker.Image.imageUrl(), Faker.Image.city(), Faker.Image.people(), Faker.Image.transport(), Faker.Image.technics()];
 
 players.forEach(function(player, i) {
-	player.codename = Faker.Internet.firstName();
+	player.codename = Faker.Name.firstName();
+
 	player.avatar = fakerImages[i];
 	player.tagline = Faker.Lorem.sentence();
 })
