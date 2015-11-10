@@ -161,7 +161,7 @@ var nathan = {
 	avatar: Faker.Image.animals(),
 	tagline: Faker.Lorem.sentence(),
 	password: "qwe",
-	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/0b7/341/3d5dde2.jpg",
+	real_photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAcZAAAAJGFhNmZjMjVhLTllNmMtNDg2YS1iNWM3LTlmYmM4MzJjNTNjNQ.jpg",
 	real_name: "nathan"
 }
 
