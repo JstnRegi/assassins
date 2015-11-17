@@ -34,6 +34,7 @@
     display: none;
     font-size: 20px;
     z-index: 2;
+    text-align: center;
 }
 
 .player-codename {
@@ -69,5 +70,18 @@
 	position: relative;
 	margin-right: auto;
 	margin-left: auto;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
 }
 

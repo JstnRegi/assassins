@@ -2,7 +2,7 @@
 	
 	<h5>Your games</h5>
 	<div ng-repeat="game in games">
-	<a ng-show="show" ng-href="/game/{{game.title}}/{{game._id}}/home"><h4>{{game.title}}</h4></a>
+	<a href="/game/{{game.title}}/{{game._id}}/home"><h4>{{game.title}}</h4></a>
 	<div ng-show="showDetails">
 		<img src="{{game.picture}}" width = "150" height="150">
 		<ul>
@@ -13,7 +13,7 @@
 		</ul>
 	</div>
 	<button ng-init="showDetails=false" ng-click="showDetails = !showDetails" class="btn btn-default">View Details</button>
-	<a type="button" class="btn btn-default" ng-href="/game/{{game.title}}/admin-page">Admin Page</a>
+	<a type="button" class="btn btn-default" href="/game/{{game.title}}/admin-page">Admin Page</a>
 	<br><br>
 	
 	</div>

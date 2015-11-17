@@ -1,7 +1,33 @@
 var app = angular.module('myApp.services', []);
 
-app.service('GameService', function ($resource) {
-  return $resource('/api/games/:data', { data: '@data' });
+app.service('GameService', function ($http, $routeParams) {
+  return ({
+  	findGame: findGame
+  });
+
+  function findGame() {
+  	var promise = $http.get('/api/assassin/game/' + $routeParams._id)
+        // handle success
+        .success(function (res, status) {
+          if(status === 200 && res.data){
+            // $rootScope.game = res.data;
+            // console.log("assassin game");
+            // $scope.gameStarted = $rootScope.game.game_started;
+            // $rootScope.$broadcast("found assassin game");
+            // console.log("rootScopegame", $rootScope.game);
+            return res.data
+          }
+        })
+          // handle error
+        .error(function (res) {
+          // console.log(err);
+          // $location.path('/');
+          console.log(res);
+        });
+        
+        return promise;
+  	}
+  	
 });
 
 app.service('AdminGamesService', function ($resource) {

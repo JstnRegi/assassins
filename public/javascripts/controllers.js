@@ -106,7 +106,7 @@ app.controller('mainCtrl',
     })
 
     $scope.$on("assassin login", function(event, data) {
-      getGame();
+      // getGame();
       $scope.assassinLoggedIn = true;
     })
 
@@ -404,44 +404,61 @@ app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'A
   if($window.assassin === null && $window.admin === null) {
         $location.path("/");
     }
+  // console.log("rootScopeGame out", $rootScope.game);
 
-  $rootScope.game;
-
-  if($window.assassin) {
-    $http.get('/api/assassin/game/' + $rootScope.assassin.game)
-        // handle success
-        .success(function (res, status) {
-          if(status === 200 && res.data){
-            $rootScope.game = res.data;
-            $scope.gameStarted = $rootScope.game.game_started;
-            $rootScope.$broadcast("found assassin game");
-            console.log("rootScopegame", $rootScope.game);
-          }
-        })
-          // handle error
-        .error(function (res) {
-          console.log(err);
-          $location.path('/');
-        });
-  } else if ($window.admin) {
-    $http.get('/api/assassin/game/' + $routeParams._id)
-        // handle success
-        .success(function (res, status) {
-          if(status === 200 && res.data){
-            $rootScope.game = res.data;
-            $scope.gameStarted = $rootScope.game.game_started;
-            $rootScope.$broadcast("found assassin game");
-            console.log("rootScopegame", $rootScope.game);
-          }
-        })
-          // handle error
-        .error(function (res) {
-          console.log(err);
-          $location.path('/');
-        });
+  if ($window.admin) {
+    GameService.findGame()
+    .then(function(response) {
+      $scope.game = response.data.data;
+      // $rootScope.game = $scope.game;
+      console.log(response.data.data);
+      $scope.test = function() {
+        console.log('test');
+      }
+    })
+    .catch(function(response) {
+      console.log(response);
+    })
   }
 
-  $rootScope.isAlive = $window.assassin.is_alive;
+  $scope.killedTarget = function() {
+        console.log("tried to kill target");
+        DeathService.killedTarget()
+        .then(function(response) {
+          console.log("report successful");
+          $scope.reportSuccessful = true;
+          $scope.successMessage = "Target kill reported. Waiting on target confirmation."
+          $rootScope.assassin = response.data;
+          $rootScope.$broadcast("killed target");
+        })
+        .catch(function(response) {
+           console.log("report not successful");
+            $scope.error = true;
+            $scope.errorMessage = response.err;
+        })
+      }
+
+  if($window.assassin) {
+    $http.get('/api/assassin/game/' + $rootScope.assassin.game._id)
+        // handle success
+        .success(function (res, status) {
+          if(status === 200 && res.data){
+            $rootScope.game = res.data;
+            console.log("assassin game");
+            $scope.gameStarted = $rootScope.game.game_started;
+            $rootScope.$broadcast("found assassin game");
+            console.log("rootScopegame", $rootScope.game);
+          }
+        })
+          // handle error
+        .error(function (res) {
+          console.log(err);
+          $location.path('/');
+        });
+  } 
+
+
+  // $rootScope.isAlive = $window.assassin.is_alive;
 
 
   
@@ -540,15 +557,25 @@ app.controller('gamePlayersCtrl',['$scope','$rootScope', '$location', '$window',
 
     $scope.sayTagline = function(id) {
       $("#" + id + "-tagline").fadeIn("fast");
-      $("#" + id + "-hitmark").fadeOut("fast");
+      
     }
 
     $scope.removeTagline = function(id) {
       $("#" + id + "-tagline").fadeOut("fast");
-      $("#" + id + "-hitmark").fadeIn("fast");
+      $scope.addMark(id);
     }
 
-
+    $scope.removeMark = function(id) {
+      console.log("remove");
+      $("#" + id + "-hitmark").fadeOut("fast");
+    }
+   
+    $scope.addMark = function(id) {
+      console.log('ran');
+      console.log(id);
+      $("#" + id + "-hitmark").fadeIn("fast");  
+    }
+    
 
 }]);
 
