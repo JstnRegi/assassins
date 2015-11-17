@@ -404,61 +404,33 @@ app.controller('gameMainCtrl',['$scope','$rootScope', '$location', '$window', 'A
   if($window.assassin === null && $window.admin === null) {
         $location.path("/");
     }
-  // console.log("rootScopeGame out", $rootScope.game);
 
   if ($window.admin) {
-    GameService.findGame()
+    GameService.findGameAdmin()
     .then(function(response) {
       $scope.game = response.data.data;
-      // $rootScope.game = $scope.game;
+      $rootScope.game = $scope.game;
       console.log(response.data.data);
-      $scope.test = function() {
-        console.log('test');
-      }
     })
     .catch(function(response) {
-      console.log(response);
+      $location.path('/');
     })
   }
 
-  $scope.killedTarget = function() {
-        console.log("tried to kill target");
-        DeathService.killedTarget()
-        .then(function(response) {
-          console.log("report successful");
-          $scope.reportSuccessful = true;
-          $scope.successMessage = "Target kill reported. Waiting on target confirmation."
-          $rootScope.assassin = response.data;
-          $rootScope.$broadcast("killed target");
-        })
-        .catch(function(response) {
-           console.log("report not successful");
-            $scope.error = true;
-            $scope.errorMessage = response.err;
-        })
-      }
-
   if($window.assassin) {
-    $http.get('/api/assassin/game/' + $rootScope.assassin.game._id)
-        // handle success
-        .success(function (res, status) {
-          if(status === 200 && res.data){
-            $rootScope.game = res.data;
-            console.log("assassin game");
-            $scope.gameStarted = $rootScope.game.game_started;
-            $rootScope.$broadcast("found assassin game");
-            console.log("rootScopegame", $rootScope.game);
-          }
-        })
-          // handle error
-        .error(function (res) {
-          console.log(err);
-          $location.path('/');
-        });
+    GameService.findGameAssassin()
+    .then(function(response) {
+      $scope.game = response.data.data;
+      $rootScope.game = $scope.game;
+    })
+    .catch(function(response) {
+      $location.path('/');
+    })
+    // $rootScope.isAlive = $window.assassin.is_alive;
   } 
 
 
-  // $rootScope.isAlive = $window.assassin.is_alive;
+  
 
 
   

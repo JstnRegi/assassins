@@ -1,32 +1,44 @@
 var app = angular.module('myApp.services', []);
 
-app.service('GameService', function ($http, $routeParams) {
+app.service('GameService', function ($http, $routeParams, $window) {
   return ({
-  	findGame: findGame
+  	findGameAdmin: findGameAdmin,
+  	findGameAssassin: findGameAssassin
   });
 
-  function findGame() {
-  	var promise = $http.get('/api/assassin/game/' + $routeParams._id)
+	function findGameAdmin() {
+		var promise = $http.get('/api/assassin/game/' + $routeParams._id)
+		// handle success
+		.success(function (res, status) {
+			if(status === 200 && res.data){
+				return res.data
+			}
+		})
+		// handle error
+		.error(function (res) {
+			console.log(res);
+		});
+
+		return promise;
+	}
+
+  	function findGameAssassin() {
+  		console.log($window.assassin);
+	  	var promise = $http.get('/api/assassin/game/' + $window.assassin.game)
         // handle success
         .success(function (res, status) {
-          if(status === 200 && res.data){
-            // $rootScope.game = res.data;
-            // console.log("assassin game");
-            // $scope.gameStarted = $rootScope.game.game_started;
-            // $rootScope.$broadcast("found assassin game");
-            // console.log("rootScopegame", $rootScope.game);
-            return res.data
-          }
-        })
-          // handle error
-        .error(function (res) {
-          // console.log(err);
-          // $location.path('/');
-          console.log(res);
-        });
-        
+			if(status === 200 && res.data){
+	            return res.data;
+	            // $rootScope.$broadcast("found assassin game");
+	          }
+	        })
+	          // handle error
+	        .error(function (res) {
+	          console.log(res);
+	        });
         return promise;
   	}
+  	
   	
 });
 
