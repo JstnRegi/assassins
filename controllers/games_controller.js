@@ -37,6 +37,7 @@ module.exports.create = function(req, res) {
 }
 
 module.exports.find = function(req, res) {
+	console.log("game find triggered");
 	
 	if(!!req.body.title) {
 		var game = req.body;

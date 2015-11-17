@@ -1,9 +1,10 @@
 var app = angular.module('myApp.services', []);
 
-app.service('GameService', function ($http, $routeParams, $window) {
+app.service('GameService', function ($http, $routeParams, $window, $resource) {
   return ({
   	findGameAdmin: findGameAdmin,
-  	findGameAssassin: findGameAssassin
+  	findGameAssassin: findGameAssassin,
+  	resource: resource
   });
 
 	function findGameAdmin() {
@@ -37,6 +38,10 @@ app.service('GameService', function ($http, $routeParams, $window) {
 	          console.log(res);
 	        });
         return promise;
+  	}
+
+  	function resource() {
+  		return $resource('/api/games/:data', { data: '@data' });
   	}
   	
   	
