@@ -279,7 +279,8 @@ app.controller('assassinGameRegisterCtrl',['$scope','$rootScope', '$location', '
       AssassinAuthService.gameRegister($scope.assassinRegister, $scope.gameTitle)
       .then(function() {
         $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
-        $location.path('/game/' + $routeParams.title + "/home");
+        alert($scope.assassinRegister.title);
+        $location.path('/game/' + $scope.assassinRegister.title + "/home");
         $scope.$emit("assassin register");
       })
       .catch(function(response) {
@@ -304,29 +305,36 @@ app.controller('assassinRegisterCtrl',['$scope','$rootScope', '$location', '$win
 
     var gameTitle = $scope.assassinRegister.title;
 
-    $scope.register = function() {
-      console.log($scope.assassinRegister);
-      AssassinAuthService.register($scope.assassinRegister)
-      .then(function() {
-        $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
-        $rootScope.assassin = $window.assassin;
-        $scope.$emit("assassin register");
-        $location.path('/');
-          console.log("REGISTER SUCCESSS");
-      })
-      .catch(function(response) {
-        $scope.error = true;
-        $scope.errorMessage = response.err;
+    
+      $scope.register = function() {
+        if(!!$("#real_photo").val() && !!$("#game_icon").val()) {
+          $scope.assassinRegister.real_photo = $("#real_photo").val();
+          $scope.assassinRegister.avatar = $("#game_icon").val();
+          console.log($scope.assassinRegister);
+          AssassinAuthService.register($scope.assassinRegister)
+          .then(function() {
+            $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+            $rootScope.assassin = $window.assassin;
+            $scope.$emit("assassin register");
+            $location.path('/game/' + $scope.assassinRegister.title + "/home");
+          })
+          .catch(function(response) {
+            $scope.error = true;
+            $scope.errorMessage = response.err;
 
-        if(response.cause === "key") {
-          $scope.assassinRegister.key = null;
+            if(response.cause === "key") {
+              $scope.assassinRegister.key = null;
+            } else {
+              console.log(response.cause);
+              $scope.assassinRegister.password = null;
+              $scope.assassinRegister.codename = null;
+            }
+          })
         } else {
-          console.log(response.cause);
-          $scope.assassinRegister.password = null;
-          $scope.assassinRegister.codename = null;
+          $scope.error = true;
+          $scope.errorMessage = "Please upload images for your Game Avatar and also an image of yourself.";
         }
-      })
-    }
+      }
 }]);
 
 app.controller('assassinGameLoginCtrl',['$scope','$rootScope', '$location', '$window', 'AssassinAuthService', '$routeParams',

@@ -17,7 +17,6 @@ module.exports.register = function (req, res) {
 	
 	var assassin = req.body;
 
-	;
 	Game.findOne({title: gameTitle, key: assassin.key},function(err, game) {
 		if(err) {
 			return console.log(err);
@@ -59,7 +58,7 @@ module.exports.register = function (req, res) {
 						Assassin.createSecure(assassin.codename, assassin.password, assassin.avatar, assassin.real_photo, assassin.tagline, game._id, assassin.real_name, function(err, assassin) {
 							if(err) {
 								console.log(err);
-								res.status(500).json({err: "Internal server error.",
+								res.status(500).json({err: "An error has occured. Please try again.",
 														cause: "codename"});
 							} else {
 								game.players.push(assassin._id);
