@@ -282,6 +282,7 @@ app.controller('assassinGameRegisterCtrl',['$scope','$rootScope', '$location', '
             AssassinAuthService.gameRegister($scope.assassinRegister, $scope.gameTitle)
             .then(function() {
               $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+              $rootScope.assassin = $window.assassin;
               $location.path('/game/' + $scope.gameTitle + "/home");
               $scope.$emit("assassin register");
             })
