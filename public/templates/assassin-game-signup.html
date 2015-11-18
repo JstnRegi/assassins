@@ -15,12 +15,16 @@
       <input type="text" class="form-control" name="codename" ng-model="assassinRegister.tagline" required>
     </div>
     <div class="form-group">
-      <label>Game Icon</label>
-      <input type="text" class="form-control" name="picture" ng-model="assassinRegister.avatar">
+      <label>Game Avatar</label><br>
+      <input id="game_icon" type="hidden" role="uploadcare-uploader"
+       data-crop="600x600 minimum"
+       data-images-only="true" required>
     </div>
     <div class="form-group">
-      <label>Real picture of yourself</label>
-      <input type="text" class="form-control" name="picture" ng-model="assassinRegister.real_photo" required>
+      <label>Real picture of yourself</label><br>
+      <input id="real_photo" type="hidden" role="uploadcare-uploader"
+       data-crop="600x600 minimum"
+       data-images-only="true" required>
     </div>
     <div class="form-group">
       <label>Password</label>

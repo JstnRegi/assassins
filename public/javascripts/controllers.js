@@ -276,25 +276,30 @@ app.controller('assassinGameRegisterCtrl',['$scope','$rootScope', '$location', '
     $scope.gameTitle = $routeParams.title;
 
     $scope.register = function() {
-      AssassinAuthService.gameRegister($scope.assassinRegister, $scope.gameTitle)
-      .then(function() {
-        $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
-        alert($scope.assassinRegister.title);
-        $location.path('/game/' + $scope.assassinRegister.title + "/home");
-        $scope.$emit("assassin register");
-      })
-      .catch(function(response) {
-        $scope.error = true;
-        $scope.errorMessage = response.err;
-
-        if(response.cause === "key") {
-          $scope.assassinRegister.key = null;
-        } else {
-          console.log(response.cause);
-          $scope.assassinRegister.password = null;
-          $scope.assassinRegister.codename = null;
-        }
-      })
+      if(!!$("#real_photo").val() && !!$("#game_icon").val()) {
+          $scope.assassinRegister.real_photo = $("#real_photo").val();
+          $scope.assassinRegister.avatar = $("#game_icon").val();
+            AssassinAuthService.gameRegister($scope.assassinRegister, $scope.gameTitle)
+            .then(function() {
+              $rootScope.assassinLoggedIn = AssassinAuthService.isAssassinLoggedIn();
+              $location.path('/game/' + $scope.gameTitle + "/home");
+              $scope.$emit("assassin register");
+            })
+            .catch(function(response) {
+              $scope.error = true;
+              $scope.errorMessage = response.err;
+              if(response.cause === "key") {
+                $scope.assassinRegister.key = null;
+              } else {
+                console.log(response.cause);
+                $scope.assassinRegister.password = null;
+                $scope.assassinRegister.codename = null;
+              }
+            })
+      } else {
+          $scope.error = true;
+          $scope.errorMessage = "Please upload images for your Game Avatar and also an image of yourself.";
+      }
     }
 }]);
 
